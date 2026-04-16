@@ -1078,42 +1078,75 @@ footer p {
     <div class="section-header reveal">
       <div class="section-label">Selected Projects</div>
       <h2>Things I've built</h2>
-      <p>Each project started with a real problem — and turned into a system I actually use.</p>
+      <p style="white-space: nowrap;">Each project started with a real problem — and turned into a system I actually use.</p>
     </div>
 
     <div class="project-grid">
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
-        <div class="project-visual">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; min-height: 220px; padding: 2rem;">
-            <div style="text-align: center;">
-              <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">&#9881;</div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">Topic Filter</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">Script Gen</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">Hook Optimiser</span>
+        <a href="prompt-portfolio.html" class="project-visual" style="display: block; text-decoration: none;">
+          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; padding: 2rem 1.5rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; margin-bottom: -0.5rem;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%;">
+              <!-- Step 1 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(196,115,91,0.1); border: 1px solid rgba(196,115,91,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-terracotta); letter-spacing: 0.02em;">Topic Filter</span>
               </div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">Title Gen</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">AI Check</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">Data Review</span>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 2 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(143,168,138,0.1); border: 1px solid rgba(143,168,138,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-sage); letter-spacing: 0.02em;">Script Gen</span>
               </div>
-              <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 1rem;">6 specialised AI agents in one pipeline</p>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 3 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-gold); letter-spacing: 0.02em;">Hook Optimiser</span>
+              </div>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 4 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(196,115,91,0.1); border: 1px solid rgba(196,115,91,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-terracotta); letter-spacing: 0.02em;">Title Gen</span>
+              </div>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 5 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(143,168,138,0.1); border: 1px solid rgba(143,168,138,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-sage); letter-spacing: 0.02em;">AI Writing Detection</span>
+              </div>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 6 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-gold); letter-spacing: 0.02em;">Data Review</span>
+              </div>
+              <div style="color: var(--text-light); font-size: 0.65rem; line-height: 1; padding: 0.15rem 0;">&#9660;</div>
+              <!-- Step 7 -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 8px; background: rgba(196,115,91,0.1); border: 1px solid rgba(196,115,91,0.18);">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.72rem; font-weight: 600; color: var(--accent-terracotta); letter-spacing: 0.02em;">Methodology Update</span>
+              </div>
+              <!-- CTA -->
+              <div style="margin-top: 0.8rem; display: flex; align-items: center; gap: 0.3rem;">
+                <span style="font-size: 0.72rem; color: var(--text-light); font-weight: 500;">View 3 case studies &rarr;</span>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
         <div>
           <div class="project-card-top">
-            <span class="project-type">AI Agent System · Production</span>
+            <span class="project-type">AI Agent System &middot; Production</span>
             <span class="project-year">2026</span>
           </div>
           <h3>AI Content Automation Pipeline</h3>
-          <p class="project-context">Personal project — Built with Claude Code</p>
+          <p class="project-context">Personal project</p>
           <p class="project-description">
-            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, AI-writing detection, and post-publish data review with meta-analysis. Each agent is a specialised prompt system — not a one-shot ChatGPT query, but a designed workflow with structured inputs, diagnostic logic, and feedback loops.
+            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, AI-writing detection, and post-publish data review with meta-analysis. Each agent is a specialised prompt system with structured inputs, diagnostic logic, and feedback loops.
           </p>
           <div class="project-finding">
-            <strong>Results:</strong> Douyin debut video hit 76,000+ views and 2,639 saves. Xiaohongshu content achieves 14.3% save rate (industry average: 3%). The system doesn't just generate — it learns from its own output data.
+            <strong>Results:</strong> Douyin debut video hit 76,000+ views and 2,639 saves. Xiaohongshu content achieves 14.3% save rate (industry average: 3%). The system doesn&rsquo;t just generate &mdash; it learns from its own output data.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Claude Code</span>
