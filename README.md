@@ -17,4 +17,4 @@ Hand-written static HTML + CSS + vanilla JS. No build step. Deployed via GitHub 
 
 ## Related
 
-- **[Rooted (根)](https://rooted-azure.vercel.app)** — an interactive Chinese character demo referenced from the portfolio, built as a separate Next.js project.
+- **[Rooted (根)](https://rooted-azure.vercel.app)** — interactive Chinese character demo referenced from the portfolio. Two pages: [`/ma`](https://rooted-azure.vercel.app/ma) slides 马 (*horse*) through 3,000 years from oracle bone to modern script; [`/mama`](https://rooted-azure.vercel.app/mama) splits 妈 (*mother*) into its meaning-root 女 + sound-hint 马. Built as a separate Next.js project.
