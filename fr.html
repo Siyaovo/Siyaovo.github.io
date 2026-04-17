@@ -1083,48 +1083,83 @@ footer p {
     <div class="project-grid">
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
-        <div class="project-visual">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; min-height: 220px; padding: 2rem;">
-            <div style="text-align: center;">
-              <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">&#9881;</div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">Topic Filter</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">Script Gen</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">Hook Optimiser</span>
+        <a href="prompt-portfolio-fr.html" class="project-visual" style="display: block; text-decoration: none;">
+          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
+            <!-- Vertical pipeline -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1; justify-content: center;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Filtre</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">4 filtres</span>
               </div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">Title Gen</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">AI Check</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">Data Review</span>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Script</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">apprentissage du style</span>
               </div>
-              <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 1rem;">6 agents IA spécialisés dans un seul pipeline</p>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Accroche</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">3 facteurs</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Titre</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">75 formules</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Contrôle</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">22 marqueurs</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Analyse</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">boucle de rétroaction</span>
+              </div>
+            </div>
+            <!-- Bottom: stats + CTA -->
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
+              <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+                  <span style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-primary);">110K+</span>
+                  <span style="font-size: 0.7rem; color: var(--text-light);">vues, première vidéo</span>
+                </div>
+                <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">Voir les détails &rarr;</span>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
         <div>
           <div class="project-card-top">
-            <span class="project-type">AI Agent System · Production</span>
+            <span class="project-type">Système d'Agents AI · En production</span>
             <span class="project-year">2026</span>
           </div>
-          <h3>Pipeline d'automatisation de contenu IA</h3>
-          <p class="project-context">Projet personnel — Construit avec Claude Code</p>
+          <h3>Pipeline d'Automatisation de Contenu AI</h3>
+          <p class="project-context">Projet personnel</p>
           <p class="project-description">
-            Une chaîne complète d'agents IA qui automatise l'ensemble du cycle de production de contenu : filtrage de sujets (validation à 3 niveaux), écriture de scripts, optimisation des accroches, génération de titres, détection d'écriture IA et revue de données post-publication avec méta-analyse. Chaque agent est un système de prompts spécialisé — pas une requête ChatGPT ponctuelle, mais un workflow conçu avec des entrées structurées, une logique de diagnostic et des boucles de rétroaction.
+            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, quality check, and post-publish data review with meta-analysis. Each agent is a specialised prompt system with structured inputs, diagnostic logic, and boucle de rétroactions.
           </p>
           <div class="project-finding">
-            <strong>Résultats :</strong> La première vidéo Douyin a atteint 76 000+ vues et 2 639 sauvegardes. Le contenu Xiaohongshu atteint un taux de sauvegarde de 14.3% (moyenne de l'industrie : 3%). Le système ne se contente pas de générer — il apprend de ses propres données de sortie.
+            <strong>Résultats :</strong> La première vidéo a atteint 110 000+ vues sur Douyin — produite dès le premier jour avec le système. Le pipeline ne se contente pas de générer du contenu — il apprend de ses propres données et s'améliore à chaque cycle.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Claude Code</span>
-            <span class="tech-tag">Context Engineering</span>
-            <span class="tech-tag">Agent Chain Design</span>
-            <span class="tech-tag">Itération basée sur les données</span>
-            <span class="tech-tag">Stratégie de contenu</span>
+            <span class="tech-tag">Ingénierie de Prompts</span>
+            <span class="tech-tag">Conception de Chaîne d'Agents</span>
+            <span class="tech-tag">Itération Data-Driven</span>
+            <span class="tech-tag">Stratégie de Contenu</span>
           </div>
         </div>
       </div>
 
-      <!-- AI Architect Consulting -->
+      
+
       <div class="project-card reveal" style="--card-accent: var(--accent-gold);">
         <div class="project-card-top">
           <span class="project-type">AI Consulting · Product</span>

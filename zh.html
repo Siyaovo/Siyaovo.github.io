@@ -1081,48 +1081,83 @@ footer p {
     <div class="project-grid">
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
-        <div class="project-visual">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; min-height: 220px; padding: 2rem;">
-            <div style="text-align: center;">
-              <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">&#9881;</div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">选题过滤</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">脚本生成</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">开头优化</span>
+        <a href="prompt-portfolio-zh.html" class="project-visual" style="display: block; text-decoration: none;">
+          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
+            <!-- Vertical pipeline -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1; justify-content: center;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">选题过滤</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">四层筛选</span>
               </div>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(196,115,91,0.12); color: var(--accent-terracotta);">标题生成</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(143,168,138,0.12); color: var(--accent-sage);">AI 检测</span>
-                <span style="font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 100px; background: rgba(201,169,110,0.12); color: var(--accent-gold);">数据复盘</span>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">脚本生成</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">风格学习</span>
               </div>
-              <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 1rem;">6 个专业 AI 智能体组成一条流水线</p>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">开头优化</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">三因子评分</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">标题生成</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">75 个公式</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">质量检查</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">22 种特征</span>
+              </div>
+              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
+                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">数据复盘</span>
+                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">反馈循环</span>
+              </div>
+            </div>
+            <!-- Bottom: stats + CTA -->
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
+              <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+                  <span style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-primary);">110K+</span>
+                  <span style="font-size: 0.7rem; color: var(--text-light);">播放量，首条视频</span>
+                </div>
+                <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">查看详情 &rarr;</span>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
         <div>
           <div class="project-card-top">
-            <span class="project-type">AI 智能体系统 · 生产环境</span>
+            <span class="project-type">AI Agent 系统 · 已投产</span>
             <span class="project-year">2026</span>
           </div>
           <h3>AI 内容自动化流水线</h3>
-          <p class="project-context">个人项目 — 使用 Claude Code 构建</p>
+          <p class="project-context">个人项目</p>
           <p class="project-description">
-            一套全栈 AI 智能体链，自动化整个内容生产生命周期：选题过滤（三层验证）、脚本撰写、开头优化、标题生成、AI 写作痕迹检测，以及发布后的数据复盘与元分析。每个智能体都是一个专业的 prompt 系统——不是一次性的 ChatGPT 提问，而是具备结构化输入、诊断逻辑和反馈循环的工作流设计。
+            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, quality check, and post-publish data review with meta-analysis. Each agent is a specialised prompt system with structured inputs, diagnostic logic, and 反馈循环s.
           </p>
           <div class="project-finding">
-            <strong>成果：</strong> 抖音首发视频播放量超 76,000+，收藏 2,639 次。小红书内容收藏率达 14.3%（行业平均 3%）。系统不仅生成内容——它从自身的输出数据中持续学习。
+            <strong>成果：</strong>首条视频在抖音获得 110,000+ 播放量——使用本系统在第一天即完成制作。系统不仅生成内容，还从自身输出数据中学习，每个周期都在迭代优化。
           </div>
           <div class="project-tech">
             <span class="tech-tag">Claude Code</span>
-            <span class="tech-tag">Context Engineering</span>
-            <span class="tech-tag">Agent Chain Design</span>
+            <span class="tech-tag">Prompt 工程</span>
+            <span class="tech-tag">Agent 链设计</span>
             <span class="tech-tag">数据驱动迭代</span>
             <span class="tech-tag">内容策略</span>
           </div>
         </div>
       </div>
 
-      <!-- AI Architect Consulting -->
+      
+
       <div class="project-card reveal" style="--card-accent: var(--accent-gold);">
         <div class="project-card-top">
           <span class="project-type">AI 咨询 · 产品</span>
