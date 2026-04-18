@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Siyao Zhang — AI Systems Builder</title>
-<meta name="description" content="Siyao Zhang — I build AI systems that solve real problems. AI workflow design, vibe coding, and data-driven product development.">
+<title>Siyao Zhang — AI Product & Overseas Ops Intern (Beijing · Sept 2026)</title>
+<meta name="description" content="Siyao Zhang — AI product & overseas ops intern candidate. I design agent systems that ship and measure themselves. 7-agent content pipeline, 110K+ debut views. Available from Sept 2026, Beijing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -225,11 +225,11 @@ nav .nav-links a:hover::after { width: 100%; }
 }
 
 .hero-description {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
-  max-width: 540px;
-  line-height: 1.8;
-  margin-bottom: 2.5rem;
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 2rem;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.8s var(--transition-smooth) 0.6s forwards;
@@ -260,6 +260,56 @@ nav .nav-links a:hover::after { width: 100%; }
   color: var(--accent-terracotta);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
+}
+
+.hero-availability {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.1rem;
+  background: rgba(196,115,91,0.06);
+  border: 1px solid var(--accent-terracotta-light);
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s var(--transition-smooth) 1s forwards;
+}
+
+.hero-availability strong {
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+.availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 0 0 var(--accent-terracotta);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+.availability-cta {
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  margin-left: 0.3rem;
+  text-decoration: none;
+  transition: transform 0.25s var(--transition-smooth);
+}
+
+.availability-cta:hover {
+  transform: translateX(3px);
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(196,115,91,0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(196,115,91,0); }
+  100% { box-shadow: 0 0 0 0 rgba(196,115,91,0); }
 }
 
 .scroll-indicator {
@@ -858,9 +908,40 @@ nav .nav-links a:hover::after { width: 100%; }
   color: var(--cream-dark);
   font-size: 1.05rem;
   margin-bottom: 2.5rem;
-  max-width: 440px;
+  max-width: 560px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.contact-meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  margin: 0 auto 0;
+  max-width: 720px;
+}
+
+.contact-meta-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.contact-meta-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dark);
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+.contact-meta-value {
+  font-size: 1rem;
+  color: var(--cream);
+  font-weight: 600;
 }
 
 .contact-links {
@@ -1021,17 +1102,22 @@ footer p {
   <div class="container">
     <div class="hero-content">
       <p class="hero-greeting">Hi, I'm Siyao Zhang</p>
-      <h1>I build AI systems<br><span class="accent">that solve real problems.</span></h1>
+      <h1>AI Product &amp; Overseas Ops intern —<br><span class="accent">I design agent systems that learn from their own output.</span></h1>
       <p class="hero-description">
-        From content automation pipelines to economic forecasting models —
-        I design AI workflows, ship products with vibe coding, and measure what actually works.
+        AI is pushing the cost of building software toward zero. That makes <strong>attention &mdash; not code &mdash; the scarce input</strong>, and attention only follows real demand.
+        I design agent systems on the build side, and use my own audience as a live demand test, so I can tell which user needs are real before I build.
       </p>
       <div class="hero-tags">
-        <span class="hero-tag">AI Workflow Design</span>
+        <span class="hero-tag">AI Product Design</span>
+        <span class="hero-tag">Agent Workflows</span>
+        <span class="hero-tag">International &middot; CN &middot; EN &middot; JP &middot; FR</span>
         <span class="hero-tag">Vibe Coding</span>
-        <span class="hero-tag">Python & ML</span>
-        <span class="hero-tag">CN · JP · FR · EN</span>
       </div>
+      <p class="hero-availability">
+        <span class="availability-dot"></span>
+        <strong>Available from Sept 2026</strong> &middot; Beijing or remote &middot; seeking AI product or overseas ops internships
+        <a href="#contact" class="availability-cta">Get in touch &rarr;</a>
+      </p>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -1046,26 +1132,29 @@ footer p {
     <div class="about-content">
       <div class="about-text reveal">
         <div class="section-label">About me</div>
-        <p>Most people use AI as a tool. I design AI-native workflows — systems where multiple AI agents handle entire production chains end-to-end, from decision-making to execution to self-review. My content pipeline runs six specialised agents that took a debut Douyin video to 76,000+ views and consistently hit a 14.3% save rate (vs. 3% industry average). That's not prompting — that's systems design.</p>
-        <p>I'm an M2 economist at Panthéon-Sorbonne with a dual degree in Finance from UIBE Beijing. Economics gave me an empirical mindset — and right now, getting the most out of AI is itself an empirical science. You try things, measure what works, push boundaries, analyse the data, and iterate. That's how I approach everything: dispatch optimisation in Python, content hook experiments, or designing agent chains.</p>
-        <p>I work across four languages and three continents. I've coordinated 100+ volunteer programmes (including the 2022 Beijing Winter Olympics) and built a digital platform to 2,000+ subscribers. But what I'm really doing is building toward a future where one person with the right AI systems can outproduce an entire team — and I'm proving it with my own work first.</p>
+        <p><strong>On the build side:</strong> I designed a 7-agent AI system that runs my content production pipeline end-to-end &mdash; each agent decides, executes, and reviews its own output, with every cycle feeding data back to the topic filter. Live on my Douyin channel. Debut video: <strong>110,000+ views · 3,607 likes</strong>. Systems design, not prompting.</p>
+        <p><strong>Background:</strong> M2 economist at Panthéon-Sorbonne, dual degree in Finance from UIBE Beijing. Economics trained me to treat every problem as an experiment &mdash; hypothesise, measure, iterate. Same instinct drives dispatch optimisation in Python, hook tests on Douyin, and every agent chain I design.</p>
+        <p><strong>Range:</strong> three continents, three working contexts &mdash; undergrad in Beijing, exchange year in Tokyo, two years of Masters in Paris (M1 &amp; M2). Led a 60-person volunteer association across two departments and coordinated 100+ programmes (including Beijing 2022 Winter Olympics); grew a digital platform to 2,000+ subscribers. Team leadership and operations experience that now compounds with every AI system I ship.</p>
       </div>
       <div class="about-details reveal reveal-delay-2">
         <div class="detail-group">
+          <h3>Available From</h3>
+          <p><strong style="color: var(--accent-terracotta);">September 2026</strong><br>Beijing (on-site) · Remote possible<br>AI Product · Overseas Ops · International AI PM</p>
+        </div>
+        <div class="detail-group">
+          <h3>What I Do</h3>
+          <p><strong>AI Product:</strong> agent workflow design, prompt engineering, PRDs, data-driven iteration<br><strong>Overseas Ops:</strong> localisation (not translation), cross-market content strategy, EU / JP market research</p>
+        </div>
+        <div class="detail-group">
           <h3>Currently</h3>
-          <p>M2 Sustainable Development Economics<br>Université Paris 1 Panthéon-Sorbonne<br>Seeking Sept 2026 internships in AI product or growth</p>
+          <p>M2 Sustainable Development Economics<br>Université Paris 1 Panthéon-Sorbonne</p>
         </div>
         <div class="detail-group">
-          <h3>Focus Areas</h3>
-          <p>AI automation systems · AI-native content production · Vibe coding products · Business × content paired strategy</p>
-        </div>
-        <div class="detail-group">
-          <h3>Languages</h3>
+          <h3>International</h3>
           <div class="language-pills">
-            <span class="language-pill">Chinese — Native</span>
-            <span class="language-pill">English — C1</span>
-            <span class="language-pill">Japanese — JLPT N2</span>
-            <span class="language-pill">French — Conversational</span>
+            <span class="language-pill">Beijing · undergrad</span>
+            <span class="language-pill">Tokyo · exchange year</span>
+            <span class="language-pill">Paris · 2-yr Masters (current)</span>
           </div>
         </div>
       </div>
@@ -1147,12 +1236,19 @@ footer p {
             <span class="project-year">2026</span>
           </div>
           <h3>AI Content Automation Pipeline</h3>
-          <p class="project-context">Personal project</p>
+          <p class="project-context">Shipped product · Running in production daily</p>
           <p class="project-description">
-            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, quality check, and post-publish data review with meta-analysis. Each agent is a specialised prompt system with structured inputs, diagnostic logic, and feedback loops.
+            <strong>Problem:</strong> Content creators make 6–8 sequential judgement calls per video — topic, structure, hook, title, authenticity. Intuition doesn&rsquo;t scale, and most AI tools generate output then forget.<br><br>
+            <strong>What I built:</strong> A 7-agent chain with routing logic, scoring frameworks, and a self-updating methodology file. Each agent has a defined trigger, I/O contract, and handoff rules. Topic Filter uses a 4-layer gate; Hook Optimiser uses multiplicative 3-factor scoring; Data Review writes validated rules back into the file the Topic Filter reads next time. The system gets smarter with every publish cycle.
           </p>
           <div class="project-finding">
-            <strong>Results:</strong> Debut video hit 110,000+ views on Douyin &mdash; produced on day one using the system. The pipeline doesn&rsquo;t just generate content &mdash; it learns from its own output data and improves with every cycle.
+            <strong>Impact (12 published pieces):</strong>
+            <ul style="margin: 0.55rem 0 0 1.25rem; padding: 0; line-height: 1.75;">
+              <li>Debut Douyin video: <strong>110,000+ views · 3,607 likes</strong></li>
+              <li><strong>3 content types auto-banned</strong> by the system based on data, not intuition</li>
+              <li>Methodology file updated after every cycle — the gate improves itself with each publish</li>
+              <li>System reused for every piece I ship &mdash; the topic filter, hook optimiser, and data review all run on the same infrastructure</li>
+            </ul>
           </div>
           <div class="project-tech">
             <span class="tech-tag">Claude Code</span>
@@ -1223,7 +1319,7 @@ footer p {
             <span class="project-year">2026</span>
           </div>
           <h3>Rooted (根) &mdash; A Chinese character as a time-travel object</h3>
-          <p class="project-context">Personal project &mdash; Solo designed and shipped (V1 one afternoon, V2 follow-on session) with Claude Code</p>
+          <p class="project-context">Shipped prototype · Solo designed and built with Claude Code (V1: one afternoon; V2: follow-on session)</p>
           <p class="project-description">
             An interaction prototype built to test whether one tight, highly-polished interaction can carry a product thesis more convincingly than a long feature list.
           </p>
@@ -1253,7 +1349,7 @@ footer p {
           <span class="project-year">2026</span>
         </div>
         <h3>This Website — Vibe Coded with AI</h3>
-        <p class="project-context">Personal project — Built entirely through conversation with Claude Code</p>
+        <p class="project-context">Independent build · Entire site shipped through natural-language conversation, zero manual code</p>
         <p class="project-description">
           Designed and shipped this portfolio site without writing code manually — the entire build happened through natural-language conversation with Claude Code. From layout decisions to responsive design to scroll animations, every element was directed through prompts, not a code editor.
         </p>
@@ -1447,11 +1543,11 @@ footer p {
         <div class="skill-icon" style="background: rgba(201,169,110,0.12); color: var(--accent-gold);">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
         </div>
-        <h3>Global Reach</h3>
-        <p>Four languages mean smaller information gaps and real cross-border capability.</p>
+        <h3>Cross-Cultural</h3>
+        <p>Studied and worked across Beijing, Tokyo and Paris &mdash; comfortable operating between Chinese and international product contexts.</p>
         <div class="skill-items">
-          <span class="skill-item">CN · JP · FR · EN</span>
-          <span class="skill-item">Build in Public</span>
+          <span class="skill-item">Beijing · Tokyo · Paris</span>
+          <span class="skill-item">Localisation Instinct</span>
           <span class="skill-item">International Research</span>
           <span class="skill-item">Content Strategy</span>
         </div>
@@ -1509,7 +1605,13 @@ footer p {
   <div class="container">
     <div class="section-label">Get in touch</div>
     <h2>Let's connect</h2>
-    <p>Seeking Sept 2026 internships in AI product or growth. Or just say hello — I'd love to hear from you.</p>
+    <p style="margin-bottom: 1.2rem;"><strong style="color: var(--accent-terracotta-light);">Currently seeking AI product or overseas ops internships.</strong></p>
+    <div class="contact-meta">
+      <div class="contact-meta-item"><span class="contact-meta-label">Start</span><span class="contact-meta-value">Sept 2026</span></div>
+      <div class="contact-meta-item"><span class="contact-meta-label">Location</span><span class="contact-meta-value">Beijing or remote</span></div>
+      <div class="contact-meta-item"><span class="contact-meta-label">Duration</span><span class="contact-meta-value">3–6 months</span></div>
+    </div>
+    <p style="font-size: 1rem; opacity: 0.8; max-width: 560px; margin: 1rem auto 0;">Cross-cultural background across Beijing, Tokyo and Paris — well-placed for teams bridging Chinese and international markets.</p>
     <div class="contact-links">
       <a href="mailto:siyao.zhang00@gmail.com" class="contact-btn primary">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
