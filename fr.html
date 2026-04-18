@@ -262,6 +262,56 @@ nav .nav-links a:hover::after { width: 100%; }
   box-shadow: var(--shadow-sm);
 }
 
+.hero-availability {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.1rem;
+  background: rgba(196,115,91,0.06);
+  border: 1px solid var(--accent-terracotta-light);
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s var(--transition-smooth) 1s forwards;
+}
+
+.hero-availability strong {
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+.availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 0 0 var(--accent-terracotta);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+.availability-cta {
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  margin-left: 0.3rem;
+  text-decoration: none;
+  transition: transform 0.25s var(--transition-smooth);
+}
+
+.availability-cta:hover {
+  transform: translateX(3px);
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(196,115,91,0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(196,115,91,0); }
+  100% { box-shadow: 0 0 0 0 rgba(196,115,91,0); }
+}
+
 .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
@@ -1021,16 +1071,22 @@ footer p {
   <div class="container">
     <div class="hero-content">
       <p class="hero-greeting">Bonjour, je suis Siyao Zhang</p>
-      <h1>Je crée des systèmes IA<br><span class="accent">qui résolvent de vrais problèmes.</span></h1>
+      <h1>Stagiaire AI Product &amp; Overseas Ops &mdash;<br><span class="accent">Je conçois des systèmes d'agents qui apprennent de leur propre output.</span></h1>
       <p class="hero-description">
-        Des pipelines d'automatisation de contenu aux modèles de prévision économique — je conçois des workflows IA, je livre des produits en vibe coding, et je mesure ce qui fonctionne vraiment.
+        L'IA pousse le coût de construction logicielle vers zéro. Cela fait de <strong>l'attention &mdash; non du code &mdash; l'input rare</strong>, et l'attention ne suit que la demande réelle.
+        Je conçois des systèmes d'agents côté build, et j'utilise mon audience comme un test de demande en conditions réelles, pour distinguer les vrais besoins utilisateurs des besoins imaginés avant de construire.
       </p>
       <div class="hero-tags">
-        <span class="hero-tag">AI Workflow Design</span>
+        <span class="hero-tag">Conception AI Product</span>
+        <span class="hero-tag">Workflows d'Agents</span>
+        <span class="hero-tag">International &middot; CN &middot; EN &middot; JP &middot; FR</span>
         <span class="hero-tag">Vibe Coding</span>
-        <span class="hero-tag">Python & ML</span>
-        <span class="hero-tag">CN · JP · FR · EN</span>
       </div>
+      <p class="hero-availability">
+        <span class="availability-dot"></span>
+        <strong>Disponible à partir de septembre 2026</strong> &middot; Pékin ou remote &middot; stage en AI Product ou Overseas Ops
+        <a href="#contact" class="availability-cta">Me contacter &rarr;</a>
+      </p>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -1154,7 +1210,6 @@ footer p {
             <strong>Résultats :</strong> La première vidéo a atteint 110 000+ vues sur Douyin — produite dès le premier jour avec le système. Le pipeline ne se contente pas de générer du contenu — il apprend de ses propres données et s'améliore à chaque cycle.
           </div>
           <div class="project-tech">
-            <span class="tech-tag">Claude Code</span>
             <span class="tech-tag">Ingénierie de Prompts</span>
             <span class="tech-tag">Conception de Chaîne d'Agents</span>
             <span class="tech-tag">Itération Data-Driven</span>
@@ -1229,7 +1284,6 @@ footer p {
             <span class="tech-tag">Next.js 16</span>
             <span class="tech-tag">Motion</span>
             <span class="tech-tag">Hanzi Writer</span>
-            <span class="tech-tag">Claude Code</span>
             <span class="tech-tag">Design d&rsquo;interaction</span>
           </div>
           <div class="project-actions">
@@ -1252,7 +1306,6 @@ footer p {
           Conception et livraison de ce portfolio sans écrire de code manuellement — toute la construction s'est faite par conversation en langage naturel avec Claude Code. De la mise en page au design responsive en passant par les animations de défilement, chaque élément a été dirigé par des prompts, pas un éditeur de code.
         </p>
         <div class="project-tech">
-          <span class="tech-tag">Claude Code</span>
           <span class="tech-tag">Vibe Coding</span>
           <span class="tech-tag">HTML/CSS/JS</span>
           <span class="tech-tag">Design responsive</span>

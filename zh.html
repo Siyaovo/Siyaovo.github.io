@@ -262,6 +262,56 @@ nav .nav-links a:hover::after { width: 100%; }
   box-shadow: var(--shadow-sm);
 }
 
+.hero-availability {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.1rem;
+  background: rgba(196,115,91,0.06);
+  border: 1px solid var(--accent-terracotta-light);
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s var(--transition-smooth) 1s forwards;
+}
+
+.hero-availability strong {
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+.availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 0 0 var(--accent-terracotta);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+.availability-cta {
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  margin-left: 0.3rem;
+  text-decoration: none;
+  transition: transform 0.25s var(--transition-smooth);
+}
+
+.availability-cta:hover {
+  transform: translateX(3px);
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(196,115,91,0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(196,115,91,0); }
+  100% { box-shadow: 0 0 0 0 rgba(196,115,91,0); }
+}
+
 .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
@@ -1021,14 +1071,22 @@ footer p {
   <div class="container">
     <div class="hero-content">
       <p class="hero-greeting">你好，我是张思瑶</p>
-      <h1>我构建 AI 系统<br><span class="accent">解决真实问题。</span></h1>
-      <p class="hero-description">从内容自动化流水线到经济预测模型——我设计 AI 工作流，用 vibe coding 交付产品，用数据衡量实际效果。</p>
+      <h1>AI 产品 & 海外运营实习 &mdash;<br><span class="accent">我设计能从自己输出中学习的 agent 系统。</span></h1>
+      <p class="hero-description">
+        AI 正在把造软件的成本推向零。这让<strong>注意力&mdash;&mdash;不是代码&mdash;&mdash;成为稀缺输入</strong>，而注意力只流向真实需求。
+        我在 build 端设计 agent 系统，同时把自己的受众当作真实需求的试验场，所以我在真正动手 build 之前，就能分辨哪些用户需求是真的。
+      </p>
       <div class="hero-tags">
-        <span class="hero-tag">AI Workflow Design</span>
+        <span class="hero-tag">AI 产品设计</span>
+        <span class="hero-tag">Agent 工作流</span>
+        <span class="hero-tag">International &middot; CN &middot; EN &middot; JP &middot; FR</span>
         <span class="hero-tag">Vibe Coding</span>
-        <span class="hero-tag">Python & ML</span>
-        <span class="hero-tag">CN · JP · FR · EN</span>
       </div>
+      <p class="hero-availability">
+        <span class="availability-dot"></span>
+        <strong>2026年9月起可入职</strong> &middot; 北京或远程 &middot; 寻找 AI 产品或海外运营实习
+        <a href="#contact" class="availability-cta">联系我 &rarr;</a>
+      </p>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -1152,7 +1210,6 @@ footer p {
             <strong>成果：</strong>首条视频在抖音获得 110,000+ 播放量——使用本系统在第一天即完成制作。系统不仅生成内容，还从自身输出数据中学习，每个周期都在迭代优化。
           </div>
           <div class="project-tech">
-            <span class="tech-tag">Claude Code</span>
             <span class="tech-tag">Prompt 工程</span>
             <span class="tech-tag">Agent 链设计</span>
             <span class="tech-tag">数据驱动迭代</span>
@@ -1227,7 +1284,6 @@ footer p {
             <span class="tech-tag">Next.js 16</span>
             <span class="tech-tag">Motion</span>
             <span class="tech-tag">Hanzi Writer</span>
-            <span class="tech-tag">Claude Code</span>
             <span class="tech-tag">交互设计</span>
           </div>
           <div class="project-actions">
@@ -1250,7 +1306,6 @@ footer p {
           设计并交付了这个作品集网站，没有手动写一行代码——整个构建过程通过与 Claude Code 的自然语言对话完成。从布局决策到响应式设计再到滚动动画，每一个元素都通过 prompt 指导完成，而非代码编辑器。
         </p>
         <div class="project-tech">
-          <span class="tech-tag">Claude Code</span>
           <span class="tech-tag">Vibe Coding</span>
           <span class="tech-tag">HTML/CSS/JS</span>
           <span class="tech-tag">响应式设计</span>
