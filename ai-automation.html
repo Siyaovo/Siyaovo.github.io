@@ -231,6 +231,14 @@ tr:last-child td { border-bottom: none; }
     <div class="decision-row"><span class="k">Reasoning</span><span class="v">A user mid-edit can trigger the watcher 5&ndash;10 times during one logical "save." Without quiescence, the executor races the user; state updates collide with in-progress edits. The 30s gate aligns automated processing with the user&rsquo;s natural pause rhythm.</span></div>
     <div class="decision-row"><span class="k">Cost</span><span class="v">30-second latency floor on processing. Acceptable for asynchronous task flow; not appropriate for real-time chat agents.</span></div>
   </div>
+
+  <div class="decision-card">
+    <div class="decision-title">5. No RAG, No Fine-Tuning — Context Fits in a Prompt</div>
+    <div class="decision-row"><span class="k">Rejected</span><span class="v">Retrieval-augmented generation over task history, or fine-tuning a model on past task decisions.</span></div>
+    <div class="decision-row"><span class="k">Chosen</span><span class="v">Load the full <code>task-board.md</code> (typically 1&ndash;3K tokens) directly into each decision call. No vector DB, no embeddings, no training.</span></div>
+    <div class="decision-row"><span class="k">Reasoning</span><span class="v">RAG earns its cost when the knowledge base exceeds context window, or when retrieval precision itself is the product. Neither applies here: the full state is short, cheap to include, and the decision layer needs <em>all</em> active tasks to reason about dependency chains &mdash; partial retrieval would break that. Fine-tuning is the wrong tool for routing logic that changes weekly.</span></div>
+    <div class="decision-row"><span class="k">When to revisit</span><span class="v">If task history &gt; ~50K tokens sustained, or if cross-workflow queries need semantic search. Until then, the bottleneck isn&rsquo;t retrieval &mdash; it&rsquo;s the state-machine contract.</span></div>
+  </div>
 </section>
 
 <hr class="divider">
@@ -330,7 +338,7 @@ tr:last-child td { border-bottom: none; }
   <ul>
     <li><strong>Observability surface</strong>: local HTML dashboard served via <code>launchd</code> showing task throughput, error rates, and latency distribution over time.</li>
     <li><strong>Prompt version control</strong>: decision-layer prompts moved to a separate git repository with semantic versioning &amp; regression tests against a captured input corpus.</li>
-    <li><strong>Multi-agent handoff protocol</strong>: standardized result schema so subagents can chain without main-agent mediation when tasks are independent.</li>
+    <li><strong>MCP-compatible handoff protocol</strong>: standardized result schema aligned with the Model Context Protocol, so subagents can chain without main-agent mediation when tasks are independent &mdash; and so external MCP-speaking agents could plug into this runtime without protocol translation.</li>
     <li><strong>State persistence upgrade</strong>: SQLite alongside Markdown if cross-workflow querying becomes a recurring need (Markdown remains the human UI).</li>
   </ul>
 

@@ -193,7 +193,7 @@ footer { text-align: center; padding: 3rem 0; font-size: 0.82rem; color: var(--t
     <h3>5 Phases</h3>
     <ol>
       <li><strong>Re-confirm gate</strong> &mdash; Checks cognitive gap, material count, framework layer again. Hard stop if any fail.</li>
-      <li><strong>Content library retrieval</strong> &mdash; Searches concept library, quote library, and proven scripts before generating anything new.</li>
+      <li><strong>Content library retrieval (RAG pattern)</strong> &mdash; Retrieves from a structured corpus (concept library, quote library, proven scripts) before generating. Retrieval-before-generation is what prevents the model from hallucinating examples it hasn&rsquo;t seen.</li>
       <li><strong>Script generation</strong> &mdash; Applies one of two templates:
         <ul>
           <li>Template A (Information Gap &rarr; Framework Replacement &rarr; Identity Close): Optimised for reach</li>
@@ -311,7 +311,8 @@ footer { text-align: center; padding: 3rem 0; font-size: 0.82rem; color: var(--t
     <div class="stat"><div class="stat-num">7</div><div class="stat-label">Content Types Tested</div></div>
     <div class="stat"><div class="stat-num">3</div><div class="stat-label">Types Removed by System</div></div>
   </div>
-  <p style="margin-top: 1rem;">Methodology file updated after every publish cycle. The system is still running and improving.</p>
+  <p style="margin-top: 1rem;"><strong>Structural A/B on content format:</strong> 7 content types were tested sequentially against a consistent engagement metric; 3 underperformed across enough cycles that the system removed them from the Topic Filter&rsquo;s acceptable set. The comparison is structural rather than concurrent &mdash; a form of sequential A/B appropriate when content volume is limited.</p>
+  <p style="margin-top: 0.6rem;">Methodology file updated after every publish cycle. The system is still running and improving.</p>
 </section>
 
 <hr class="divider">
