@@ -1340,56 +1340,55 @@ footer p {
         </div>
       </div>
 
-      <!-- AI Task Automation System -->
+      <!-- Task Router Agent -->
       <div class="project-card reveal" style="--card-accent: #7A8B9A;">
         <a href="ai-automation.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: linear-gradient(135deg, #FFF8F3 0%, #F0E5D8 100%); border-radius: var(--radius-md); padding: 2rem 1.6rem; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; display: flex; flex-direction: column; justify-content: center; gap: 0.45rem;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd-auto').style.color='#7A8B9A'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd-auto').style.color=''">
-            <!-- 5 layer stack -->
-            <div style="display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.85rem; background: rgba(122,139,154,0.06); border-radius: 6px;">
-              <span style="font-size: 0.62rem; font-weight: 700; color: #7A8B9A; letter-spacing: 0.12em; min-width: 22px;">L5</span>
-              <span style="font-size: 0.82rem; color: #2C2825;">UI · <code style="font-family: monospace; font-size: 0.76rem; color: #6B6360;">task-board.md</code></span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.85rem; background: rgba(122,139,154,0.08); border-radius: 6px;">
-              <span style="font-size: 0.62rem; font-weight: 700; color: #7A8B9A; letter-spacing: 0.12em; min-width: 22px;">L4</span>
-              <span style="font-size: 0.82rem; color: #2C2825;">Scheduler · <span style="color: #6B6360;">fswatch + launchd</span></span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.85rem; background: rgba(122,139,154,0.10); border-radius: 6px;">
-              <span style="font-size: 0.62rem; font-weight: 700; color: #7A8B9A; letter-spacing: 0.12em; min-width: 22px;">L3</span>
-              <span style="font-size: 0.82rem; color: #2C2825;">Executor · <span style="color: #6B6360;">claude -p /task-check</span></span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.85rem; background: rgba(122,139,154,0.12); border-radius: 6px;">
-              <span style="font-size: 0.62rem; font-weight: 700; color: #7A8B9A; letter-spacing: 0.12em; min-width: 22px;">L2</span>
-              <span style="font-size: 0.82rem; color: #2C2825;">Logic · <span style="color: #6B6360;">task-check skill (v3)</span></span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.85rem; background: rgba(122,139,154,0.14); border-radius: 6px;">
-              <span style="font-size: 0.62rem; font-weight: 700; color: #7A8B9A; letter-spacing: 0.12em; min-width: 22px;">L1</span>
-              <span style="font-size: 0.82rem; color: #2C2825;">State · <code style="font-family: monospace; font-size: 0.76rem; color: #6B6360;">events.jsonl</code></span>
+          <div style="background: linear-gradient(135deg, #FFF8F3 0%, #F0E5D8 100%); border-radius: var(--radius-md); padding: 1.8rem 1.6rem; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; display: flex; flex-direction: column; justify-content: center; gap: 0.55rem;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd-auto').style.color='#5A6B7A'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd-auto').style.color=''">
+            <!-- Flow diagram -->
+            <div style="display: flex; flex-direction: column; gap: 0.3rem; font-family: var(--font-sans);">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="flex: 1; background: rgba(122,139,154,0.08); border-left: 3px solid #7A8B9A; padding: 0.45rem 0.7rem; border-radius: 0 4px 4px 0; font-size: 0.74rem;"><code style="font-family: monospace; font-size: 0.7rem; color: #2C2825;">task-board.md</code> <span style="color: #8a7f72; font-size: 0.68rem;">· edited</span></div>
+              </div>
+              <div style="padding-left: 0.7rem; color: #8a7f72; font-size: 0.65rem; line-height: 1;">↓ <span style="color: #7A8B9A;">fswatch · 2s debounce</span></div>
+              <div style="background: rgba(122,139,154,0.08); border: 1px solid rgba(122,139,154,0.18); padding: 0.45rem 0.7rem; border-radius: 4px; font-size: 0.74rem;"><strong style="color: #2C2825;">Quiescence gate</strong> <span style="color: #8a7f72; font-size: 0.68rem;">· 30s idle required</span></div>
+              <div style="padding-left: 0.7rem; color: #8a7f72; font-size: 0.65rem; line-height: 1;">↓</div>
+              <div style="background: rgba(196,115,91,0.06); border: 1px solid rgba(196,115,91,0.2); padding: 0.45rem 0.7rem; border-radius: 4px; font-size: 0.74rem;"><strong style="color: #2C2825;">LLM decision layer</strong> <span style="color: #8a7f72; font-size: 0.68rem;">· parse state machine</span></div>
+              <div style="display: flex; gap: 0.4rem; padding-left: 0.7rem; font-size: 0.65rem; color: #8a7f72; line-height: 1;">
+                <span style="flex: 1;">↓ ready</span>
+                <span style="flex: 1;">↓ blocked:*</span>
+                <span style="flex: 1;">↓ running:*</span>
+              </div>
+              <div style="display: flex; gap: 0.4rem;">
+                <div style="flex: 1; background: rgba(143,168,138,0.1); border: 1px solid rgba(143,168,138,0.25); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #2C2825; text-align: center;">Parallel exec</div>
+                <div style="flex: 1; background: rgba(155,149,146,0.08); border: 1px dashed rgba(155,149,146,0.35); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #9B9592; text-align: center;">Skip</div>
+                <div style="flex: 1; background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.3); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #2C2825; text-align: center;">Dead-lock check</div>
+              </div>
             </div>
             <!-- CTA -->
-            <div style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
-              <span style="font-size: 0.68rem; color: #8a7f72; letter-spacing: 0.1em;">5 layers &middot; event-driven &middot; self-healing</span>
-              <span class="vd-auto" style="font-size: 0.78rem; font-weight: 600; color: #B1A699; transition: color 0.25s;">Read the case &rarr;</span>
+            <div style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.08em;">State-machine routing &middot; Self-healing &middot; Human-in-the-loop</span>
+              <span class="vd-auto" style="font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s;">Read the case &rarr;</span>
             </div>
           </div>
         </a>
         <div>
           <div class="project-card-top">
-            <span class="project-type">AI Architecture &middot; Self-Healing System</span>
+            <span class="project-type">Agent Orchestration &middot; System Design</span>
             <span class="project-year">2026</span>
           </div>
-          <h3>AI Task Automation &mdash; A system that watches my notes and runs itself</h3>
-          <p class="project-context">Shipped in one day &middot; Event-driven &middot; Phase 1-3 complete (independent of Claude Code sessions)</p>
+          <h3>Task Router Agent &mdash; State-machine orchestration on a Markdown file</h3>
+          <p class="project-context">Production runtime &middot; Runs asynchronously from active session &middot; Self-healing state machine</p>
           <p class="project-description">
-            A 5-layer automation system where a single Markdown file (<code>task-board.md</code>) becomes an agent runtime. When I edit the file, <code>fswatch</code> fires, <code>launchd</code> invokes Claude, and a state-machine skill processes <code>ready</code> tasks in parallel. Self-healing (30-min deadlock detection), dead-letter queue, and retry with exponential backoff.
+            Designed an LLM-powered task orchestration layer that routes, executes, and self-heals autonomously. A single Markdown file becomes the agent control plane; <code>fswatch</code> triggers on edits; a state-machine skill routes <code>ready</code> tasks through a single-writer execution protocol to prevent race conditions. Human-in-the-loop validation gates all destructive actions.
           </p>
           <div class="project-finding">
-            <strong>Insight:</strong> Structured state enables agent judgment. The skill I wrote didn&rsquo;t just execute tasks &mdash; it flagged semantic inconsistencies I hadn&rsquo;t programmed (including a timezone bug I wrote in the status field).
+            <strong>Core insight:</strong> Same LLM, same task-board, different agent behavior depending on whether status is a label or a protocol. Migrating from <code>pending/done</code> to typed states (<code>ready</code> / <code>blocked:siyao:reply</code> / <code>running:agent-42:ts</code> / <code>failed:timeout</code>) changed what the model would reason about &mdash; the skill started catching semantic inconsistencies I hadn&rsquo;t programmed. The takeaway for product teams: <em>structured state is what turns agents from execution bots into reasoning partners</em>, not better prompts.
           </div>
           <div class="project-tech">
-            <span class="tech-tag">Claude API</span>
-            <span class="tech-tag">fswatch</span>
-            <span class="tech-tag">launchd</span>
+            <span class="tech-tag">Agent Orchestration</span>
             <span class="tech-tag">State Machine</span>
+            <span class="tech-tag">Event-Driven Architecture</span>
+            <span class="tech-tag">LLM Runtime Design</span>
             <span class="tech-tag">Markdown as UI</span>
           </div>
           <div class="project-actions">

@@ -1,765 +1,359 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>你的 AI 助理，终于能在你离开时还在工作 · 任务自动化系统解释</title>
+<title>Task Router Agent — Siyao Zhang</title>
+<meta name="description" content="A state-machine-driven agent orchestration runtime. Designed by Siyao Zhang — LLM-powered task routing on a Markdown control plane with self-healing, dead-letter queue, and human-in-the-loop validation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FFF8F3;
-    --bg-alt: #FAEFE5;
-    --card: #FFFFFF;
-    --border: #F0E0D0;
-    --text: #2C2416;
-    --text-soft: #7A6B5A;
-    --accent: #E89B5A;
-    --accent-soft: #FFD6B3;
-    --success: #A8D4B0;
-    --success-bg: #E8F5E9;
-    --warning: #F4D97B;
-    --warning-bg: #FFF8DC;
-    --danger: #E89999;
-    --danger-bg: #FDECEC;
-    --shadow: 0 4px 20px rgba(232, 155, 90, 0.08);
-    --shadow-hover: 0 8px 32px rgba(232, 155, 90, 0.15);
-  }
+:root {
+  --cream: #FAF6F1; --cream-dark: #F0EAE0; --warm-white: #FFFDF9;
+  --text-primary: #2C2825; --text-secondary: #6B6360; --text-light: #9B9592;
+  --accent-terracotta: #C4735B; --accent-terracotta-light: #D4917D;
+  --accent-sage: #8FA88A; --accent-sage-light: #B5CBB0;
+  --accent-gold: #C9A96E; --accent-gold-light: #DFC99E;
+  --accent-slate: #7A8B9A; --accent-slate-light: #A0AFBC;
+  --border: #E5DDD5;
+  --shadow-sm: 0 1px 3px rgba(44,40,37,0.04); --shadow-md: 0 4px 16px rgba(44,40,37,0.06);
+  --radius-sm: 8px; --radius-md: 14px;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'Source Sans 3', -apple-system, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Courier New', monospace;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-sans); color: var(--text-primary); background: var(--cream); line-height: 1.7; }
+a { color: var(--accent-slate); text-decoration: none; }
+a:hover { color: var(--text-primary); }
+.container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+.back-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,246,241,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; }
+.back-nav .inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.back-nav a.back-link { font-size: 0.85rem; font-weight: 500; color: var(--text-primary); }
 
-  body {
-    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    font-size: 16px;
-  }
+.hero { padding: 7rem 0 2rem; text-align: center; }
+.hero .label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 1rem; }
+.hero h1 { font-family: var(--font-serif); font-size: 2.4rem; line-height: 1.2; margin-bottom: 1.2rem; }
+.hero .subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto; line-height: 1.8; }
 
-  .container {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
+section { margin-bottom: 2.5rem; }
+.part-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 0.5rem; }
+h2 { font-family: var(--font-serif); font-size: 1.7rem; margin-bottom: 1rem; }
+h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; margin-top: 1.5rem; }
+h4 { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 0.5rem; margin-top: 2rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+p, li { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 0.5rem; }
+strong { color: var(--text-primary); }
+ul { list-style: none; padding: 0; }
+li { padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; }
+li::before { content: ''; position: absolute; left: 0; top: 0.65rem; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-slate); }
+ol { padding-left: 1.5rem; }
+ol li { padding-left: 0.3rem; }
+ol li::before { display: none; }
+code { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent-terracotta); background: rgba(196,115,91,0.06); padding: 0.1em 0.35em; border-radius: 3px; }
 
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 60px 20px 40px;
-  }
-  .hero-kicker {
-    display: inline-block;
-    background: var(--accent-soft);
-    color: var(--accent);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-  .hero h1 {
-    font-size: 42px;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-  .hero-sub {
-    font-size: 18px;
-    color: var(--text-soft);
-    max-width: 620px;
-    margin: 0 auto;
-  }
+.card { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin: 1.2rem 0; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
-  /* Sections */
-  section {
-    margin-top: 60px;
-  }
-  h2 {
-    font-size: 28px;
-    margin-bottom: 24px;
-    letter-spacing: -0.01em;
-  }
-  h3 {
-    font-size: 20px;
-    margin-bottom: 12px;
-  }
-  p { margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+th { text-align: left; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); padding: 0.5rem 0.8rem; border-bottom: 2px solid var(--border); }
+td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
 
-  /* Card */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-  }
+.takeaway { background: rgba(122,139,154,0.06); border-left: 3px solid var(--accent-slate); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.takeaway p { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; margin: 0; }
 
-  /* Toggle */
-  .toggle-group {
-    display: flex;
-    background: var(--bg-alt);
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 24px;
-    gap: 4px;
-  }
-  .toggle-btn {
-    flex: 1;
-    padding: 12px 16px;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-soft);
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-  .toggle-btn.active {
-    background: var(--card);
-    color: var(--text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .toggle-panel {
-    display: none;
-  }
-  .toggle-panel.active {
-    display: block;
-    animation: fadeIn 0.3s;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+.arch-diagram { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.6rem 1.4rem; margin: 1.5rem 0; }
+.arch-row { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px dashed var(--border); }
+.arch-row:last-child { border-bottom: none; }
+.arch-layer { font-family: var(--font-serif); font-size: 1.05rem; color: var(--accent-slate); min-width: 48px; }
+.arch-name { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; min-width: 160px; }
+.arch-impl { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); flex: 1; }
+.arch-role { font-size: 0.75rem; color: var(--text-light); min-width: 200px; text-align: right; }
 
-  /* Comparison */
-  .compare-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 24px 0;
-  }
-  .compare-col {
-    padding: 24px;
-    border-radius: 14px;
-  }
-  .compare-col.bad {
-    background: var(--danger-bg);
-    border: 1px solid var(--danger);
-  }
-  .compare-col.good {
-    background: var(--success-bg);
-    border: 1px solid var(--success);
-  }
-  .compare-title {
-    font-weight: 700;
-    margin-bottom: 12px;
-    font-size: 17px;
-  }
-  .compare-col ul {
-    list-style: none;
-  }
-  .compare-col li {
-    padding: 6px 0;
-    font-size: 15px;
-  }
-  .compare-col li::before {
-    display: inline-block;
-    width: 20px;
-  }
-  .compare-col.bad li::before { content: "✗"; color: var(--danger); }
-  .compare-col.good li::before { content: "✓"; color: #5CB85C; }
+.flow-box { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin: 1.2rem 0; font-size: 0.85rem; }
+.flow-step { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 0.8rem; border-radius: 6px; margin-bottom: 0.35rem; }
+.flow-step.trigger { background: rgba(143,168,138,0.08); border-left: 3px solid var(--accent-sage); }
+.flow-step.gate { background: rgba(201,169,110,0.08); border-left: 3px solid var(--accent-gold); }
+.flow-step.llm { background: rgba(122,139,154,0.1); border-left: 3px solid var(--accent-slate); }
+.flow-step.exec { background: rgba(196,115,91,0.06); border-left: 3px solid var(--accent-terracotta); }
+.flow-arrow { color: var(--text-light); padding-left: 1.2rem; font-size: 0.7rem; line-height: 1; margin: 0.1rem 0; }
+.flow-split { display: flex; gap: 0.5rem; margin: 0.4rem 0; }
+.flow-split > div { flex: 1; padding: 0.5rem 0.7rem; border-radius: 6px; font-size: 0.78rem; text-align: center; }
+.flow-split .ok { background: rgba(143,168,138,0.08); border: 1px solid rgba(143,168,138,0.25); }
+.flow-split .skip { background: rgba(155,149,146,0.08); border: 1px dashed rgba(155,149,146,0.3); color: var(--text-light); }
+.flow-split .heal { background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.3); }
 
-  /* Layers */
-  .layers {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .layer {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 24px;
-    cursor: pointer;
-    transition: all 0.25s;
-    position: relative;
-  }
-  .layer:hover {
-    border-color: var(--accent);
-    transform: translateX(4px);
-    box-shadow: var(--shadow-hover);
-  }
-  .layer-head {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .layer-num {
-    background: var(--accent-soft);
-    color: var(--accent);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .layer-title {
-    font-weight: 600;
-    font-size: 17px;
-    flex: 1;
-  }
-  .layer-tag {
-    font-size: 12px;
-    color: var(--text-soft);
-    background: var(--bg-alt);
-    padding: 3px 10px;
-    border-radius: 10px;
-  }
-  .layer-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    margin-top: 0;
-    opacity: 0;
-  }
-  .layer.expanded .layer-body {
-    max-height: 400px;
-    margin-top: 16px;
-    opacity: 1;
-    transition: max-height 0.3s ease-in, opacity 0.2s ease-in 0.1s;
-  }
-  .layer.expanded .layer-num {
-    background: var(--accent);
-    color: white;
-  }
-  .layer-analogy {
-    background: var(--warning-bg);
-    border-left: 3px solid var(--warning);
-    padding: 10px 14px;
-    border-radius: 6px;
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--text);
-  }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+.metric-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.1rem; }
+.metric-value { font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent-slate); line-height: 1.1; margin-bottom: 0.3rem; }
+.metric-label { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.metric-note { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; line-height: 1.4; }
 
-  /* Flow animation */
-  .flow-demo {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 30px 24px;
-    text-align: center;
-  }
-  .flow-steps {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin: 24px 0;
-    flex-wrap: wrap;
-  }
-  .flow-step {
-    flex: 1;
-    min-width: 120px;
-    padding: 16px 12px;
-    background: var(--bg-alt);
-    border-radius: 10px;
-    text-align: center;
-    transition: all 0.3s;
-    position: relative;
-    font-size: 14px;
-  }
-  .flow-step.active {
-    background: var(--accent);
-    color: white;
-    transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(232, 155, 90, 0.4);
-  }
-  .flow-step.done {
-    background: var(--success-bg);
-    color: var(--text);
-    border: 1px solid var(--success);
-  }
-  .flow-arrow {
-    color: var(--text-soft);
-    font-size: 20px;
-  }
-  .flow-icon {
-    font-size: 28px;
-    display: block;
-    margin-bottom: 6px;
-  }
-  .flow-trigger {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .flow-trigger:hover {
-    background: #d88847;
-    transform: translateY(-1px);
-  }
-  .flow-trigger:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .flow-log {
-    background: #2C2416;
-    color: #FFE4C4;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: left;
-    font-family: "SF Mono", Monaco, monospace;
-    font-size: 13px;
-    margin-top: 20px;
-    min-height: 40px;
-    line-height: 1.6;
-  }
+.decision-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem 1.4rem; margin: 0.8rem 0; }
+.decision-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.6rem; }
+.decision-row { display: grid; grid-template-columns: 100px 1fr; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.85rem; }
+.decision-row .k { color: var(--text-light); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600; padding-top: 0.1rem; }
+.decision-row .v { color: var(--text-secondary); }
+.decision-row .v strong { color: var(--text-primary); }
 
-  /* Analogy cards */
-  .analogy-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
-  }
-  .analogy-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-  }
-  .analogy-card h4 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: var(--accent);
-  }
-  .analogy-emoji {
-    font-size: 36px;
-    margin-bottom: 10px;
-  }
-
-  /* Value list */
-  .value-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .value-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-  }
-  .value-item h4 {
-    font-size: 15px;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  /* Callout */
-  .callout {
-    background: var(--accent-soft);
-    border-left: 4px solid var(--accent);
-    padding: 20px 24px;
-    border-radius: 10px;
-    margin: 24px 0;
-  }
-  .callout strong { color: var(--accent); }
-
-  /* FAQ */
-  details {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
-  details[open] { background: var(--bg-alt); }
-  summary {
-    font-weight: 600;
-    font-size: 16px;
-    outline: none;
-    list-style: none;
-  }
-  summary::-webkit-details-marker { display: none; }
-  summary::before {
-    content: "▸ ";
-    color: var(--accent);
-    transition: transform 0.2s;
-    display: inline-block;
-  }
-  details[open] summary::before {
-    transform: rotate(90deg);
-  }
-  details p {
-    margin-top: 12px;
-    color: var(--text-soft);
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-soft);
-    font-size: 14px;
-    margin-top: 60px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 32px; }
-    .compare-grid { grid-template-columns: 1fr; }
-    .flow-arrow { display: none; }
-    .flow-step { min-width: calc(50% - 6px); }
-  }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.8rem; }
+  .arch-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  .arch-role { text-align: left; }
+  .decision-row { grid-template-columns: 1fr; gap: 0.15rem; }
+}
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="back-nav"><div class="inner"><a class="back-link" href="index.html">&larr; Back to portfolio</a><div style="display:flex;align-items:center;gap:0.25rem;background:var(--warm-white);border:1px solid var(--border);border-radius:6px;padding:0.2rem;"><a href="ai-automation.html" style="font-size:0.72rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:4px;background:var(--accent-slate);color:var(--warm-white);">EN</a><a href="ai-automation-zh.html" style="font-size:0.72rem;font-weight:500;padding:0.2rem 0.5rem;border-radius:4px;color:var(--text-light);">中</a><a href="ai-automation-fr.html" style="font-size:0.72rem;font-weight:500;padding:0.2rem 0.5rem;border-radius:4px;color:var(--text-light);">FR</a></div></div></div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-kicker">AI 架构师 · Case Study 01</div>
-    <h1>你的 AI 助理，终于能在你离开时还在工作</h1>
-    <p class="hero-sub">这份文档用最白话的语言，讲清楚一个"专业级"任务自动化系统到底是什么，以及它凭什么比你家里那个"需要你一直陪着"的 AI 聪明。</p>
-  </section>
-
-  <!-- What problem -->
-  <section>
-    <h2>🤔 它解决了什么问题？</h2>
-    <div class="card">
-      <p>你有一个<strong>任务清单</strong>，里面有些事你想自己做（录视频、联系朋友），有些事你希望 AI 帮你做（搜资料、写脚本、整理文件）。</p>
-
-      <p><strong>之前的做法</strong>：打开 AI 软件 → 让它看清单 → 它开始干活 → 你得一直开着窗口等它。一关窗口，它就不干了。就像<strong>你雇的保姆一定要你在家才肯做饭</strong>。</p>
-
-      <p><strong>现在的做法</strong>：清单存在一个文件里。你加进去一个任务，AI 自动就开始干。你可以关电脑、出门、睡觉——醒来时，能做的都做完了。</p>
-
-      <div class="callout">
-        <strong>核心突破</strong>：从"AI 需要你陪着"变成"AI 自己会工作"。这是自动化的分水岭。
-      </div>
-    </div>
-  </section>
-
-  <!-- Before / After -->
-  <section>
-    <h2>⚖️ 之前 vs 现在</h2>
-    <div class="card">
-      <div class="compare-grid">
-        <div class="compare-col bad">
-          <div class="compare-title">❌ 之前（玩具级）</div>
-          <ul>
-            <li>必须一直开着窗口</li>
-            <li>关窗口 = 系统死亡</li>
-            <li>电脑重启要手动重开</li>
-            <li>每 30 分钟轮询一次，浪费</li>
-            <li>新任务要等半小时才被捡起</li>
-            <li>系统挂了没人知道</li>
-          </ul>
-        </div>
-        <div class="compare-col good">
-          <div class="compare-title">✅ 现在（专业级）</div>
-          <ul>
-            <li>完全后台运行</li>
-            <li>关电脑、重启都没事</li>
-            <li>开机自动恢复</li>
-            <li>只在文件变化时才触发</li>
-            <li>加任务 2 秒后就开始干</li>
-            <li>每个事件都留痕可查</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Core concept: event-driven -->
-  <section>
-    <h2>💡 关键概念：事件驱动</h2>
-    <div class="card">
-      <p>这是专业自动化最重要的一个词。用两个生活例子解释：</p>
-
-      <div class="analogy-grid" style="margin-top:16px">
-        <div class="analogy-card">
-          <div class="analogy-emoji">🚪</div>
-          <h4>笨办法：定时轮询</h4>
-          <p style="font-size:14px;color:var(--text-soft)">
-            <strong>邮递员每天每小时敲你家门一次</strong>，问："有没有包裹要寄？"
-          </p>
-          <p style="font-size:14px;color:var(--text-soft)">
-            大部分时间你都没包裹——<strong>99% 的敲门是浪费</strong>。而且你刚想寄个包裹，也要等到下一个整点。
-          </p>
-        </div>
-        <div class="analogy-card">
-          <div class="analogy-emoji">🔔</div>
-          <h4>聪明办法：事件驱动</h4>
-          <p style="font-size:14px;color:var(--text-soft)">
-            <strong>你门口装一个门铃</strong>。你想寄包裹就按铃，邮递员马上过来。
-          </p>
-          <p style="font-size:14px;color:var(--text-soft)">
-            没事的时候邮递员在休息，<strong>零浪费</strong>。你按铃那一刻，服务立刻开始。
-          </p>
-        </div>
-      </div>
-
-      <p style="margin-top:20px"><strong>这个系统就是"门铃"模式</strong>。你修改任务清单文件 = 按门铃。fswatch 这个工具（macOS 自带的文件监听器）检测到变化，立刻去叫 AI 来干活。</p>
-    </div>
-  </section>
-
-  <!-- Interactive flow demo -->
-  <section>
-    <h2>🎬 亲眼看一次流程</h2>
-    <p style="color:var(--text-soft)">点"模拟运行"按钮，看系统怎么从你改一个文件到 AI 干完活——全程 30 秒左右。</p>
-    <div class="flow-demo">
-      <div class="flow-steps" id="flowSteps">
-        <div class="flow-step" data-step="0">
-          <span class="flow-icon">✏️</span>
-          你改了清单
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step" data-step="1">
-          <span class="flow-icon">👂</span>
-          监听器检测到
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step" data-step="2">
-          <span class="flow-icon">📣</span>
-          触发执行器
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step" data-step="3">
-          <span class="flow-icon">🤖</span>
-          AI 读清单+干活
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step" data-step="4">
-          <span class="flow-icon">✅</span>
-          更新清单+存日志
-        </div>
-      </div>
-
-      <button class="flow-trigger" id="flowBtn" onclick="runFlow()">▶ 模拟运行</button>
-
-      <div class="flow-log" id="flowLog">点上面的按钮开始演示...</div>
-    </div>
-  </section>
-
-  <!-- 5-layer architecture -->
-  <section>
-    <h2>🏗️ 五层架构（点击展开）</h2>
-    <p style="color:var(--text-soft)">专业系统的共同特征：<strong>把不同职责的东西分到不同的层，每层只做一件事</strong>。这样出问题好定位，改东西不影响别的。</p>
-
-    <div class="layers">
-
-      <div class="layer" onclick="toggleLayer(this)">
-        <div class="layer-head">
-          <div class="layer-num">5</div>
-          <div class="layer-title">人机界面层 · 你写任务的地方</div>
-          <div class="layer-tag">task-board.md</div>
-        </div>
-        <div class="layer-body">
-          <p>就是一个 Markdown 文件。你和 AI 都读写同一个文件。人看起来像清单，机器看起来像结构化数据。</p>
-          <div class="layer-analogy">🧘 <strong>类比</strong>：家里厨房的小黑板。你在上面写"买牛奶"，家人（或 AI 管家）看了就会去买。</div>
-        </div>
-      </div>
-
-      <div class="layer" onclick="toggleLayer(this)">
-        <div class="layer-head">
-          <div class="layer-num">4</div>
-          <div class="layer-title">调度层 · 决定什么时候该干活</div>
-          <div class="layer-tag">fswatch + launchd</div>
-        </div>
-        <div class="layer-body">
-          <p>两个机制并行：</p>
-          <ul style="padding-left:20px;margin-top:8px;color:var(--text-soft);font-size:14px">
-            <li><strong>fswatch（主力）</strong>：监听文件变化，一改就触发</li>
-            <li><strong>launchd（兜底）</strong>：每小时定时跑一次，防止 fswatch 漏事件</li>
-          </ul>
-          <div class="layer-analogy">🧘 <strong>类比</strong>：一个门铃（事件）+ 一个闹钟（定时）。门铃响就开门，万一门铃坏了，闹钟每小时也会提醒你检查。</div>
-        </div>
-      </div>
-
-      <div class="layer" onclick="toggleLayer(this)">
-        <div class="layer-head">
-          <div class="layer-num">3</div>
-          <div class="layer-title">执行层 · 启动 AI 干活</div>
-          <div class="layer-tag">run-task-check.sh</div>
-        </div>
-        <div class="layer-body">
-          <p>一个脚本，被调度层调用。它负责：启动 AI、给 AI 任务指令、管控超时、最后记录结果。跑完就退出，不常驻。</p>
-          <div class="layer-analogy">🧘 <strong>类比</strong>：工头。每次有活就喊工人来、告诉他怎么做、看着点时间别拖，活干完收工。</div>
-        </div>
-      </div>
-
-      <div class="layer" onclick="toggleLayer(this)">
-        <div class="layer-head">
-          <div class="layer-num">2</div>
-          <div class="layer-title">业务逻辑层 · AI 的"脑子"</div>
-          <div class="layer-tag">task-check skill</div>
-        </div>
-        <div class="layer-body">
-          <p>AI 的行为规则。它告诉 AI：「打开清单 → 找分给我的任务 → 一个一个做 → 做完了把状态改成完成 → 写日志」。</p>
-          <div class="layer-analogy">🧘 <strong>类比</strong>：新员工的工作手册。写明"你每次来上班要做哪几件事"，不然员工不知道该干嘛。</div>
-        </div>
-      </div>
-
-      <div class="layer" onclick="toggleLayer(this)">
-        <div class="layer-head">
-          <div class="layer-num">1</div>
-          <div class="layer-title">状态 & 日志层 · 记忆和留痕</div>
-          <div class="layer-tag">events.jsonl</div>
-        </div>
-        <div class="layer-body">
-          <p>每一次触发、每一个结果、每一次失败，都按时间写入一个结构化日志文件。可以随时查"上周二下午 3 点它做了什么？"</p>
-          <div class="layer-analogy">🧘 <strong>类比</strong>：餐厅的监控录像 + 营业日志。平时用不到，出事了能回放每一帧，拿出来就是证据。</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- What it enables -->
-  <section>
-    <h2>🚀 这个系统让你可以做什么</h2>
-    <div class="value-list">
-      <div class="value-item">
-        <h4>🌙 下班和睡觉时继续推进业务</h4>
-        <p style="font-size:14px;color:var(--text-soft)">加任务 → 关电脑 → 睡觉 → 醒来看结果。AI 在你睡觉时做了调研、整理、草稿。</p>
-      </div>
-      <div class="value-item">
-        <h4>🎯 把脑子留给更值钱的决策</h4>
-        <p style="font-size:14px;color:var(--text-soft)">"搜竞品资料"这类重复劳动交给 AI 自动处理，你专心做"要不要做这个产品"这种只有人能做的判断。</p>
-      </div>
-      <div class="value-item">
-        <h4>📊 每件事都有审计痕迹</h4>
-        <p style="font-size:14px;color:var(--text-soft)">AI 什么时候做了什么、花了多久、结果是什么，全部有日志。出问题可以回放。</p>
-      </div>
-      <div class="value-item">
-        <h4>💼 教学 + 商业资产</h4>
-        <p style="font-size:14px;color:var(--text-soft)">这一整套架构和踩坑经验就是 AI 架构师的第一个 case study——给客户讲"自动化该怎么搭"，这就是活教材。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section>
-    <h2>❓ 小白常问</h2>
-
-    <details>
-      <summary>它会不会偷偷做我不想做的事？</summary>
-      <p>不会。AI 的行为规则（业务逻辑层）限定了它只看"任务看板里被明确标记为给我的任务"。你没写进看板的事，它看不见也不会做。</p>
-    </details>
-
-    <details>
-      <summary>我不在电脑前的时候它怎么继续跑？</summary>
-      <p>因为它不依赖任何"打开的窗口"。它是作为一个后台服务运行的（macOS 叫 launchd agent），就像你手机上的 App 后台推送一样——你锁屏了通知还是会弹。</p>
-    </details>
-
-    <details>
-      <summary>它要钱吗？</summary>
-      <p>本身不要钱，但每次调用 AI 会消耗你的 Claude 订阅额度。因为是"事件驱动"的，只在你真正改了清单时才跑——不会无谓浪费。</p>
-    </details>
-
-    <details>
-      <summary>我想关掉它怎么办？</summary>
-      <p>一条命令：<code>bash automation/bin/uninstall.sh</code>。所有自动化服务停止，系统恢复原样。日志文件保留在本地，没有上传到任何地方。</p>
-    </details>
-
-    <details>
-      <summary>其他人能看我的数据吗？</summary>
-      <p>不能。所有东西都在你的 Mac 本地。只有 AI 本身的请求会发到 Anthropic 服务器（就跟你用 ChatGPT 一样）。文件、日志、任务本身从不离开你的电脑。</p>
-    </details>
-
-    <details>
-      <summary>我能改它的行为吗？</summary>
-      <p>可以。比如想改"每小时兜底一次"为"每 15 分钟"，就改 launchd 配置文件的一个数字；想加新的任务类型，就在 skill 里加一条规则。每层都是独立的，改一层不影响其他层。</p>
-    </details>
-  </section>
-
-  <footer>
-    <p>思瑶 AI 架构师 · Case Study 01 · 2026-04-20</p>
-    <p style="margin-top:4px;font-size:12px">这份文档本身就是系统的产物——<strong>用自己的系统，做自己的商品</strong>。</p>
-  </footer>
-
+<div class="hero">
+  <div class="container">
+    <div class="label">Agent Orchestration · System Design</div>
+    <h1>Task Router Agent<br>A State-Machine Orchestration Layer on a Markdown File</h1>
+    <p class="subtitle">I designed an LLM-powered task orchestration runtime that routes, executes, and self-heals autonomously. A single Markdown file becomes the agent control plane. The system runs asynchronously from any active session — edit the file, the work happens in the background. Below is how the architecture was designed, the trade-offs I made, the measurable results, and the emergent behavior I didn&rsquo;t program for.</p>
+  </div>
 </div>
 
-<script>
-  // --- Layer expand ---
-  function toggleLayer(el) {
-    el.classList.toggle('expanded');
-  }
+<div class="container">
 
-  // --- Flow demo animation ---
-  const flowSteps = document.querySelectorAll('.flow-step');
-  const flowLog = document.getElementById('flowLog');
-  const flowBtn = document.getElementById('flowBtn');
+<!-- ===== PART 1 ===== -->
+<section>
+  <div class="part-label">Part 1</div>
+  <h2>The Problem</h2>
+  <p><strong>Context</strong>: Running four concurrent projects (content production, consulting delivery, portfolio development, coursework) as a solo operator. Task state lived in scattered tools; re-entering context after every session break cost 15&ndash;30 minutes of warm-up before any real work.</p>
+  <p><strong>Product constraint</strong>: I wanted a task system where I could <strong>add work at any time</strong>, and tasks assigned to automation would <strong>process themselves</strong> without requiring me to be at the machine. Close the laptop, come back hours later, find work done.</p>
+  <p><strong>Why this matters for agent design</strong>: Most "AI assistants" stop when the chat window closes. They&rsquo;re attached to a session, not to the work. Building an agent runtime that&rsquo;s <em>independent of session lifecycle</em> is a fundamentally different design problem &mdash; and the core shift required for agents to act as infrastructure rather than as tools.</p>
+  <div class="takeaway">
+    <p>The design question: Can a single plain-text file, paired with a state-machine protocol and an LLM decision layer, serve as a persistent agent runtime? If yes, the same pattern generalizes to any operational workflow &mdash; support triage, content pipelines, ops automation.</p>
+  </div>
+</section>
 
-  const messages = [
-    { step: 0, text: '[12:30:00] 你在 task-board.md 加了一个新任务：「调研 X 产品」', delay: 500 },
-    { step: 1, text: '[12:30:02] fswatch 检测到文件变化（2 秒 debounce 后）', delay: 1500 },
-    { step: 2, text: '[12:30:02] watcher.sh 触发 run-task-check.sh', delay: 800 },
-    { step: 3, text: '[12:30:03] 启动 Claude：claude -p "/task-check"', delay: 800 },
-    { step: 3, text: '[12:30:04] Claude 读取 task-board.md，找到你新加的任务', delay: 1000 },
-    { step: 3, text: '[12:30:05] Claude 开始执行调研...（搜索网页、阅读资料）', delay: 1500 },
-    { step: 3, text: '[12:30:25] Claude 完成调研，生成报告 research.md', delay: 2000 },
-    { step: 4, text: '[12:30:26] 更新 task-board.md：任务状态改为「完成 ✅」', delay: 800 },
-    { step: 4, text: '[12:30:26] 写入 events.jsonl：{"event":"completed","exit_code":0}', delay: 500 },
-    { step: 4, text: '[12:30:26] run-task-check.sh 退出，等待下一次触发', delay: 500 },
-    { step: 4, text: '✨ 全程 26 秒，你完全没开任何窗口', delay: 800 }
-  ];
+<hr class="divider">
 
-  function runFlow() {
-    flowBtn.disabled = true;
-    flowBtn.textContent = '运行中...';
-    flowLog.textContent = '';
-    flowSteps.forEach(s => s.classList.remove('active', 'done'));
+<!-- ===== PART 2 ===== -->
+<section>
+  <div class="part-label">Part 2</div>
+  <h2>System Architecture</h2>
 
-    let delay = 0;
-    messages.forEach((msg, i) => {
-      delay += msg.delay;
-      setTimeout(() => {
-        // Update active step
-        flowSteps.forEach(s => s.classList.remove('active'));
-        const stepEl = document.querySelector(`[data-step="${msg.step}"]`);
-        if (stepEl) stepEl.classList.add('active');
-        // Mark done steps
-        for (let j = 0; j <= msg.step; j++) {
-          if (j < msg.step) {
-            const el = document.querySelector(`[data-step="${j}"]`);
-            if (el) {
-              el.classList.remove('active');
-              el.classList.add('done');
-            }
-          }
-        }
-        // Append log
-        flowLog.textContent += msg.text + '\n';
-        flowLog.scrollTop = flowLog.scrollHeight;
-      }, delay);
-    });
+  <h4>Task Routing Flow</h4>
+  <div class="flow-box">
+    <div class="flow-step trigger"><strong>Trigger</strong> &middot; <code>task-board.md</code> edited (any source: me, another agent, a cron)</div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;<code>fswatch</code> · 2s debounce · <code>launchd</code> hourly fallback</div>
+    <div class="flow-step gate"><strong>Quiescence Gate</strong> &middot; 30-second idle required before processing (prevents mid-edit race conditions)</div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;Acquire file lock · <code>mkdir</code> atomic primitive</div>
+    <div class="flow-step llm"><strong>LLM Decision Layer</strong> &middot; Parse task-board state machine · classify each task: <code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code> / <code>failed:*</code></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-split">
+      <div class="ok"><strong>ready</strong> → parallel execution (up to 3 concurrent subagents)</div>
+      <div class="skip"><strong>blocked / done</strong> → skip without re-evaluation</div>
+      <div class="heal"><strong>running &gt; 30min</strong> → reset to ready (dead-lock recovery)</div>
+    </div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;Single-writer protocol · main agent consolidates state updates</div>
+    <div class="flow-step exec"><strong>State Update + Append-Only Log</strong> &middot; <code>task-board.md</code> writeback · <code>events.jsonl</code> structured log · <code>deadletter/</code> for terminal failures</div>
+  </div>
 
-    // Reset button
-    setTimeout(() => {
-      flowBtn.disabled = false;
-      flowBtn.textContent = '▶ 再放一次';
-      flowSteps.forEach(s => s.classList.remove('active'));
-      flowSteps.forEach(s => s.classList.add('done'));
-    }, delay + 500);
-  }
-</script>
+  <h4>Layer Breakdown</h4>
+  <div class="arch-diagram">
+    <div class="arch-row">
+      <span class="arch-layer">L5</span>
+      <span class="arch-name">Control Plane</span>
+      <span class="arch-impl">task-board.md</span>
+      <span class="arch-role">Markdown as UI &amp; source of truth</span>
+    </div>
+    <div class="arch-row">
+      <span class="arch-layer">L4</span>
+      <span class="arch-name">Scheduler</span>
+      <span class="arch-impl">fswatch + launchd</span>
+      <span class="arch-role">Event-driven + time-based fallback</span>
+    </div>
+    <div class="arch-row">
+      <span class="arch-layer">L3</span>
+      <span class="arch-name">Executor</span>
+      <span class="arch-impl">bash + claude -p</span>
+      <span class="arch-role">Stateless invocation · one-shot</span>
+    </div>
+    <div class="arch-row">
+      <span class="arch-layer">L2</span>
+      <span class="arch-name">Decision Layer</span>
+      <span class="arch-impl">task-check skill (LLM)</span>
+      <span class="arch-role">State-machine routing &amp; handoff</span>
+    </div>
+    <div class="arch-row">
+      <span class="arch-layer">L1</span>
+      <span class="arch-name">State &amp; Audit</span>
+      <span class="arch-impl">events.jsonl + deadletter/</span>
+      <span class="arch-role">Append-only log &amp; failure capture</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== PART 3 ===== -->
+<section>
+  <div class="part-label">Part 3</div>
+  <h2>Key Design Decisions</h2>
+  <p>Four deliberate trade-offs. Each with a specific alternative I rejected.</p>
+
+  <div class="decision-card">
+    <div class="decision-title">1. Markdown as the Control Plane, not Notion / Airtable / SQL</div>
+    <div class="decision-row"><span class="k">Rejected</span><span class="v">Structured databases (Notion, Airtable, Postgres). Schema-enforced, queryable, multi-user ready.</span></div>
+    <div class="decision-row"><span class="k">Chosen</span><span class="v">A single Markdown file with YAML-ish front-matter per task.</span></div>
+    <div class="decision-row"><span class="k">Reasoning</span><span class="v"><strong>Latency-to-edit &lt; 1 second</strong>, zero vendor dependency, git-versioned, human-readable without tooling, LLM-parseable without schema inference. The cost &mdash; no schema enforcement &mdash; is recoverable by the state-machine layer (see decision 2).</span></div>
+    <div class="decision-row"><span class="k">When to revisit</span><span class="v">If multi-operator concurrent editing becomes a hard requirement, or task volume exceeds ~500 entries where Markdown parsing becomes bottleneck.</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">2. Typed State Machine, not Natural-Language Status</div>
+    <div class="decision-row"><span class="k">Rejected</span><span class="v">Free-form status strings ("waiting for client", "in progress", "blocked on API").</span></div>
+    <div class="decision-row"><span class="k">Chosen</span><span class="v">Typed state tokens: <code>ready</code> / <code>blocked:siyao:send-brief</code> / <code>running:agent-a4b:2026-04-20T15:25Z</code> / <code>done</code> / <code>failed:exhausted_retries</code></span></div>
+    <div class="decision-row"><span class="k">Reasoning</span><span class="v">A typed state is a <strong>protocol</strong>, not a label. The LLM parsing it can reason about dependency chains, deadlock conditions, and timestamp validity &mdash; not just pattern-match strings. <strong>Biggest single impact on system intelligence</strong> (see Part 5).</span></div>
+    <div class="decision-row"><span class="k">Cost</span><span class="v">One-time migration of all existing tasks (13 cards) + discipline to maintain taxonomy. Small upfront, compounding downstream.</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">3. Single-Writer Concurrency, not Distributed Locks</div>
+    <div class="decision-row"><span class="k">Rejected</span><span class="v">Multi-agent concurrent writes to <code>task-board.md</code> with distributed locking (<code>flock</code>, file-append patterns, CRDT).</span></div>
+    <div class="decision-row"><span class="k">Chosen</span><span class="v">Strict single-writer protocol: <strong>only the main agent writes state</strong>. Subagents execute tasks in parallel and return structured results; main agent serializes state updates.</span></div>
+    <div class="decision-row"><span class="k">Reasoning</span><span class="v">Markdown files are not transactional. Concurrent writes cause lost updates, structural corruption, or unparseable states &mdash; cascading failures across the system. Single-writer limits parallelism bandwidth but eliminates an entire class of race-condition bugs at zero runtime cost.</span></div>
+    <div class="decision-row"><span class="k">Trade-off</span><span class="v">Execution parallelism is preserved (up to 3 concurrent subagents); state serialization becomes the coordination bottleneck only if task throughput exceeds ~1/sec sustained. Not a real constraint for this workload.</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">4. Quiescence Gate, not Simple Debounce</div>
+    <div class="decision-row"><span class="k">Rejected</span><span class="v">Fixed 2-second debounce on file watcher events.</span></div>
+    <div class="decision-row"><span class="k">Chosen</span><span class="v">Watcher debounce (2s) <em>plus</em> a quiescence gate: require <strong>30 seconds of file idle</strong> before the executor proceeds. Polls every 5s; resets if any change detected.</span></div>
+    <div class="decision-row"><span class="k">Reasoning</span><span class="v">A user mid-edit can trigger the watcher 5&ndash;10 times during one logical "save." Without quiescence, the executor races the user; state updates collide with in-progress edits. The 30s gate aligns automated processing with the user&rsquo;s natural pause rhythm.</span></div>
+    <div class="decision-row"><span class="k">Cost</span><span class="v">30-second latency floor on processing. Acceptable for asynchronous task flow; not appropriate for real-time chat agents.</span></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== PART 4 ===== -->
+<section>
+  <div class="part-label">Part 4</div>
+  <h2>Measurable Results</h2>
+  <p>Baseline tracking started 2026-04-20. Numbers reflect the first runtime week; some are estimated from initial runs with methodology noted.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-value">~2s</div>
+      <div class="metric-label">File-change detection</div>
+      <div class="metric-note">Measured from <code>events.jsonl</code> &mdash; time from save to <code>file_changed_triggered</code> event.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">30s</div>
+      <div class="metric-label">Pre-execution gate</div>
+      <div class="metric-note">Deliberate idle-requirement to prevent partial-edit execution.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">~30s</div>
+      <div class="metric-label">End-to-end task resolution</div>
+      <div class="metric-note">For deterministic tasks (state routing, status checks). Subagent tasks vary by workload.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">&lt;30min</div>
+      <div class="metric-label">Dead-lock recovery</div>
+      <div class="metric-note">Self-healing: stuck <code>running:*</code> states auto-reset. Zero manual intervention required.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">~$10-30</div>
+      <div class="metric-label">Monthly runtime cost</div>
+      <div class="metric-note">LLM API only. No separate hosting cost (runs on laptop via <code>launchd</code>).</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">100%</div>
+      <div class="metric-label">Critical-action approval rate</div>
+      <div class="metric-note">All destructive / irreversible actions gated behind human-in-the-loop by design, not by bug.</div>
+    </div>
+  </div>
+
+  <h4>Efficiency Gains (Conservative Estimate)</h4>
+  <p>Before the system: manual task-list check &amp; routine research tasks consumed an estimated <strong>8&ndash;12 hours / week</strong>. After the system: routine tasks (competitive research, documentation drafting, market scans) are routed to parallel subagents without requiring real-time supervision.</p>
+  <p>Observed first-week output: <strong>5 substantive research / writing tasks completed without active supervision</strong> (representative examples: 260-line competitor analysis, 895-line architectural case study, 18-JD market scan, HR-perspective portfolio review).</p>
+  <p class="metric-note">Methodology: hours-saved estimates from self-reported pre-baseline. Accurate quantification begins week 2 (ongoing).</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===== PART 5 ===== -->
+<section>
+  <div class="part-label">Part 5</div>
+  <h2>Emergent Behavior (The Core Insight)</h2>
+
+  <p>I programmed the decision layer to do one thing: <strong>find tasks marked <code>ready</code> and execute them</strong>. Skip everything else.</p>
+
+  <p>On the first production run, it did something I didn&rsquo;t program it to do:</p>
+
+  <ul>
+    <li><strong>Caught a semantic inconsistency</strong> I had written: a task was marked <code>blocked:task:TASK-015</code>, but TASK-015 had status <code>done</code>. The skill flagged the dependency chain was broken, suggested promoting the task to <code>ready</code>, and asked whether that matched my intent.</li>
+    <li><strong>Identified scope ambiguity</strong> in a task I had marked <code>ready</code>: it compared the task&rsquo;s <code>Measure</code> field against available inputs, noticed a required artifact (portfolio URL) was missing, and refused to execute &mdash; deferring to me for clarification.</li>
+    <li><strong>Detected a timezone bug</strong> in a status timestamp I&rsquo;d written manually: <code>running:claude-a:2026-04-20T15:25Z</code> was local time mislabeled as UTC. The skill computed that this timestamp was 2 hours in the future relative to <code>now</code>, flagged it as an anomaly, and asked for clarification.</li>
+  </ul>
+
+  <p>None of these behaviors were in the prompt. They emerged from the state-machine design.</p>
+
+  <div class="takeaway">
+    <p>Same LLM. Same task-board. Different agent behavior, depending on whether status is a <em>label</em> or a <em>protocol</em>. A natural-language status field ("waiting", "in progress") gives the model a token to match. A typed state with structured sub-fields gives the model a protocol to reason about. The takeaway I&rsquo;d package for a product team: <strong>structured state is what turns agents from execution bots into reasoning partners &mdash; not better prompts</strong>.</p>
+  </div>
+
+  <p>This has implications for how agent systems should be designed. Most teams iterate on prompts when agent behavior is inadequate. The higher-leverage move is often to change the <em>type system</em> that the agent operates within.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ===== PART 6 ===== -->
+<section>
+  <div class="part-label">Part 6</div>
+  <h2>Generalization &amp; Next Steps</h2>
+
+  <h4>Pattern Transfer</h4>
+  <p>The architecture is deliberately not task-automation-specific. The same five-layer pattern (control-plane file + event-driven scheduler + stateless executor + typed state machine + append-only audit log) maps cleanly to several production workflows I&rsquo;ve analyzed in my consulting engagement:</p>
+
+  <table>
+    <tr><th>Workflow</th><th>Control Plane</th><th>Decision Layer Task</th></tr>
+    <tr><td>Support ticket triage</td><td>Helpdesk ticket queue</td><td>Classify + draft reply + flag for review</td></tr>
+    <tr><td>Pre-order management</td><td>Supplier ETA tracker</td><td>Detect delta + generate customer notices</td></tr>
+    <tr><td>Product creation from supplier data</td><td>Inbound spreadsheet queue</td><td>Extract fields + normalize + push to draft</td></tr>
+    <tr><td>Collection-buying intake</td><td>Inbound inquiry log</td><td>Extract + score + draft follow-up</td></tr>
+  </table>
+
+  <p>The same state-machine discipline (<code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code>) applies to all of them. The only workflow-specific component is the prompt template in the decision layer. Infrastructure is shared.</p>
+
+  <h4>Planned Evolution</h4>
+  <ul>
+    <li><strong>Observability surface</strong>: local HTML dashboard served via <code>launchd</code> showing task throughput, error rates, and latency distribution over time.</li>
+    <li><strong>Prompt version control</strong>: decision-layer prompts moved to a separate git repository with semantic versioning &amp; regression tests against a captured input corpus.</li>
+    <li><strong>Multi-agent handoff protocol</strong>: standardized result schema so subagents can chain without main-agent mediation when tasks are independent.</li>
+    <li><strong>State persistence upgrade</strong>: SQLite alongside Markdown if cross-workflow querying becomes a recurring need (Markdown remains the human UI).</li>
+  </ul>
+
+  <h4>What I&rsquo;d Do Differently</h4>
+  <ul>
+    <li><strong>Instrument metrics from day one</strong>, not day seven. Even rough counters in <code>events.jsonl</code> are worth more than precise metrics added later &mdash; retroactive measurement forces estimation.</li>
+    <li><strong>Document the state machine before coding it</strong>. I migrated from natural-language status to typed states <em>after</em> running into parsing ambiguities. The right order was: state machine on paper → skill design → code. I did it reversed.</li>
+  </ul>
+
+  <div class="takeaway">
+    <p>Building this system taught me one thing I can take to any agent product: <strong>the state machine is the product</strong>. Prompts, subagents, scheduling layers &mdash; all replaceable. The state contract between human intent and agent action is what persists, scales, and determines whether the system can reason or only execute.</p>
+  </div>
+</section>
+
+<section style="margin-bottom: 5rem;">
+  <hr class="divider">
+  <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
+    <strong>Siyao Zhang</strong> &middot; Available from September 2026, Beijing &middot;
+    <a href="index.html#contact" style="color: var(--accent-slate); font-weight: 600;">Contact</a>
+  </p>
+</section>
+
+</div>
 
 </body>
 </html>

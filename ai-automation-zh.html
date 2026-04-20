@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Router Agent — 张思瑶</title>
+<meta name="description" content="基于状态机的 Agent 编排运行时。张思瑶设计——以 Markdown 为控制平面的 LLM 任务路由系统，具备自愈、死信队列和人工审核节点。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF6F1; --cream-dark: #F0EAE0; --warm-white: #FFFDF9;
+  --text-primary: #2C2825; --text-secondary: #6B6360; --text-light: #9B9592;
+  --accent-terracotta: #C4735B; --accent-terracotta-light: #D4917D;
+  --accent-sage: #8FA88A; --accent-sage-light: #B5CBB0;
+  --accent-gold: #C9A96E; --accent-gold-light: #DFC99E;
+  --accent-slate: #7A8B9A; --accent-slate-light: #A0AFBC;
+  --border: #E5DDD5;
+  --radius-sm: 8px; --radius-md: 14px;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'Source Sans 3', -apple-system, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Courier New', monospace;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-sans); color: var(--text-primary); background: var(--cream); line-height: 1.7; }
+a { color: var(--accent-slate); text-decoration: none; }
+a:hover { color: var(--text-primary); }
+.container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+.back-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,246,241,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; }
+.back-nav .inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.back-nav a.back-link { font-size: 0.85rem; font-weight: 500; color: var(--text-primary); }
+.hero { padding: 7rem 0 2rem; text-align: center; }
+.hero .label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 1rem; }
+.hero h1 { font-family: var(--font-serif); font-size: 2.4rem; line-height: 1.2; margin-bottom: 1.2rem; }
+.hero .subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto; line-height: 1.8; }
+section { margin-bottom: 2.5rem; }
+.part-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 0.5rem; }
+h2 { font-family: var(--font-serif); font-size: 1.7rem; margin-bottom: 1rem; }
+h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; margin-top: 1.5rem; }
+h4 { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-slate); margin-bottom: 0.5rem; margin-top: 2rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+p, li { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 0.5rem; }
+strong { color: var(--text-primary); }
+ul { list-style: none; padding: 0; }
+li { padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; }
+li::before { content: ''; position: absolute; left: 0; top: 0.65rem; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-slate); }
+code { font-family: var(--font-mono); font-size: 0.85em; color: var(--accent-terracotta); background: rgba(196,115,91,0.06); padding: 0.1em 0.35em; border-radius: 3px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+th { text-align: left; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); padding: 0.5rem 0.8rem; border-bottom: 2px solid var(--border); }
+td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.takeaway { background: rgba(122,139,154,0.06); border-left: 3px solid var(--accent-slate); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.takeaway p { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; margin: 0; }
+.arch-diagram { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.6rem 1.4rem; margin: 1.5rem 0; }
+.arch-row { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px dashed var(--border); }
+.arch-row:last-child { border-bottom: none; }
+.arch-layer { font-family: var(--font-serif); font-size: 1.05rem; color: var(--accent-slate); min-width: 48px; }
+.arch-name { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; min-width: 160px; }
+.arch-impl { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); flex: 1; }
+.arch-role { font-size: 0.75rem; color: var(--text-light); min-width: 200px; text-align: right; }
+.flow-box { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin: 1.2rem 0; font-size: 0.85rem; }
+.flow-step { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 0.8rem; border-radius: 6px; margin-bottom: 0.35rem; }
+.flow-step.trigger { background: rgba(143,168,138,0.08); border-left: 3px solid var(--accent-sage); }
+.flow-step.gate { background: rgba(201,169,110,0.08); border-left: 3px solid var(--accent-gold); }
+.flow-step.llm { background: rgba(122,139,154,0.1); border-left: 3px solid var(--accent-slate); }
+.flow-step.exec { background: rgba(196,115,91,0.06); border-left: 3px solid var(--accent-terracotta); }
+.flow-arrow { color: var(--text-light); padding-left: 1.2rem; font-size: 0.7rem; line-height: 1; margin: 0.1rem 0; }
+.flow-split { display: flex; gap: 0.5rem; margin: 0.4rem 0; }
+.flow-split > div { flex: 1; padding: 0.5rem 0.7rem; border-radius: 6px; font-size: 0.78rem; text-align: center; }
+.flow-split .ok { background: rgba(143,168,138,0.08); border: 1px solid rgba(143,168,138,0.25); }
+.flow-split .skip { background: rgba(155,149,146,0.08); border: 1px dashed rgba(155,149,146,0.3); color: var(--text-light); }
+.flow-split .heal { background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.3); }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+.metric-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.1rem; }
+.metric-value { font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent-slate); line-height: 1.1; margin-bottom: 0.3rem; }
+.metric-label { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.metric-note { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.4rem; line-height: 1.4; }
+.decision-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem 1.4rem; margin: 0.8rem 0; }
+.decision-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.6rem; }
+.decision-row { display: grid; grid-template-columns: 100px 1fr; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.85rem; }
+.decision-row .k { color: var(--text-light); font-size: 0.72rem; letter-spacing: 0.05em; font-weight: 600; padding-top: 0.1rem; }
+.decision-row .v { color: var(--text-secondary); }
+.decision-row .v strong { color: var(--text-primary); }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.8rem; }
+  .arch-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  .arch-role { text-align: left; }
+  .decision-row { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="back-nav"><div class="inner"><a class="back-link" href="zh.html">&larr; 返回主页</a><div style="display:flex;align-items:center;gap:0.25rem;background:var(--warm-white);border:1px solid var(--border);border-radius:6px;padding:0.2rem;"><a href="ai-automation.html" style="font-size:0.72rem;font-weight:500;padding:0.2rem 0.5rem;border-radius:4px;color:var(--text-light);">EN</a><a href="ai-automation-zh.html" style="font-size:0.72rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:4px;background:var(--accent-slate);color:var(--warm-white);">中</a><a href="ai-automation-fr.html" style="font-size:0.72rem;font-weight:500;padding:0.2rem 0.5rem;border-radius:4px;color:var(--text-light);">FR</a></div></div></div>
+
+<div class="hero">
+  <div class="container">
+    <div class="label">Agent 编排 · 系统设计</div>
+    <h1>Task Router Agent<br>基于 Markdown 的状态机编排层</h1>
+    <p class="subtitle">我设计了一套基于 LLM 的任务编排运行时——路由、执行、自愈全部自动完成。一个 Markdown 文件成为 Agent 的控制平面。整套系统独立于任何活跃会话运行——编辑文件，工作就在后台发生。本文讲述：这个架构是怎么设计的，我做了哪些取舍，实际数据如何，以及一个我没编程但系统自发出现的关键行为。</p>
+  </div>
+</div>
+
+<div class="container">
+
+<section>
+  <div class="part-label">第一部分</div>
+  <h2>问题</h2>
+  <p><strong>背景</strong>：我作为 solo 运营者同时推进 4 个项目（内容生产、咨询交付、作品集搭建、学业）。任务状态散落在不同工具里；每次切换上下文都要花 15&ndash;30 分钟"回血"才能真正开始工作。</p>
+  <p><strong>产品约束</strong>：我要一个任务系统，能让我<strong>随时加任务</strong>，而分配给自动化的任务能<strong>自己执行完</strong>——不需要我守在电脑前。合上笔记本，几小时后回来，发现任务已经做完。</p>
+  <p><strong>为什么这是 Agent 设计的关键</strong>：大多数"AI 助手"关上聊天窗口就停下。它们绑定的是 session，不是工作本身。构建一个<em>独立于会话生命周期</em>的 Agent 运行时，是一个根本不同的设计问题——也是 Agent 从"工具"变成"基础设施"必须做的转变。</p>
+  <div class="takeaway">
+    <p>核心设计问题：一个纯文本文件，加一套状态机协议，加一个 LLM 决策层，能不能作为一个持久化的 Agent 运行时？如果可以，这套模式就能泛化到任何运营工作流——客服 triage、内容流水线、业务自动化。</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="part-label">第二部分</div>
+  <h2>系统架构</h2>
+
+  <h4>Task Routing 流程</h4>
+  <div class="flow-box">
+    <div class="flow-step trigger"><strong>触发</strong> &middot; <code>task-board.md</code> 被编辑（任何来源：我、另一个 agent、cron）</div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;<code>fswatch</code> · 2 秒 debounce · <code>launchd</code> 每小时兜底</div>
+    <div class="flow-step gate"><strong>Quiescence Gate</strong> &middot; 30 秒文件空闲后才执行（防止编辑过程中的竞态条件）</div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;获取文件锁 · <code>mkdir</code> 原子操作</div>
+    <div class="flow-step llm"><strong>LLM 决策层</strong> &middot; 解析 task-board 状态机 · 对每个任务分类：<code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code> / <code>failed:*</code></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-split">
+      <div class="ok"><strong>ready</strong> → 并行执行（最多 3 个 subagent 同时跑）</div>
+      <div class="skip"><strong>blocked / done</strong> → 直接跳过，不重复判断</div>
+      <div class="heal"><strong>running &gt; 30min</strong> → 自动重置为 ready（死锁恢复）</div>
+    </div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;单写者协议 · 主 agent 统一写回状态</div>
+    <div class="flow-step exec"><strong>状态更新 + 只追加日志</strong> &middot; <code>task-board.md</code> 写回 · <code>events.jsonl</code> 结构化日志 · <code>deadletter/</code> 终态失败归档</div>
+  </div>
+
+  <h4>5 层架构</h4>
+  <div class="arch-diagram">
+    <div class="arch-row"><span class="arch-layer">L5</span><span class="arch-name">控制平面</span><span class="arch-impl">task-board.md</span><span class="arch-role">Markdown 作为 UI + 单一事实源</span></div>
+    <div class="arch-row"><span class="arch-layer">L4</span><span class="arch-name">调度层</span><span class="arch-impl">fswatch + launchd</span><span class="arch-role">事件驱动 + 定时兜底</span></div>
+    <div class="arch-row"><span class="arch-layer">L3</span><span class="arch-name">执行层</span><span class="arch-impl">bash + claude -p</span><span class="arch-role">无状态一次性调用</span></div>
+    <div class="arch-row"><span class="arch-layer">L2</span><span class="arch-name">决策层</span><span class="arch-impl">task-check skill (LLM)</span><span class="arch-role">状态机路由 + 任务交接</span></div>
+    <div class="arch-row"><span class="arch-layer">L1</span><span class="arch-name">状态与审计</span><span class="arch-impl">events.jsonl + deadletter/</span><span class="arch-role">只追加日志 + 失败捕获</span></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="part-label">第三部分</div>
+  <h2>关键设计决策</h2>
+  <p>4 个深思熟虑的取舍。每个都有我明确拒绝的替代方案。</p>
+
+  <div class="decision-card">
+    <div class="decision-title">1. 用 Markdown 做控制平面，不用 Notion / Airtable / SQL</div>
+    <div class="decision-row"><span class="k">拒绝</span><span class="v">结构化数据库（Notion、Airtable、Postgres）——schema 强制、可查询、天然支持多用户</span></div>
+    <div class="decision-row"><span class="k">选择</span><span class="v">一个 Markdown 文件 + 每个任务的 YAML 式元数据</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v"><strong>编辑延迟 &lt; 1 秒</strong>，零厂商依赖，git 可版本化，无工具即可读，LLM 无需 schema inference 即可解析。代价——缺 schema 约束——由状态机层（见决策 2）补足。</span></div>
+    <div class="decision-row"><span class="k">何时重审</span><span class="v">多人并发编辑成为硬需求，或任务量超 ~500 条 Markdown 解析变瓶颈时</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">2. 类型化状态机，不用自然语言 status</div>
+    <div class="decision-row"><span class="k">拒绝</span><span class="v">自由文本状态（"等客户回复"、"进行中"、"卡在 API"）</span></div>
+    <div class="decision-row"><span class="k">选择</span><span class="v">类型化状态 token：<code>ready</code> / <code>blocked:siyao:send-brief</code> / <code>running:agent-a4b:2026-04-20T15:25Z</code> / <code>done</code> / <code>failed:exhausted_retries</code></span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">类型化状态是<strong>协议</strong>，不是标签。LLM 解析它时能推理依赖链、死锁条件、时间戳合理性——不只是字符串 pattern match。<strong>对系统"智能度"的最大单点影响</strong>（见第五部分）。</span></div>
+    <div class="decision-row"><span class="k">代价</span><span class="v">一次性迁移所有现有任务（13 张卡）+ 维护 taxonomy 的纪律。前期成本小，后期复利</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">3. 单写者并发，不用分布式锁</div>
+    <div class="decision-row"><span class="k">拒绝</span><span class="v">多 agent 并发写 <code>task-board.md</code> + 分布式锁（<code>flock</code>、append 模式、CRDT）</span></div>
+    <div class="decision-row"><span class="k">选择</span><span class="v">严格单写者协议：<strong>只有主 agent 能写状态</strong>。Subagent 并行执行任务 + 返回结构化结果；主 agent 串行化所有状态更新</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">Markdown 文件不是 transactional 的。并发写会丢失更新、结构损坏、或产生无法解析的状态——一套连锁故障。单写者限制了并行带宽，但以零运行时成本消除了一整类 race condition bug。</span></div>
+    <div class="decision-row"><span class="k">取舍</span><span class="v">执行并行性保留（最多 3 subagent 并行）；状态串行化只在任务吞吐量持续 &gt; 1/s 时成为瓶颈。这不是当前工作量的真实约束。</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">4. Quiescence Gate，不用简单 debounce</div>
+    <div class="decision-row"><span class="k">拒绝</span><span class="v">文件 watcher 固定 2 秒 debounce</span></div>
+    <div class="decision-row"><span class="k">选择</span><span class="v">Watcher debounce（2s）<em>叠加</em> quiescence gate：执行前必须有<strong>连续 30 秒文件空闲</strong>。每 5 秒轮询一次；任何改动即重置计时。</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">用户一次"保存"动作，编辑器可能触发 watcher 5-10 次。没有 quiescence 的话，执行器会和用户抢时间；状态更新会和还在进行的编辑撞车。30 秒 gate 让自动化处理和用户的自然停顿节奏对齐。</span></div>
+    <div class="decision-row"><span class="k">代价</span><span class="v">处理延迟最低 30 秒。对异步任务流可接受；不适合实时聊天 agent。</span></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="part-label">第四部分</div>
+  <h2>可量化结果</h2>
+  <p>基线追踪 2026-04-20 启动。数据来自首周运行；部分为初始数据估算，方法论已标注。</p>
+
+  <div class="metrics-grid">
+    <div class="metric-card"><div class="metric-value">~2s</div><div class="metric-label">文件变更检测</div><div class="metric-note">实测于 <code>events.jsonl</code>——从保存到 <code>file_changed_triggered</code> 事件</div></div>
+    <div class="metric-card"><div class="metric-value">30s</div><div class="metric-label">执行前静默期</div><div class="metric-note">刻意设置的空闲门槛，防止在编辑中途执行</div></div>
+    <div class="metric-card"><div class="metric-value">~30s</div><div class="metric-label">端到端任务处理</div><div class="metric-note">对确定性任务（状态路由、状态检查）；subagent 任务因工作量变化</div></div>
+    <div class="metric-card"><div class="metric-value">&lt;30min</div><div class="metric-label">死锁恢复</div><div class="metric-note">自愈：卡住的 <code>running:*</code> 状态自动重置。零手动介入。</div></div>
+    <div class="metric-card"><div class="metric-value">~$10-30</div><div class="metric-label">月运行成本</div><div class="metric-note">仅 LLM API。无额外托管成本（通过 <code>launchd</code> 在笔记本运行）</div></div>
+    <div class="metric-card"><div class="metric-value">100%</div><div class="metric-label">关键操作审批率</div><div class="metric-note">所有破坏性/不可逆操作都需人工审核——刻意设计，不是 bug</div></div>
+  </div>
+
+  <h4>效率提升（保守估算）</h4>
+  <p>系统前：手动查任务清单 + 常规研究任务约占<strong> 8&ndash;12 小时/周</strong>。系统后：常规任务（竞品调研、文档起草、市场扫描）被路由到并行 subagent，无需实时督促。</p>
+  <p>首周观察产出：<strong>5 项实质性研究/写作任务在无监督情况下完成</strong>（代表例：260 行竞品分析、895 行架构 case study、18 份 JD 市场扫描、HR 视角作品集评估）。</p>
+  <p class="metric-note">方法论：效率估算基于自报基线。精确量化从第 2 周开始（进行中）。</p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="part-label">第五部分</div>
+  <h2>Emergent Behavior · 核心洞察</h2>
+
+  <p>我给决策层的编程只有一件事：<strong>找 <code>ready</code> 状态的任务，执行它们</strong>。其他一律跳过。</p>
+
+  <p>首次生产运行时，它做了我没有编程的事：</p>
+
+  <ul>
+    <li><strong>捕捉到一个我自己写的语义不一致</strong>：一个任务标为 <code>blocked:task:TASK-015</code>，但 TASK-015 已经是 <code>done</code>。skill 标记"依赖链断了"，建议把它升为 <code>ready</code>，并问我这是否符合我的意图。</li>
+    <li><strong>识别了一个 scope 模糊</strong>：我标为 <code>ready</code> 的任务，skill 对比 <code>Measure</code> 字段和可用输入，注意到一个必须的产出物（portfolio URL）缺失，拒绝执行——等我澄清。</li>
+    <li><strong>发现了一个时区 bug</strong>：我手动写的 <code>running:claude-a:2026-04-20T15:25Z</code> 实际是本地时间被错标为 UTC。skill 计算出这个时间戳比 <code>now</code> 领先 2 小时，标为 anomaly 问我确认。</li>
+  </ul>
+
+  <p>这些行为都不在 prompt 里。它们从状态机设计中涌现出来。</p>
+
+  <div class="takeaway">
+    <p>同一个 LLM，同一个 task-board，agent 的行为完全不同——取决于 status 是<em>标签</em>还是<em>协议</em>。自然语言 status（"等待"、"进行中"）给模型一个 token 去匹配。类型化 status + 结构化子字段给模型一个协议去推理。我给产品团队打包的核心 takeaway：<strong>让 agent 从"执行机器"变成"推理搭档"的不是更好的 prompt，是结构化的状态</strong>。</p>
+  </div>
+
+  <p>这对 agent 系统设计有具体含义：大多数团队在 agent 行为不满意时会去迭代 prompt。更高杠杆的动作往往是改变 agent 运作所在的<em>类型系统</em>。</p>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="part-label">第六部分</div>
+  <h2>泛化与下一步</h2>
+
+  <h4>模式迁移</h4>
+  <p>这套架构不是任务自动化专用的。同样的 5 层模式（控制平面文件 + 事件驱动调度 + 无状态执行器 + 类型化状态机 + 只追加审计日志）可以直接对应到我在咨询项目里分析过的几种生产工作流：</p>
+
+  <table>
+    <tr><th>工作流</th><th>控制平面</th><th>决策层任务</th></tr>
+    <tr><td>客服工单分流</td><td>Helpdesk ticket 队列</td><td>分类 + 起草回复 + 标记待审核</td></tr>
+    <tr><td>预售订单管理</td><td>供应商 ETA 追踪表</td><td>识别变动 + 生成客户通知</td></tr>
+    <tr><td>供应商数据产品创建</td><td>接收表格队列</td><td>字段抽取 + 标准化 + 写入草稿</td></tr>
+    <tr><td>Collection-buying 收品</td><td>咨询邮件日志</td><td>抽取 + 评分 + 起草跟进</td></tr>
+  </table>
+
+  <p>同一套状态机规范（<code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code>）适用所有。workflow-specific 的只有决策层的 prompt 模板。基础设施共享。</p>
+
+  <h4>规划演进</h4>
+  <ul>
+    <li><strong>Observability 界面</strong>：通过 <code>launchd</code> 提供本地 HTML dashboard，展示任务吞吐量、错误率、延迟分布随时间的变化</li>
+    <li><strong>Prompt 版本控制</strong>：决策层 prompt 独立进 git 仓库 + 语义化版本 + 基于捕获输入语料的 regression 测试</li>
+    <li><strong>多 agent 交接协议</strong>：标准化结果 schema，让任务独立时 subagent 可以互相 chain 而不经主 agent 中转</li>
+    <li><strong>状态持久化升级</strong>：如果跨工作流查询成为反复需求，在 Markdown 旁边加 SQLite（Markdown 仍作人类 UI）</li>
+  </ul>
+
+  <h4>下次我会怎么做</h4>
+  <ul>
+    <li><strong>第一天就 instrument metrics</strong>，不要拖到第七天。<code>events.jsonl</code> 里哪怕是粗糙的 counter，都比事后加的精确 metric 值钱——追溯测量永远是估算</li>
+    <li><strong>先在纸上画状态机，再写代码</strong>。我是在运行中遇到解析歧义才从自然语言状态迁移到类型化状态。正确顺序是：纸上状态机 → skill 设计 → 代码实现。我做反了。</li>
+  </ul>
+
+  <div class="takeaway">
+    <p>搭这个系统让我带走一条可以用在任何 agent 产品上的经验：<strong>状态机才是产品</strong>。Prompt、subagent、调度层——都是可替代的。人类意图和 agent 行动之间的状态契约，才是那个会持久化、会规模化、决定"系统能推理还是只能执行"的东西。</p>
+  </div>
+</section>
+
+<section style="margin-bottom: 5rem;">
+  <hr class="divider">
+  <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
+    <strong>张思瑶</strong> &middot; 2026 年 9 月起可入职，北京 &middot;
+    <a href="zh.html#contact" style="color: var(--accent-slate); font-weight: 600;">联系方式</a>
+  </p>
+</section>
+
+</div>
+</body>
+</html>
