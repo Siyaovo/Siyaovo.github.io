@@ -108,7 +108,7 @@ tr:last-child td { border-bottom: none; }
 <section>
   <div class="part-label">Partie 1</div>
   <h2>Le Problème</h2>
-  <p><strong>Contexte</strong> : je pilote quatre projets simultanés (production de contenu, livraison conseil, portfolio, études) en opérateur solo. L&rsquo;état des tâches était éparpillé entre différents outils ; reprendre le contexte après chaque interruption coûtait 15 à 30 minutes de « remise en route » avant tout vrai travail.</p>
+  <p><strong>Contexte</strong> : je pilote quatre chantiers simultanés (production de contenu, brief de revue d&rsquo;architecture pour un premier client, portfolio, études) en opérateur solo. L&rsquo;état des tâches était éparpillé entre différents outils ; reprendre le contexte après chaque interruption coûtait 15 à 30 minutes de « remise en route » avant tout vrai travail.</p>
   <p><strong>Contrainte produit</strong> : je voulais un système de tâches où je pouvais <strong>ajouter du travail à tout moment</strong>, et les tâches assignées à l&rsquo;automatisation <strong>s&rsquo;exécuteraient elles-mêmes</strong> sans nécessiter ma présence à la machine. Fermer l&rsquo;ordinateur, revenir quelques heures plus tard, et trouver le travail fait.</p>
   <p><strong>Pourquoi cela compte en conception d&rsquo;agents</strong> : la plupart des « assistants IA » s&rsquo;arrêtent quand la fenêtre de chat se ferme. Ils sont attachés à une session, pas au travail. Construire un runtime d&rsquo;agent <em>indépendant du cycle de vie de la session</em> est un problème de conception fondamentalement différent — et le basculement nécessaire pour que les agents agissent comme de l&rsquo;infrastructure plutôt que comme des outils.</p>
   <div class="takeaway">
@@ -243,7 +243,7 @@ tr:last-child td { border-bottom: none; }
   <h2>Généralisation &amp; Prochaines Étapes</h2>
 
   <h4>Transfert du Pattern</h4>
-  <p>L&rsquo;architecture n&rsquo;est volontairement pas spécifique à l&rsquo;automatisation de tâches. Le même pattern à 5 couches (fichier plan de contrôle + ordonnanceur événementiel + exécuteur sans état + machine à états typée + journal d&rsquo;audit append-only) se mappe directement à plusieurs workflows de production que j&rsquo;ai analysés dans ma mission de conseil :</p>
+  <p>L&rsquo;architecture n&rsquo;est volontairement pas spécifique à l&rsquo;automatisation de tâches. Le même pattern à 5 couches (fichier plan de contrôle + ordonnanceur événementiel + exécuteur sans état + machine à états typée + journal d&rsquo;audit append-only) se mappe directement à plusieurs catégories de workflows listées dans un brief client en cours (opérateur Shopify) dont je réalise la revue d&rsquo;architecture :</p>
 
   <table>
     <tr><th>Workflow</th><th>Plan de contrôle</th><th>Tâche de la couche décision</th></tr>

@@ -125,7 +125,7 @@ tr:last-child td { border-bottom: none; }
 <section>
   <div class="part-label">Part 1</div>
   <h2>The Problem</h2>
-  <p><strong>Context</strong>: Running four concurrent projects (content production, consulting delivery, portfolio development, coursework) as a solo operator. Task state lived in scattered tools; re-entering context after every session break cost 15&ndash;30 minutes of warm-up before any real work.</p>
+  <p><strong>Context</strong>: Running four concurrent tracks (content production, a first client architecture-review brief, portfolio development, coursework) as a solo operator. Task state lived in scattered tools; re-entering context after every session break cost 15&ndash;30 minutes of warm-up before any real work.</p>
   <p><strong>Product constraint</strong>: I wanted a task system where I could <strong>add work at any time</strong>, and tasks assigned to automation would <strong>process themselves</strong> without requiring me to be at the machine. Close the laptop, come back hours later, find work done.</p>
   <p><strong>Why this matters for agent design</strong>: Most "AI assistants" stop when the chat window closes. They&rsquo;re attached to a session, not to the work. Building an agent runtime that&rsquo;s <em>independent of session lifecycle</em> is a fundamentally different design problem &mdash; and the core shift required for agents to act as infrastructure rather than as tools.</p>
   <div class="takeaway">
@@ -314,7 +314,7 @@ tr:last-child td { border-bottom: none; }
   <h2>Generalization &amp; Next Steps</h2>
 
   <h4>Pattern Transfer</h4>
-  <p>The architecture is deliberately not task-automation-specific. The same five-layer pattern (control-plane file + event-driven scheduler + stateless executor + typed state machine + append-only audit log) maps cleanly to several production workflows I&rsquo;ve analyzed in my consulting engagement:</p>
+  <p>The architecture is deliberately not task-automation-specific. The same five-layer pattern (control-plane file + event-driven scheduler + stateless executor + typed state machine + append-only audit log) maps cleanly to several workflow categories listed in a current client brief (Shopify operator) I&rsquo;m scoping for architecture review:</p>
 
   <table>
     <tr><th>Workflow</th><th>Control Plane</th><th>Decision Layer Task</th></tr>
