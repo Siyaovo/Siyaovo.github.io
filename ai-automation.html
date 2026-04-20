@@ -353,6 +353,100 @@ tr:last-child td { border-bottom: none; }
   </div>
 </section>
 
+<hr class="divider">
+
+<!-- ===== PART 7 ===== -->
+<section>
+  <div class="part-label">Part 7</div>
+  <h2>Positioning vs. Existing Agent Platforms</h2>
+
+  <p>This runtime is not a replacement for Coze, Dify, or n8n. It sits in a different slot. The comparison below is about <em>where each platform wins</em>, not which is better &mdash; the honest answer to "which should I use" depends almost entirely on who operates it.</p>
+
+  <table>
+    <tr>
+      <th>Dimension</th>
+      <th>Coze (ByteDance)</th>
+      <th>Dify (OSS)</th>
+      <th>n8n (OSS)</th>
+      <th>This Runtime</th>
+    </tr>
+    <tr>
+      <td><strong>Control plane</strong></td>
+      <td>Visual canvas (web UI)</td>
+      <td>Visual canvas (web UI)</td>
+      <td>Node graph (web UI)</td>
+      <td>Single Markdown file</td>
+    </tr>
+    <tr>
+      <td><strong>Who edits the workflow</strong></td>
+      <td>Non-technical PM via drag &amp; drop</td>
+      <td>Technical PM / full-stack dev</td>
+      <td>Ops engineer</td>
+      <td>Anyone who edits text files</td>
+    </tr>
+    <tr>
+      <td><strong>Typed state machine</strong></td>
+      <td>Implicit (workflow graph)</td>
+      <td>Implicit (workflow graph)</td>
+      <td>Implicit (node states)</td>
+      <td><strong>Explicit protocol</strong> — <code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>failed:*</code></td>
+    </tr>
+    <tr>
+      <td><strong>Session dependence</strong></td>
+      <td>Cloud-hosted · session-independent</td>
+      <td>Self-hosted · session-independent</td>
+      <td>Self-hosted · session-independent</td>
+      <td>Local · session-independent via <code>launchd</code> + <code>fswatch</code></td>
+    </tr>
+    <tr>
+      <td><strong>Deployment</strong></td>
+      <td>Cloud SaaS (vendor)</td>
+      <td>Docker / k8s</td>
+      <td>Docker / npm / cloud</td>
+      <td>A shell script + <code>brew install fswatch</code></td>
+    </tr>
+    <tr>
+      <td><strong>LLM coupling</strong></td>
+      <td>Tight (ByteDance models favoured)</td>
+      <td>Loose (BYO model, adapter layer)</td>
+      <td>Loose (AI nodes optional)</td>
+      <td>Loose (Claude CLI; swap to any CLI-exposed model)</td>
+    </tr>
+    <tr>
+      <td><strong>Version control</strong></td>
+      <td>Vendor-internal snapshots</td>
+      <td>Export JSON / git on exports</td>
+      <td>Export JSON / git on exports</td>
+      <td>Git-native (Markdown is the source)</td>
+    </tr>
+    <tr>
+      <td><strong>Best-fit scenario</strong></td>
+      <td>Cross-functional teams shipping user-facing AI agents fast, inside the ByteDance ecosystem</td>
+      <td>Teams building their own AI product, need RAG + agent + dataset management in one platform</td>
+      <td>Ops / growth teams stitching SaaS tools together, AI as one node among many</td>
+      <td>Solo operators / small teams whose workflow state is already text; needs to be git-tracked, terminal-native, zero vendor lock-in</td>
+    </tr>
+  </table>
+
+  <h4>Where this runtime loses</h4>
+  <ul>
+    <li><strong>Onboarding for non-technical users</strong>. Coze / n8n let a PM draft a workflow without touching the CLI. This runtime assumes the user is comfortable editing Markdown and running <code>launchd</code>. That's a feature for the target audience and a wall for everyone else.</li>
+    <li><strong>Multi-user concurrent editing</strong>. Single-writer protocol is correct for one operator; it's the wrong shape for a team of four editing the same queue. Coze / Dify handle that natively; I'd migrate to SQLite-backed state before pretending Markdown scales there.</li>
+    <li><strong>Pre-built integrations</strong>. n8n ships ~400 node types. This runtime ships one (<code>claude -p</code>). Every additional integration is a shell script I haven't written yet.</li>
+  </ul>
+
+  <h4>Where this runtime wins</h4>
+  <ul>
+    <li><strong>Latency-to-edit</strong>. Modifying the workflow takes exactly as long as editing a Markdown line. No form submission, no canvas drag, no save-propagate cycle.</li>
+    <li><strong>Zero vendor risk</strong>. The control plane is a text file in a git repo. If this project stopped tomorrow, the file would still route correctly the next day under any compatible LLM CLI.</li>
+    <li><strong>Typed state as first-class</strong>. Status is a protocol the LLM reasons about, not a label the LLM matches &mdash; this is what produced the emergent behaviour documented in Part 5. Coze / Dify / n8n have internal state machines, but they aren't legible to the LLM at routing time.</li>
+  </ul>
+
+  <div class="takeaway">
+    <p>Positioning statement: if your workflow state is already text, and you want a git-native agent runtime with a typed state machine the LLM can reason about, this fits. If your operators don't want a CLI anywhere near them, use Coze. If you need RAG + dataset + agent in one hosted platform, use Dify. If your AI step is one of forty workflow nodes, use n8n. These are complementary, not competing.</p>
+  </div>
+</section>
+
 <section style="margin-bottom: 5rem;">
   <hr class="divider">
   <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
