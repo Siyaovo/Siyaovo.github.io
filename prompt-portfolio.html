@@ -239,6 +239,49 @@ footer { text-align: center; padding: 3rem 0; font-size: 0.82rem; color: var(--t
   </div>
   <p style="font-size: 0.82rem; color: var(--text-light); margin: 0.3rem 0 0;">7 agents, 3 connection types. Solid arrows = sequential handoff; gold/sage arrows = feedback loop through <code>methodology.md</code>; dashed slate lines = Quality Check called in parallel from any generator. The feedback loop is the reason the filter gets stricter over time &mdash; not better prompts.</p>
 
+  <h3 style="margin-top: 2.5rem;">Methodology Evolution — What the Feedback Loop Actually Changes</h3>
+  <p>The claim "the system learns" is only meaningful if the structure of decisions changes over time. Below is the <code>methodology.md</code> file before and after three publish-and-review cycles &mdash; same structural shape, but the <strong>Banned Set</strong> (what the Topic Filter rejects) is grown by the Data Review agent, not by me editing the prompt.</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.2rem 0; font-size: 0.85rem;">
+    <div style="background: var(--warm-white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.1rem;">
+      <div style="font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.5rem;">Before — v1 baseline</div>
+      <div style="font-family: 'SF Mono', monospace; font-size: 0.78rem; line-height: 1.75; color: var(--text-secondary);">
+        <div style="color: var(--text-primary); font-weight: 600;"># methodology.md</div>
+        <div>&nbsp;</div>
+        <div>## Banned Set</div>
+        <div style="color: var(--text-light);">(empty — no data yet)</div>
+        <div>&nbsp;</div>
+        <div>## Validated formats</div>
+        <div style="color: var(--text-light);">(empty — no data yet)</div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.7rem; line-height: 1.5;">Filter approves anything that passes the structural sieves. No data to override intuition with.</p>
+    </div>
+
+    <div style="background: var(--warm-white); border: 1px solid var(--accent-terracotta); border-radius: var(--radius-sm); padding: 1rem 1.1rem;">
+      <div style="font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-terracotta); margin-bottom: 0.5rem;">After — v3 (post 12 publishes)</div>
+      <div style="font-family: 'SF Mono', monospace; font-size: 0.78rem; line-height: 1.75; color: var(--text-secondary);">
+        <div style="color: var(--text-primary); font-weight: 600;"># methodology.md</div>
+        <div>&nbsp;</div>
+        <div>## Banned Set</div>
+        <div><span style="color: var(--accent-terracotta);">+</span> Pure information transfer</div>
+        <div>&nbsp;&nbsp;&nbsp;(save&gt;like = utility mode)</div>
+        <div><span style="color: var(--accent-terracotta);">+</span> Tool install tutorials</div>
+        <div>&nbsp;&nbsp;&nbsp;(no pain, no audience)</div>
+        <div><span style="color: var(--accent-terracotta);">+</span> Lifestyle w/o AI frame</div>
+        <div>&nbsp;&nbsp;&nbsp;(dilutes positioning)</div>
+        <div>&nbsp;</div>
+        <div>## Validated formats</div>
+        <div><span style="color: var(--accent-sage);">+</span> Time-sensitive × test × frame</div>
+        <div><span style="color: var(--accent-sage);">+</span> Real pain × workflow × result</div>
+        <div><span style="color: var(--accent-sage);">+</span> Counter-intuitive answer</div>
+        <div><span style="color: var(--accent-sage);">+</span> Carousel · pain × research × fix</div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.7rem; line-height: 1.5;">Filter now rejects 3 entire content categories before generation begins. The list grew only from Data Review writebacks — the prompt in the Topic Filter agent is unchanged from v1.</p>
+    </div>
+  </div>
+
+  <div class="takeaway"><p>The prompt didn't get better. The file the prompt reads got more precise. This is the argument for structured state being the leverage point in multi-agent systems — more than prompt engineering, more than model upgrades.</p></div>
+
   <!-- Agent 1 -->
   <div class="agent-card" onclick="this.classList.toggle('open')">
     <div class="agent-header"><div class="agent-header-left"><span class="agent-tag">Agent 1</span><div class="agent-name">Router</div></div><span class="agent-chevron">&#9660;</span></div>
