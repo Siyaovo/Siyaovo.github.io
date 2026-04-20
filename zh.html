@@ -1145,6 +1145,52 @@ footer p {
     </div>
 
     <div class="project-grid">
+      <!-- Task Router Agent -->
+      <div class="project-card reveal" style="--card-accent: #7A8B9A;">
+        <a href="ai-automation-zh.html" class="project-visual" style="display: block; text-decoration: none;">
+          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem;">
+              <div style="width: 8px; height: 8px; border-radius: 50%; background: #7A8B9A;"></div>
+              <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.08em;">MARKDOWN = 控制平面</span>
+            </div>
+            <div style="font-family: 'SF Mono', monospace; font-size: 0.78rem; line-height: 1.8; color: var(--text-secondary);">
+              <div>file change &rarr; <span style="color: var(--accent-sage);">quiescence gate</span></div>
+              <div>&nbsp;&nbsp;&rarr; <span style="color: #7A8B9A;">LLM routing</span></div>
+              <div>&nbsp;&nbsp;&nbsp;&nbsp;&rarr; <span style="color: var(--accent-terracotta);">parallel exec</span></div>
+              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr; state writeback</div>
+              <div style="margin-top: 0.6rem; color: var(--text-light); font-size: 0.72rem;">死锁自愈 · 死信队列 · 2 次重试预算</div>
+            </div>
+          </div>
+        </a>
+        <div>
+          <div class="project-card-top">
+            <span class="project-type">Agent 编排 · 系统设计</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3>Task Router Agent — 一个 Markdown 文件上的状态机编排层</h3>
+          <p class="project-context">生产运行时 · 会话独立运行时 · 自愈状态机</p>
+          <p class="project-description">
+            设计了一套 LLM 驱动的任务编排层，自动路由、执行、自愈。一个 Markdown 文件即 agent 的控制平面；<code>fswatch</code> 监听编辑；一个状态机 skill 把 <code>ready</code> 任务通过单写者执行协议路由，避免 race condition。所有破坏性动作必须 human-in-the-loop 验证。
+          </p>
+          <div class="project-finding">
+            <strong>核心洞察：</strong>同一个 LLM、同一张任务看板，agent 行为完全不同——只因为状态是"标签"还是"协议"。从 <code>pending/done</code> 迁移到类型化状态（<code>ready</code> / <code>blocked:siyao:reply</code> / <code>running:agent-42:ts</code> / <code>failed:timeout</code>）之后，模型开始推理我没编程的东西——它开始捕捉我没写的语义矛盾。给产品团队的启示：<em>把 agent 从执行机器变成推理伙伴的，是结构化状态，不是更好的 prompt</em>。
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Agent 编排</span>
+            <span class="tech-tag">状态机</span>
+            <span class="tech-tag">事件驱动架构</span>
+            <span class="tech-tag">LLM Runtime 设计</span>
+            <span class="tech-tag">Markdown as UI</span>
+          </div>
+          <div class="project-actions">
+            <a href="ai-automation-zh.html" class="project-link">
+              阅读案例
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
         <a href="prompt-portfolio-zh.html" class="project-visual" style="display: block; text-decoration: none;">
@@ -1205,7 +1251,7 @@ footer p {
             <span class="project-year">2026</span>
           </div>
           <h3>AI 内容自动化流水线</h3>
-          <p class="project-context">个人项目</p>
+          <p class="project-context">上线产品 · 个人生产部署 · 基于反馈循环的自我更新方法论</p>
           <p class="project-description">
             一个全链路 AI agent 系统，自动化内容生产全流程：选题过滤（三层验证）、脚本生成、开头优化、标题生成、质量检查、发布后数据复盘与元分析。每个 agent 都是一个专门设计的 prompt 系统，具备结构化输入、诊断逻辑和反馈循环。
           </p>
@@ -1276,7 +1322,7 @@ footer p {
             <span class="project-year">2026</span>
           </div>
           <h3>Rooted (根) &mdash; 把一个汉字做成可穿越时间的对象</h3>
-          <p class="project-context">个人项目 &mdash; 独立设计并上线（V1 一个下午，V2 延伸一轮），与 Claude Code 协作完成</p>
+          <p class="project-context">实时原型 &middot; 产品论点验证 &middot; 交互优先的语言学习设计</p>
           <p class="project-description">
             一个交互原型 &mdash; 验证一个高度打磨的单点交互，能否比一长串功能更能承载产品主张。
           </p>
@@ -1298,22 +1344,6 @@ footer p {
         </div>
       </div>
 
-      <div class="project-card reveal" style="--card-accent: var(--accent-gold);">
-        <div class="project-card-top">
-          <span class="project-type">AI 咨询 · 产品</span>
-          <span class="project-year">2026</span>
-        </div>
-        <h3>这个网站 — 用 AI Vibe Coding 构建</h3>
-        <p class="project-context">个人项目 — 完全通过与 Claude Code 对话构建</p>
-        <p class="project-description">
-          设计并交付了这个作品集网站，没有手动写一行代码——整个构建过程通过与 Claude Code 的自然语言对话完成。从布局决策到响应式设计再到滚动动画，每一个元素都通过 prompt 指导完成，而非代码编辑器。
-        </p>
-        <div class="project-tech">
-          <span class="tech-tag">Vibe Coding</span>
-          <span class="tech-tag">HTML/CSS/JS</span>
-          <span class="tech-tag">响应式设计</span>
-        </div>
-      </div>
     </div>
 
     <div class="reveal" style="margin: 4rem 0 1.25rem;">
@@ -1402,23 +1432,6 @@ footer p {
       </div>
 
 
-      <!-- Vibe Coding -->
-      <div class="project-card reveal" style="--card-accent: var(--accent-sage);">
-        <div class="project-card-top">
-          <span class="project-type">Research · Finance</span>
-          <span class="project-year">2026</span>
-        </div>
-        <h3>医疗行业股票研究</h3>
-        <p class="project-context">国盛证券 — 北京</p>
-        <p class="project-description">
-          对医药定价和医保报销政策进行量化分析。参与撰写分析报告，综合监管影响评估，用于内部发布和面向客户的研究。
-        </p>
-        <div class="project-tech">
-          <span class="tech-tag">Excel</span>
-          <span class="tech-tag">金融建模</span>
-          <span class="tech-tag">政策分析</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
