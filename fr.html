@@ -1147,17 +1147,33 @@ footer p {
       <!-- Task Router Agent -->
       <div class="project-card reveal" style="--card-accent: #7A8B9A;">
         <a href="ai-automation-fr.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border);">
-            <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem;">
-              <div style="width: 8px; height: 8px; border-radius: 50%; background: #7A8B9A;"></div>
-              <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-primary); letter-spacing: 0.08em;">MARKDOWN = PLAN DE CONTRÔLE</span>
+          <div style="background: #FDFAF5; border-radius: var(--radius-md); padding: 0; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; overflow: hidden; display: flex; flex-direction: column;">
+            <!-- Editor-style filename tab -->
+            <div style="background: #F0E8DC; border-bottom: 1px solid var(--border); padding: 0.45rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.7rem; color: #6B6360; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #D4917D;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #DFC99E;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #B5CBB0;"></span>
+              <span style="margin-left: 0.6rem;">task-board.md</span>
             </div>
-            <div style="font-family: 'SF Mono', monospace; font-size: 0.78rem; line-height: 1.8; color: var(--text-secondary);">
-              <div>file change &rarr; <span style="color: var(--accent-sage);">quiescence gate</span></div>
-              <div>&nbsp;&nbsp;&rarr; <span style="color: #7A8B9A;">LLM routing</span></div>
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&rarr; <span style="color: var(--accent-terracotta);">parallel exec</span></div>
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr; state writeback</div>
-              <div style="margin-top: 0.6rem; color: var(--text-light); font-size: 0.72rem;">Auto-récupération des deadlocks · dead-letter queue · budget de 2 retries</div>
+            <!-- Task cards -->
+            <div style="padding: 1.1rem 1.1rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.72rem; line-height: 1.55; color: #2C2825; flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div>
+                <div style="color: #6B6360;">## [TASK-012] Livrer v2 du hover de carte</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(143,168,138,0.22); color: #4d6848; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">ready</span></div>
+              </div>
+              <div>
+                <div style="color: #6B6360;">## [TASK-018] Retour Raphael → case study</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(201,169,110,0.25); color: #8a6f3d; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">blocked:siyao:send-message</span></div>
+              </div>
+              <div>
+                <div style="color: #6B6360;">## [TASK-022] Page d'analyse concurrentielle</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(122,139,154,0.22); color: #4a5a6b; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">running:claude-a:2026-04-21T14:18Z</span></div>
+              </div>
+            </div>
+            <!-- CTA bar -->
+            <div style="background: #F7EFE3; border-top: 1px solid var(--border); padding: 0.6rem 1.1rem; display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.06em; font-family: var(--font-sans);">État typé · protocole lisible par le LLM</span>
+              <span style="font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s; font-family: var(--font-sans);">Lire l'étude de cas &rarr;</span>
             </div>
           </div>
         </a>
@@ -1190,54 +1206,31 @@ footer p {
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
         <a href="prompt-portfolio-fr.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
-            <!-- Vertical pipeline -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1; justify-content: center;">
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Filtre</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">4 filtres</span>
+          <div style="background: #FFFDF9; border-radius: var(--radius-md); padding: 2.2rem 2rem 1.6rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
+            <!-- Hero number -->
+            <div style="margin-bottom: 1.4rem;">
+              <div style="font-family: var(--font-serif); font-size: 4.6rem; line-height: 0.95; color: var(--accent-terracotta); letter-spacing: -0.02em;">110K</div>
+              <div style="font-size: 0.76rem; color: var(--text-light); margin-top: 0.3rem; letter-spacing: 0.04em;">vues · première vidéo · produite dès le jour 1 par ce pipeline</div>
+            </div>
+            <!-- Stats list -->
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.4rem;">
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3 856</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">sauvegardes sur la même vidéo</span>
               </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Script</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">apprentissage du style</span>
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">types de contenu <em>auto-bannis</em> par les données</span>
               </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Accroche</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">3 facteurs</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Titre</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">75 formules</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Contrôle</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">22 marqueurs</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Analyse</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">boucle de rétroaction</span>
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">7 → 1</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">agents écrivent dans <em>un</em> fichier méthodologie</span>
               </div>
             </div>
-            <!-- Bottom: stats + CTA -->
-            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
-              <div style="display: flex; align-items: baseline; justify-content: space-between;">
-                <div style="display: flex; align-items: baseline; gap: 0.4rem;">
-                  <span style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-primary);">110K+</span>
-                  <span style="font-size: 0.7rem; color: var(--text-light);">vues, première vidéo</span>
-                </div>
-                <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">Voir les détails &rarr;</span>
-              </div>
+            <!-- CTA bar -->
+            <div style="padding-top: 0.9rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 0.66rem; color: var(--text-light); letter-spacing: 0.06em;">Méthodologie data-driven · boucle de feedback</span>
+              <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">Voir les détails &rarr;</span>
             </div>
           </div>
         </a>

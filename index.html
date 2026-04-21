@@ -1178,31 +1178,33 @@ footer p {
       <!-- Task Router Agent -->
       <div class="project-card reveal" style="--card-accent: #7A8B9A;">
         <a href="ai-automation.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: linear-gradient(135deg, #FFF8F3 0%, #F0E5D8 100%); border-radius: var(--radius-md); padding: 1.8rem 1.6rem; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; display: flex; flex-direction: column; justify-content: center; gap: 0.55rem;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd-auto').style.color='#5A6B7A'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd-auto').style.color=''">
-            <!-- Flow diagram -->
-            <div style="display: flex; flex-direction: column; gap: 0.3rem; font-family: var(--font-sans);">
-              <div style="display: flex; align-items: center; gap: 0.6rem;">
-                <div style="flex: 1; background: rgba(122,139,154,0.08); border-left: 3px solid #7A8B9A; padding: 0.45rem 0.7rem; border-radius: 0 4px 4px 0; font-size: 0.74rem;"><code style="font-family: monospace; font-size: 0.7rem; color: #2C2825;">task-board.md</code> <span style="color: #8a7f72; font-size: 0.68rem;">· edited</span></div>
+          <div style="background: #FDFAF5; border-radius: var(--radius-md); padding: 0; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; overflow: hidden; display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd-auto').style.color='#5A6B7A'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd-auto').style.color=''">
+            <!-- Editor-style filename tab -->
+            <div style="background: #F0E8DC; border-bottom: 1px solid var(--border); padding: 0.45rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.7rem; color: #6B6360; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #D4917D;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #DFC99E;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #B5CBB0;"></span>
+              <span style="margin-left: 0.6rem;">task-board.md</span>
+            </div>
+            <!-- Task cards showing typed Status values -->
+            <div style="padding: 1.1rem 1.1rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.72rem; line-height: 1.55; color: #2C2825; flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div>
+                <div style="color: #6B6360;">## [TASK-012] Ship v2 of card hover</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(143,168,138,0.22); color: #4d6848; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">ready</span></div>
               </div>
-              <div style="padding-left: 0.7rem; color: #8a7f72; font-size: 0.65rem; line-height: 1;">↓ <span style="color: #7A8B9A;">fswatch · 2s debounce</span></div>
-              <div style="background: rgba(122,139,154,0.08); border: 1px solid rgba(122,139,154,0.18); padding: 0.45rem 0.7rem; border-radius: 4px; font-size: 0.74rem;"><strong style="color: #2C2825;">Quiescence gate</strong> <span style="color: #8a7f72; font-size: 0.68rem;">· 30s idle required</span></div>
-              <div style="padding-left: 0.7rem; color: #8a7f72; font-size: 0.65rem; line-height: 1;">↓</div>
-              <div style="background: rgba(196,115,91,0.06); border: 1px solid rgba(196,115,91,0.2); padding: 0.45rem 0.7rem; border-radius: 4px; font-size: 0.74rem;"><strong style="color: #2C2825;">LLM decision layer</strong> <span style="color: #8a7f72; font-size: 0.68rem;">· parse state machine</span></div>
-              <div style="display: flex; gap: 0.4rem; padding-left: 0.7rem; font-size: 0.65rem; color: #8a7f72; line-height: 1;">
-                <span style="flex: 1;">↓ ready</span>
-                <span style="flex: 1;">↓ blocked:*</span>
-                <span style="flex: 1;">↓ running:*</span>
+              <div>
+                <div style="color: #6B6360;">## [TASK-018] Raphael feedback → case study</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(201,169,110,0.25); color: #8a6f3d; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">blocked:siyao:send-message</span></div>
               </div>
-              <div style="display: flex; gap: 0.4rem;">
-                <div style="flex: 1; background: rgba(143,168,138,0.1); border: 1px solid rgba(143,168,138,0.25); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #2C2825; text-align: center;">Parallel exec</div>
-                <div style="flex: 1; background: rgba(155,149,146,0.08); border: 1px dashed rgba(155,149,146,0.35); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #9B9592; text-align: center;">Skip</div>
-                <div style="flex: 1; background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.3); padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #2C2825; text-align: center;">Dead-lock check</div>
+              <div>
+                <div style="color: #6B6360;">## [TASK-022] Competitor analysis page</div>
+                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(122,139,154,0.22); color: #4a5a6b; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">running:claude-a:2026-04-21T14:18Z</span></div>
               </div>
             </div>
-            <!-- CTA -->
-            <div style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
-              <span style="font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.08em;">State-machine routing &middot; Self-healing &middot; Human-in-the-loop</span>
-              <span class="vd-auto" style="font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s;">Read the case &rarr;</span>
+            <!-- CTA bar -->
+            <div style="background: #F7EFE3; border-top: 1px solid var(--border); padding: 0.6rem 1.1rem; display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.06em; font-family: var(--font-sans);">Typed state · LLM-readable protocol</span>
+              <span class="vd-auto" style="font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s; font-family: var(--font-sans);">Read the case &rarr;</span>
             </div>
           </div>
         </a>
@@ -1235,54 +1237,31 @@ footer p {
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
         <a href="prompt-portfolio.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border-radius: var(--radius-md); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
-            <!-- Vertical pipeline -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1; justify-content: center;">
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Topic Filter</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">4-layer gate</span>
+          <div style="background: #FFFDF9; border-radius: var(--radius-md); padding: 2.2rem 2rem 1.6rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
+            <!-- Hero number -->
+            <div style="margin-bottom: 1.4rem;">
+              <div style="font-family: var(--font-serif); font-size: 4.6rem; line-height: 0.95; color: var(--accent-terracotta); letter-spacing: -0.02em;">110K</div>
+              <div style="font-size: 0.76rem; color: var(--text-light); margin-top: 0.3rem; letter-spacing: 0.04em;">views · debut video · shipped day-one by this pipeline</div>
+            </div>
+            <!-- Stats list -->
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.4rem;">
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3,856</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">saves on the same video</span>
               </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Script Gen</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">style learning</span>
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">content types <em>auto-banned</em> by the data, not by me</span>
               </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Hook Optimiser</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">3-factor scoring</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-terracotta);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Title Gen</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">75 formulas</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-sage);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Quality Check</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">22 patterns</span>
-              </div>
-              <div style="color: var(--border); font-size: 0.55rem; line-height: 1; padding: 0.12rem 0;">&#9660;</div>
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold);"></div>
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-primary);">Data Review</span>
-                <span style="font-size: 0.6rem; color: var(--text-light); font-weight: 400;">feedback loop</span>
+              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">7 → 1</span>
+                <span style="font-size: 0.78rem; color: var(--text-secondary);">agents write back into <em>one</em> methodology file</span>
               </div>
             </div>
-            <!-- Bottom: stats + CTA -->
-            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
-              <div style="display: flex; align-items: baseline; justify-content: space-between;">
-                <div style="display: flex; align-items: baseline; gap: 0.4rem;">
-                  <span style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-primary);">110K+</span>
-                  <span style="font-size: 0.7rem; color: var(--text-light);">views, debut video</span>
-                </div>
-                <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">View details &rarr;</span>
-              </div>
+            <!-- CTA bar -->
+            <div style="padding-top: 0.9rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
+              <span style="font-size: 0.66rem; color: var(--text-light); letter-spacing: 0.06em;">Data-driven methodology · Feedback loop</span>
+              <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">View details &rarr;</span>
             </div>
           </div>
         </a>
