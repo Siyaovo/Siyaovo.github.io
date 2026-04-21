@@ -1073,8 +1073,16 @@ footer p {
   .project-card { padding: 1.75rem; }
   .project-card.featured { padding: 1.75rem; }
 
-  .hero { min-height: 90vh; }
-  .hero h1 { font-size: 2.4rem; }
+  .hero { min-height: auto; align-items: flex-start; overflow: visible; padding: 92px 0 2rem; }
+  .hero h1 { font-size: 1.8rem; line-height: 1.22; margin-bottom: 1.2rem; }
+  .hero-greeting { font-size: 0.95rem; margin-bottom: 0.55rem; }
+  .hero-description { font-size: 1rem; line-height: 1.65; margin-bottom: 1.5rem; }
+  .hero-tags { gap: 0.4rem; margin-bottom: 1.5rem; }
+  .hero-tag { font-size: 0.72rem; padding: 0.3rem 0.7rem; }
+  .hero-availability { font-size: 0.85rem; padding: 0.9rem 1rem; }
+  .scroll-indicator { display: none; }
+  .about-text p:first-of-type::first-letter { font-size: 2rem; margin-right: 0.35rem; }
+  .about-text p { font-size: 1rem; line-height: 1.7; }
 
   .contact-links { flex-direction: column; align-items: center; }
   .contact-btn { width: 100%; max-width: 280px; justify-content: center; }
