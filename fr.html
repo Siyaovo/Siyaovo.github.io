@@ -456,6 +456,45 @@ nav .nav-links a:hover::after { width: 100%; }
   gap: 1.5rem;
 }
 
+/* ========== PROJECT THUMBNAIL SYSTEM ========== */
+.proj-thumb { background: linear-gradient(135deg, #FFF8F3 0%, #F0E5D8 100%); border-radius: var(--radius-md); padding: 1.6rem 1.4rem; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; overflow: hidden; }
+.proj-thumb-pipeline { background: #FFFDF9; padding: 1.2rem 1.2rem 1rem; }
+.flow-box { display: flex; flex-direction: column; gap: 0.3rem; font-family: var(--font-sans); }
+.flow-row { display: flex; align-items: center; gap: 0.6rem; }
+.flow-node { flex: 1; padding: 0.45rem 0.7rem; font-size: 0.74rem; border-radius: 4px; }
+.flow-node code { font-family: 'SF Mono', monospace; font-size: 0.7rem; color: var(--text-primary); }
+.flow-node strong { color: var(--text-primary); }
+.flow-meta { color: #8a7f72; font-size: 0.68rem; }
+.flow-trigger { background: rgba(122,139,154,0.08); border-left: 3px solid #7A8B9A; border-radius: 0 4px 4px 0; }
+.flow-gate { background: rgba(122,139,154,0.08); border: 1px solid rgba(122,139,154,0.18); }
+.flow-llm { background: rgba(196,115,91,0.06); border: 1px solid rgba(196,115,91,0.2); }
+.flow-arrow { padding-left: 0.7rem; color: #8a7f72; font-size: 0.65rem; line-height: 1; }
+.flow-label-slate { color: #7A8B9A; }
+.flow-split-labels { display: flex; gap: 0.4rem; padding-left: 0.7rem; font-size: 0.65rem; color: #8a7f72; line-height: 1; }
+.flow-split-labels > span { flex: 1; }
+.flow-split { display: flex; gap: 0.4rem; }
+.flow-split > div { flex: 1; padding: 0.4rem 0.5rem; border-radius: 4px; font-size: 0.68rem; text-align: center; }
+.flow-split-ok { background: rgba(143,168,138,0.1); border: 1px solid rgba(143,168,138,0.25); color: var(--text-primary); }
+.flow-split-skip { background: rgba(155,149,146,0.08); border: 1px dashed rgba(155,149,146,0.35); color: #9B9592; }
+.flow-split-heal { background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.3); color: var(--text-primary); }
+.pipe-svg { width: 100%; height: auto; max-height: 230px; display: block; }
+.proj-thumb-cta { margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+.proj-thumb-caption { font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.06em; flex: 1; }
+.proj-thumb-link { font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s; white-space: nowrap; }
+@media (max-width: 640px) {
+  .proj-thumb { padding: 1.1rem 1rem; min-height: auto; }
+  .proj-thumb-pipeline { padding: 0.9rem 0.9rem 0.8rem; }
+  .flow-node { font-size: 0.7rem; padding: 0.4rem 0.55rem; }
+  .flow-node code { font-size: 0.66rem; }
+  .flow-meta { font-size: 0.62rem; }
+  .flow-split > div { font-size: 0.62rem; padding: 0.35rem 0.4rem; }
+  .flow-split-labels { font-size: 0.6rem; }
+  .flow-arrow { font-size: 0.6rem; }
+  .pipe-svg { max-height: 200px; }
+  .proj-thumb-caption { font-size: 0.62rem; letter-spacing: 0.04em; }
+  .proj-thumb-link { font-size: 0.72rem; }
+}
+
 .project-card {
   background: var(--warm-white);
   border: 1px solid var(--border);
@@ -1147,33 +1186,25 @@ footer p {
       <!-- Task Router Agent -->
       <div class="project-card reveal" style="--card-accent: #7A8B9A;">
         <a href="ai-automation-fr.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: #FDFAF5; border-radius: var(--radius-md); padding: 0; min-height: 260px; border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease; overflow: hidden; display: flex; flex-direction: column;">
-            <!-- Editor-style filename tab -->
-            <div style="background: #F0E8DC; border-bottom: 1px solid var(--border); padding: 0.45rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.7rem; color: #6B6360; display: flex; align-items: center; gap: 0.5rem;">
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #D4917D;"></span>
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #DFC99E;"></span>
-              <span style="width: 10px; height: 10px; border-radius: 50%; background: #B5CBB0;"></span>
-              <span style="margin-left: 0.6rem;">task-board.md</span>
-            </div>
-            <!-- Task cards -->
-            <div style="padding: 1.1rem 1.1rem 0.9rem; font-family: 'SF Mono', monospace; font-size: 0.72rem; line-height: 1.55; color: #2C2825; flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
-              <div>
-                <div style="color: #6B6360;">## [TASK-012] Livrer v2 du hover de carte</div>
-                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(143,168,138,0.22); color: #4d6848; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">ready</span></div>
+          <div class="proj-thumb proj-thumb-router">
+            <div class="flow-box">
+              <div class="flow-row"><div class="flow-node flow-trigger"><code>task-board.md</code> <span class="flow-meta">· modifié</span></div></div>
+              <div class="flow-arrow">↓ <span class="flow-label-slate">fswatch · 2s debounce</span></div>
+              <div class="flow-row"><div class="flow-node flow-gate"><strong>Quiescence gate</strong> <span class="flow-meta">· 30s d'inactivité requis</span></div></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-row"><div class="flow-node flow-llm"><strong>Couche de décision LLM</strong> <span class="flow-meta">· parse la machine à états</span></div></div>
+              <div class="flow-split-labels">
+                <span>↓ ready</span><span>↓ blocked:*</span><span>↓ running:*</span>
               </div>
-              <div>
-                <div style="color: #6B6360;">## [TASK-018] Retour Raphael → case study</div>
-                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(201,169,110,0.25); color: #8a6f3d; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">blocked:siyao:send-message</span></div>
-              </div>
-              <div>
-                <div style="color: #6B6360;">## [TASK-022] Page d'analyse concurrentielle</div>
-                <div style="padding-left: 0.8rem; color: #8a7f72;">- Status: <span style="display: inline-block; background: rgba(122,139,154,0.22); color: #4a5a6b; padding: 0.08rem 0.5rem; border-radius: 3px; font-weight: 600;">running:claude-a:2026-04-21T14:18Z</span></div>
+              <div class="flow-split">
+                <div class="flow-split-ok">Exécution parallèle</div>
+                <div class="flow-split-skip">Skip</div>
+                <div class="flow-split-heal">Détection deadlock</div>
               </div>
             </div>
-            <!-- CTA bar -->
-            <div style="background: #F7EFE3; border-top: 1px solid var(--border); padding: 0.6rem 1.1rem; display: flex; align-items: baseline; justify-content: space-between;">
-              <span style="font-size: 0.66rem; color: #8a7f72; letter-spacing: 0.06em; font-family: var(--font-sans);">État typé · protocole lisible par le LLM</span>
-              <span style="font-size: 0.76rem; font-weight: 600; color: #B1A699; transition: color 0.25s; font-family: var(--font-sans);">Lire l'étude de cas &rarr;</span>
+            <div class="proj-thumb-cta">
+              <span class="proj-thumb-caption">Routage à machine à états · auto-réparation · human-in-the-loop</span>
+              <span class="proj-thumb-link">Lire l'étude de cas &rarr;</span>
             </div>
           </div>
         </a>
@@ -1206,31 +1237,50 @@ footer p {
       <!-- Featured: AI Content Workflow System -->
       <div class="project-card featured reveal" style="--card-accent: var(--accent-terracotta);">
         <a href="prompt-portfolio-fr.html" class="project-visual" style="display: block; text-decoration: none;">
-          <div style="background: #FFFDF9; border-radius: var(--radius-md); padding: 2.2rem 2rem 1.6rem; position: relative; overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(44,40,37,0.12)';this.querySelector('.vd').style.color='#C4735B'" onmouseout="this.style.transform='';this.style.boxShadow='';this.querySelector('.vd').style.color=''">
-            <!-- Hero number -->
-            <div style="margin-bottom: 1.4rem;">
-              <div style="font-family: var(--font-serif); font-size: 4.6rem; line-height: 0.95; color: var(--accent-terracotta); letter-spacing: -0.02em;">110K</div>
-              <div style="font-size: 0.76rem; color: var(--text-light); margin-top: 0.3rem; letter-spacing: 0.04em;">vues · première vidéo · produite dès le jour 1 par ce pipeline</div>
-            </div>
-            <!-- Stats list -->
-            <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.4rem;">
-              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
-                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3 856</span>
-                <span style="font-size: 0.78rem; color: var(--text-secondary);">sauvegardes sur la même vidéo</span>
-              </div>
-              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
-                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">3</span>
-                <span style="font-size: 0.78rem; color: var(--text-secondary);">types de contenu <em>auto-bannis</em> par les données</span>
-              </div>
-              <div style="display: flex; align-items: baseline; gap: 0.8rem;">
-                <span style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-primary); min-width: 3.6rem;">7 → 1</span>
-                <span style="font-size: 0.78rem; color: var(--text-secondary);">agents écrivent dans <em>un</em> fichier méthodologie</span>
-              </div>
-            </div>
-            <!-- CTA bar -->
-            <div style="padding-top: 0.9rem; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: baseline; justify-content: space-between;">
-              <span style="font-size: 0.66rem; color: var(--text-light); letter-spacing: 0.06em;">Méthodologie data-driven · boucle de feedback</span>
-              <span class="vd" style="font-size: 0.78rem; font-weight: 600; color: var(--accent-terracotta-light); transition: color 0.25s;">Voir les détails &rarr;</span>
+          <div class="proj-thumb proj-thumb-pipeline">
+            <svg class="pipe-svg" viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <marker id="a-t-fr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C4735B"/></marker>
+                <marker id="a-g-fr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C9A96E"/></marker>
+                <marker id="a-s-fr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8FA88A"/></marker>
+              </defs>
+              <g font-family="'Source Sans 3', sans-serif" font-size="10" text-anchor="middle" fill="#2C2825">
+                <g transform="translate(0 28)">
+                  <rect x="10"  y="0" width="54" height="24" rx="4" fill="#FFFDF9" stroke="#C4735B" stroke-width="1"/>
+                  <text x="37"  y="15" font-weight="600">Sujet</text>
+                  <rect x="70"  y="0" width="54" height="24" rx="4" fill="#FFFDF9" stroke="#C4735B" stroke-width="1"/>
+                  <text x="97"  y="15" font-weight="600">Script</text>
+                  <rect x="130" y="0" width="54" height="24" rx="4" fill="#FFFDF9" stroke="#C4735B" stroke-width="1"/>
+                  <text x="157" y="15" font-weight="600">Accroche</text>
+                  <rect x="190" y="0" width="54" height="24" rx="4" fill="#FFFDF9" stroke="#C4735B" stroke-width="1"/>
+                  <text x="217" y="15" font-weight="600">Titre</text>
+                  <rect x="250" y="0" width="54" height="24" rx="4" fill="#FFFDF9" stroke="#C4735B" stroke-width="1"/>
+                  <text x="277" y="15" font-weight="600">Qualité</text>
+                  <rect x="310" y="0" width="60" height="24" rx="4" fill="#FFFDF9" stroke="#C9A96E" stroke-width="1.5"/>
+                  <text x="340" y="15" font-weight="600">Data Review</text>
+                </g>
+                <g stroke="#C4735B" stroke-width="1.2" fill="none" marker-end="url(#a-t-fr)">
+                  <line x1="64"  y1="40" x2="68"  y2="40"/>
+                  <line x1="124" y1="40" x2="128" y2="40"/>
+                  <line x1="184" y1="40" x2="188" y2="40"/>
+                  <line x1="244" y1="40" x2="248" y2="40"/>
+                  <line x1="304" y1="40" x2="308" y2="40"/>
+                </g>
+                <rect x="130" y="140" width="120" height="30" rx="5" fill="#FAF6F1" stroke="#C9A96E" stroke-width="1.5"/>
+                <text x="190" y="156" font-weight="600" font-size="11">methodology.md</text>
+                <text x="190" y="167" font-size="8" fill="#8a7f72">état partagé</text>
+                <path d="M 340 52 Q 340 110 250 155" stroke="#C9A96E" stroke-width="1.4" fill="none" marker-end="url(#a-g-fr)"/>
+                <text x="297" y="95" font-size="9" fill="#C9A96E" font-style="italic" text-anchor="start">écrit les règles</text>
+                <path d="M 130 155 Q 30 110 37 52" stroke="#8FA88A" stroke-width="1.4" fill="none" marker-end="url(#a-s-fr)" stroke-dasharray="4,3"/>
+                <text x="17" y="95" font-size="9" fill="#6a8466" font-style="italic" text-anchor="start">lit les critères</text>
+                <text x="190" y="210" font-size="11" font-weight="600" fill="#2C2825">Boucle de feedback</text>
+                <text x="190" y="225" font-size="9" fill="#6B6360">le filtre devient plus strict à chaque cycle</text>
+                <text x="190" y="240" font-size="9" fill="#6B6360">— aucune modification de prompt requise</text>
+              </g>
+            </svg>
+            <div class="proj-thumb-cta">
+              <span class="proj-thumb-caption">Méthodologie data-driven · boucle de feedback</span>
+              <span class="proj-thumb-link">Voir les détails &rarr;</span>
             </div>
           </div>
         </a>
