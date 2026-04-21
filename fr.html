@@ -351,6 +351,17 @@ nav .nav-links a:hover::after { width: 100%; }
   animation: scrollDown 2s ease-in-out infinite;
 }
 
+/* ========== AT A GLANCE ========== */
+.at-a-glance { background: var(--cream-dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.25rem 0 2rem; }
+.at-a-glance .container { max-width: 920px; }
+.at-a-glance-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-terracotta); margin-bottom: 1.1rem; }
+.at-a-glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.glance-card { border-left: 2px solid var(--accent-terracotta-light); padding-left: 1rem; }
+.glance-card h4 { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.45rem; }
+.glance-card p { font-size: 0.92rem; line-height: 1.55; color: var(--text-primary); margin: 0; }
+.glance-card strong { color: var(--accent-terracotta); font-weight: 600; }
+@media (max-width: 768px) { .at-a-glance-grid { grid-template-columns: 1fr; gap: 1rem; } }
+
 /* ========== ABOUT ========== */
 .about {
   background: var(--warm-white);
@@ -1095,15 +1106,35 @@ footer p {
   </div>
 </section>
 
+<!-- AT A GLANCE — scan en 10 secondes -->
+<section class="at-a-glance">
+  <div class="container">
+    <div class="at-a-glance-label reveal">— Vue d&rsquo;ensemble</div>
+    <div class="at-a-glance-grid">
+      <div class="glance-card reveal">
+        <h4>Disponibilité</h4>
+        <p>Stage AI Product / Overseas Ops · <strong>à partir de sept. 2026</strong> · Pékin ou remote</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-1">
+        <h4>Côté build</h4>
+        <p>2 systèmes d&rsquo;agents en production · première vidéo Douyin <strong>110K+ vues</strong> · démo Function Calling (~400 lignes, open source)</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-2">
+        <h4>Côté research</h4>
+        <p>M2 Économie à <strong>Panthéon-Sorbonne</strong> · étude énergie encadrée Deloitte · paper robotics sur 34 pays</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="container">
     <div class="about-content">
       <div class="about-text reveal">
         <div class="section-label">À propos</div>
-        <p><strong>Côté build :</strong> J'ai conçu un système IA à 7 agents qui fait tourner mon pipeline de production de contenu de bout en bout &mdash; chaque agent décide, exécute et évalue sa propre sortie, et chaque cycle renvoie les données vers le filtre de sujets. En production sur ma chaîne Douyin. Première vidéo : <strong>110 000+ vues · 3 856 sauvegardes</strong>. C'est du system design, pas du prompt engineering.</p>
-        <p><strong>Parcours :</strong> M2 en économie à Paris 1 Panthéon-Sorbonne, double diplôme Finance de l'UIBE Pékin. J'applique la méthode expérimentale à la conception produit &mdash; hypothèse, test A/B, itération. C'est la même logique qui guide l'optimisation de dispatch en Python, les tests d'accroche sur Douyin, et chaque chaîne d'agents que je conçois.</p>
-        <p><strong>Amplitude :</strong> trois continents, trois contextes de travail. J'ai dirigé une association de 60 bénévoles et coordonné 100+ programmes (dont les JO d'hiver de Pékin 2022) ; j'ai fait grandir une plateforme digitale à 2 000+ abonnés. Une expérience de leadership et d'opérations qui s'additionne à chaque système IA que je construis.</p>
+        <p><strong>Ce que je construis :</strong> deux systèmes d&rsquo;agents en production quotidienne &mdash; un pipeline de contenu à 7 agents (première vidéo : <strong>110K+ vues · 3 856 sauvegardes</strong>) et un task router piloté par un fichier Markdown avec machine à états typée. System design, pas prompt engineering.</p>
+        <p><strong>Formation :</strong> M2 Économie à Paris 1 Panthéon-Sorbonne, double diplôme Finance de l&rsquo;UIBE Pékin. L&rsquo;habitude qui transfère : traiter chaque décision produit comme une expérience &mdash; hypothèse, test A/B, itération. Même logique en optimisation de dispatch, tests d&rsquo;accroche Douyin, et chaque chaîne d&rsquo;agents. Amplitude : trois continents (Pékin · Tokyo · Paris), direction d&rsquo;une association de 60 bénévoles, croissance d&rsquo;une plateforme à 2K+ abonnés.</p>
       </div>
       <div class="about-details reveal reveal-delay-2">
         <div class="detail-group">
@@ -1170,11 +1201,8 @@ footer p {
           <h3>Task Router Agent — Couche d'orchestration à machine à états sur un fichier Markdown</h3>
           <p class="project-context">Runtime de production · Runtime indépendant de la session · Machine à états auto-réparatrice</p>
           <p class="project-description">
-            J'ai conçu une couche d'orchestration de tâches pilotée par LLM qui route, exécute et s'auto-répare de manière autonome. Un fichier Markdown unique devient le plan de contrôle de l'agent ; <code>fswatch</code> détecte les modifications ; une skill à machine à états route les tâches <code>ready</code> via un protocole d'exécution single-writer pour prévenir les race conditions. Toutes les actions destructives passent par une validation human-in-the-loop.
+            Runtime de tâches piloté par LLM où un fichier Markdown unique devient le plan de contrôle. Machine à états typée + protocole single-writer + auto-réparation. <strong>L&rsquo;insight : ce qui transforme les agents de bots d&rsquo;exécution en partenaires de raisonnement, c&rsquo;est l&rsquo;état structuré — pas de meilleurs prompts.</strong>
           </p>
-          <div class="project-finding">
-            <strong>Insight clé :</strong> Même LLM, même tableau de tâches, comportement d'agent totalement différent — selon que le statut est une <em>étiquette</em> ou un <em>protocole</em>. Migrer de <code>pending/done</code> vers des états typés (<code>ready</code> / <code>blocked:siyao:reply</code> / <code>running:agent-42:ts</code> / <code>failed:timeout</code>) a changé ce sur quoi le modèle raisonne — la skill a commencé à détecter des incohérences sémantiques que je n'avais pas programmées. Leçon pour les équipes produit : <em>ce qui transforme les agents de bots d'exécution en partenaires de raisonnement, c'est l'état structuré — pas de meilleurs prompts</em>.
-          </div>
           <div class="project-tech">
             <span class="tech-tag">Orchestration d'agents</span>
             <span class="tech-tag">Machine à états</span>
@@ -1253,10 +1281,10 @@ footer p {
           <h3>Pipeline d'Automatisation de Contenu AI</h3>
           <p class="project-context">Produit livré · Déploiement en production personnelle · Méthodologie auto-actualisée via boucle de feedback</p>
           <p class="project-description">
-            A full-stack AI agent chain that automates the entire content production lifecycle: topic filtering (3-layer validation), scriptwriting, hook optimisation, title generation, quality check, and post-publish data review with meta-analysis. Each agent is a specialised prompt system with structured inputs, diagnostic logic, and boucle de rétroactions.
+            7 agents couvrant sujet → script → accroche → titre → contrôle qualité → revue des données. Chaque agent a un contrat I/O typé ; l&rsquo;agent Data Review réécrit les règles validées dans un fichier méthodologie partagé que le Topic Filter lit au cycle suivant — le filtre devient plus strict sans modification de prompt.
           </p>
           <div class="project-finding">
-            <strong>Résultats :</strong> La première vidéo a atteint 110 000+ vues sur Douyin — produite dès le premier jour avec le système. Le pipeline ne se contente pas de générer du contenu — il apprend de ses propres données et s'améliore à chaque cycle.
+            <strong>Après 12 publications :</strong> première vidéo <strong>110K vues · 3 856 sauvegardes</strong> · <strong>3 types de contenu auto-bannis</strong> par les données · fichier méthodologie passé de 0 à 3 bannis + 4 formats validés.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Ingénierie de Prompts</span>
@@ -1324,10 +1352,10 @@ footer p {
           <h3>Rooted (根) &mdash; Un caractère chinois comme objet de voyage dans le temps</h3>
           <p class="project-context">Prototype en ligne &middot; Validation de thèse produit &middot; Design d&rsquo;apprentissage linguistique interaction-first</p>
           <p class="project-description">
-            Un prototype d&rsquo;interaction construit pour tester si une seule interaction bien soignée peut porter une thèse produit plus convaincante qu&rsquo;une longue liste de fonctionnalités.
+            Une interaction haute fidélité par version, chacune portant une seule thèse de design. V1 : faire glisser un slider pour voir 马 (cheval) évoluer sur 3 000 ans, de l&rsquo;os oraculaire au caractère moderne. V2 : taper sur 妈 et le voir se décomposer en 女 + 马 (phonétique). Une interaction, une thèse, zéro feature list.
           </p>
           <div class="project-finding">
-            <strong>Pourquoi c&rsquo;est important&nbsp;:</strong> les caractères chinois ne sont pas des symboles aléatoires &mdash; ce sont des systèmes logiques de sens et de son. Montrez-le une fois à quelqu&rsquo;un, et le reste s&rsquo;enchaîne.
+            <strong>Le pari design :</strong> l&rsquo;interaction <em>est</em> la proposition de valeur. Si un apprenant dérive le mental model depuis l&rsquo;interaction seule, le design se valide &mdash; aucun texte pédagogique requis.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Next.js 16</span>
@@ -1370,10 +1398,10 @@ footer p {
           <h3>Prévision de la demande énergétique et optimisation de l'approvisionnement</h3>
           <p class="project-context">Étude de cas encadrée par des mentors Deloitte — projet de groupe universitaire, Paris</p>
           <p class="project-description">
-            Conception d'un cadre quantitatif de bout en bout pour le système électrique sud-africain. Construction et comparaison de six modèles de prévision (de l'ARIMA au deep learning TFT), puis implémentation d'un modèle d'optimisation de dispatch minimisant le coût système sous contraintes carbone, capacité et contractuelles.
+            Cadre quantitatif de bout en bout pour le système électrique sud-africain : 6 modèles de prévision comparés (ARIMA → TFT) + optimisation de dispatch Pyomo sous contraintes carbone / capacité / contractuelles.
           </p>
           <div class="project-finding">
-            <strong>Découverte clé :</strong> SARIMAX a surpassé les modèles de deep learning (LSTM, TFT) sur les métriques de risque extrême — les modèles économétriques plus simples se sont avérés plus robustes face au stress structurel de l'offre.
+            <strong>Découverte :</strong> SARIMAX a battu LSTM/TFT sur les métriques de risque extrême &mdash; les modèles économétriques simples se sont avérés plus robustes sous stress structurel de l&rsquo;offre.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Python</span>
@@ -1410,10 +1438,10 @@ footer p {
           </a>
         </div>
         <p class="project-description">
-          Construction d'un indice d'exposition mesurant la susceptibilité des professions européennes à l'adoption de la robotique, en utilisant l'analyse sémantique latente sur des corpus de brevets et de descriptions de postes. Les professions à salaire moyen et tâches routières font face au plus grand risque d'automatisation — cohérent avec la théorie de polarisation du marché du travail.
+          Indice d&rsquo;exposition à la robotique pour les professions européennes, via LSA sur corpus brevets + descriptions de postes. Les professions à salaire moyen et tâches routinières ont le risque d&rsquo;automatisation le plus élevé (cohérent avec la théorie de polarisation du marché du travail).
         </p>
         <div class="project-finding">
-          <strong>Résultat clé :</strong> Une augmentation d'un écart-type de l'exposition à la robotique est associée à une diminution de 7.2% du salaire horaire moyen (β = −0.072, p < 0.001) dans 34 pays européens.
+          <strong>Résultat :</strong> +1σ d&rsquo;exposition à la robotique → −7.2% de salaire horaire moyen (β = −0.072, p &lt; 0.001) sur 34 pays européens.
         </div>
         <div class="project-tech">
           <span class="tech-tag">Python</span>

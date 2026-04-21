@@ -351,6 +351,17 @@ nav .nav-links a:hover::after { width: 100%; }
   animation: scrollDown 2s ease-in-out infinite;
 }
 
+/* ========== AT A GLANCE ========== */
+.at-a-glance { background: var(--cream-dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.25rem 0 2rem; }
+.at-a-glance .container { max-width: 920px; }
+.at-a-glance-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-terracotta); margin-bottom: 1.1rem; }
+.at-a-glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.glance-card { border-left: 2px solid var(--accent-terracotta-light); padding-left: 1rem; }
+.glance-card h4 { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.45rem; }
+.glance-card p { font-size: 0.92rem; line-height: 1.55; color: var(--text-primary); margin: 0; }
+.glance-card strong { color: var(--accent-terracotta); font-weight: 600; }
+@media (max-width: 768px) { .at-a-glance-grid { grid-template-columns: 1fr; gap: 1rem; } }
+
 /* ========== ABOUT ========== */
 .about {
   background: var(--warm-white);
@@ -1095,15 +1106,35 @@ footer p {
   </div>
 </section>
 
+<!-- AT A GLANCE — 10 秒速览 -->
+<section class="at-a-glance">
+  <div class="container">
+    <div class="at-a-glance-label reveal">— 速览</div>
+    <div class="at-a-glance-grid">
+      <div class="glance-card reveal">
+        <h4>可入职时间</h4>
+        <p>AI 产品 / 海外运营实习 · <strong>2026 年 9 月起</strong> · 北京（线下）或远程</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-1">
+        <h4>Build 侧</h4>
+        <p>2 套生产 agent 系统 · 首条抖音视频 <strong>110K+ 播放</strong> · 约 400 行 Function Calling demo（开源）</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-2">
+        <h4>Research 侧</h4>
+        <p>巴黎一大 <strong>经济学 M2</strong> · Deloitte 导师制能源案例 · 34 国 robotics 研究</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="container">
     <div class="about-content">
       <div class="about-text reveal">
         <div class="section-label">关于我</div>
-        <p><strong>Build 端：</strong>我设计了一套 7 agent 的 AI 系统，端到端跑我的内容生产流水线——每个 agent 自己决策、自己执行、自己复盘，每一轮数据都会回写到选题过滤器。线上跑在我的抖音账号，首条视频 <strong>110,000+ 播放 · 3,856 收藏</strong>。这是系统设计，不是 prompt 工程。</p>
-        <p><strong>背景：</strong>巴黎一大先贤祠-索邦大学经济学硕士在读，本科对外经济贸易大学金融双学位。我把实验方法用到产品设计上——假设、A/B 测试、迭代。Python 调度优化、抖音开头 A/B 测试，以及我设计的每一条 agent 链，背后都是同一套思维。</p>
-        <p><strong>跨度：</strong>三个大洲、三种工作语境。统筹过 60 人志愿者组织和 100+ 项目（含 2022 北京冬奥会）；运营过一个 2,000+ 订阅者的内容平台。团队领导和运营经验会和我做的每一个 AI 系统叠加起来。</p>
+        <p><strong>我在做什么：</strong>两套每天在跑的生产 agent 系统——7-agent 内容流水线（首条视频 <strong>110K+ 播放 · 3,856 收藏</strong>）+ Markdown 控制的任务路由 agent（typed state machine）。系统设计，不是 prompt 工程。</p>
+        <p><strong>训练背景：</strong>巴黎一大经济学 M2，本科对外经贸大学金融双学位。带过来的习惯：把每个产品决策当实验做——假设、A/B、迭代。Python 调度优化、抖音开头测试、我设计的每条 agent 链，背后都是同一套思维。跨度：三个大洲（北京 · 东京 · 巴黎），统筹过 60 人志愿者组织，运营过 2K+ 订阅者内容平台。</p>
       </div>
       <div class="about-details reveal reveal-delay-2">
         <div class="detail-group">
@@ -1170,11 +1201,8 @@ footer p {
           <h3>Task Router Agent — 一个 Markdown 文件上的状态机编排层</h3>
           <p class="project-context">生产运行时 · 会话独立运行时 · 自愈状态机</p>
           <p class="project-description">
-            设计了一套 LLM 驱动的任务编排层，自动路由、执行、自愈。一个 Markdown 文件即 agent 的控制平面；<code>fswatch</code> 监听编辑；一个状态机 skill 把 <code>ready</code> 任务通过单写者执行协议路由，避免 race condition。所有破坏性动作必须 human-in-the-loop 验证。
+            一个 LLM 驱动的任务运行时，Markdown 文件即控制平面。typed state machine + 单写者协议 + 自愈。<strong>核心洞察：让 agent 从执行机器变推理伙伴的是结构化状态，不是更好的 prompt。</strong>
           </p>
-          <div class="project-finding">
-            <strong>核心洞察：</strong>同一个 LLM、同一张任务看板，agent 行为完全不同——只因为状态是"标签"还是"协议"。从 <code>pending/done</code> 迁移到类型化状态（<code>ready</code> / <code>blocked:siyao:reply</code> / <code>running:agent-42:ts</code> / <code>failed:timeout</code>）之后，模型开始推理我没编程的东西——它开始捕捉我没写的语义矛盾。给产品团队的启示：<em>把 agent 从执行机器变成推理伙伴的，是结构化状态，不是更好的 prompt</em>。
-          </div>
           <div class="project-tech">
             <span class="tech-tag">Agent 编排</span>
             <span class="tech-tag">状态机</span>
@@ -1253,10 +1281,10 @@ footer p {
           <h3>AI 内容自动化流水线</h3>
           <p class="project-context">上线产品 · 个人生产部署 · 基于反馈循环的自我更新方法论</p>
           <p class="project-description">
-            一个全链路 AI agent 系统，自动化内容生产全流程：选题过滤（三层验证）、脚本生成、开头优化、标题生成、质量检查、发布后数据复盘与元分析。每个 agent 都是一个专门设计的 prompt 系统，具备结构化输入、诊断逻辑和反馈循环。
+            7 个 agent 覆盖选题 → 脚本 → 开头 → 标题 → 质检 → 数据复盘。每个 agent 有类型化 I/O 契约；Data Review agent 把验证过的规则回写进共享的 methodology 文件，Topic Filter 下一周期读新规则——所以过滤器越用越严，不是因为改 prompt。
           </p>
           <div class="project-finding">
-            <strong>成果：</strong>首条视频在抖音获得 110,000+ 播放量——使用本系统在第一天即完成制作。系统不仅生成内容，还从自身输出数据中学习，每个周期都在迭代优化。
+            <strong>12 条已发后：</strong>首条视频 <strong>110K 播放 · 3,856 收藏</strong> · 系统基于数据 <strong>自动下架 3 类内容</strong> · methodology 从 0 长到 3 条禁区 + 4 条验证格式。
           </div>
           <div class="project-tech">
             <span class="tech-tag">Prompt 工程</span>
@@ -1324,10 +1352,10 @@ footer p {
           <h3>Rooted (根) &mdash; 把一个汉字做成可穿越时间的对象</h3>
           <p class="project-context">实时原型 &middot; 产品论点验证 &middot; 交互优先的语言学习设计</p>
           <p class="project-description">
-            一个交互原型 &mdash; 验证一个高度打磨的单点交互，能否比一长串功能更能承载产品主张。
+            每版一个高保真交互，每个交互只承载一个设计论点。V1：拖动滑杆，看 马 从甲骨文经 3000 年变成现代字形。V2：点 妈，它分解成 女 + 马（音旁）。一次交互，一个论点，零功能清单。
           </p>
           <div class="project-finding">
-            <strong>为什么重要：</strong>汉字不是随机的符号，而是有逻辑的意义与声音系统。让学习者看到一次，剩下的就会自己滚起来。
+            <strong>设计押注：</strong>交互本身就是价值主张。如果用户能只从交互里推出 mental model，就不需要任何教程文案来解释。
           </div>
           <div class="project-tech">
             <span class="tech-tag">Next.js 16</span>
@@ -1370,10 +1398,10 @@ footer p {
           <h3>Energy Demand Forecasting & Supply Optimisation</h3>
           <p class="project-context">Deloitte 导师制指导案例 — 大学小组项目，巴黎</p>
           <p class="project-description">
-            为南非电力系统设计了端到端的量化分析框架。构建并对比了六种预测模型（从 ARIMA 到 TFT 深度学习），随后实现了一个在碳排放、产能和合同约束下最小化系统成本的调度优化模型。
+            南非电力系统的端到端量化框架：对比 6 种预测模型（ARIMA → TFT）+ Pyomo 实现在碳排放 / 产能 / 合同约束下的调度优化。
           </p>
           <div class="project-finding">
-            <strong>关键发现：</strong> 在尾部风险指标上，SARIMAX 的表现优于深度学习模型（LSTM、TFT）——更简洁的计量经济学模型在结构性供给压力下表现更稳健。
+            <strong>关键发现：</strong>尾部风险指标上 SARIMAX 跑赢 LSTM / TFT —— 结构性供给压力下，简单计量模型反而更稳健。
           </div>
           <div class="project-tech">
             <span class="tech-tag">Python</span>
@@ -1410,10 +1438,10 @@ footer p {
           </a>
         </div>
         <p class="project-description">
-          构建了一个暴露指数，衡量欧洲各职业受机器人技术采纳影响的程度，使用潜在语义分析（LSA）处理专利和职位描述语料库。发现中等工资、常规任务型职业面临最大的自动化风险——与劳动力市场极化理论一致。
+          欧洲职业机器人暴露指数，基于专利 + 职位描述语料做 LSA。中等工资常规任务型职业自动化风险最高（与劳动力市场极化理论一致）。
         </p>
         <div class="project-finding">
-          <strong>关键结果：</strong> 在 34 个欧洲国家中，机器人暴露指数每增加一个标准差，平均时薪下降 7.2%（β = −0.072, p < 0.001）。
+          <strong>结果：</strong>+1σ 机器人暴露 → 平均时薪 −7.2%（β = −0.072, p &lt; 0.001），样本含 34 个欧洲国家。
         </div>
         <div class="project-tech">
           <span class="tech-tag">Python</span>
