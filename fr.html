@@ -1250,6 +1250,10 @@ footer p {
               Lire l'étude de cas
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
+            <a href="https://github.com/Siyaovo/md-task-router" target="_blank" rel="noopener" class="project-link">
+              Voir sur GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -1397,6 +1401,37 @@ footer p {
           <div class="project-actions">
             <a href="https://rooted-azure.vercel.app" target="_blank" rel="noopener" class="project-link">
               Démo en ligne
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function Calling Demo -->
+      <div class="project-card reveal" style="--card-accent: #7A8B9A;">
+        <div>
+          <div class="project-card-top">
+            <span class="project-type">Démo technique &middot; open source</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3>Function Calling Demo &mdash; une boucle tool-use Anthropic minimaliste</h3>
+          <p class="project-context">Repo GitHub public &middot; ~350 lignes de Python &middot; 13 tests pytest (incluant le test de frontière sécuritaire)</p>
+          <p class="project-description">
+            Un agent tool-use écrit sans aucun framework — appel direct à l'API Anthropic. 5 outils typés (chacun avec un JSON Schema), un dispatcher, une garde contre le path traversal appliquée au niveau du handler, et un plafond <code>MAX_TOOL_ITERATIONS</code> avec un commentaire expliquant quand il devrait se déclencher. <strong>Construit pour comprendre la primitive, pas le framework.</strong>
+          </p>
+          <div class="project-finding">
+            <strong>Pourquoi ce repo :</strong> tous les frameworks d'agents (LangChain, AutoGen, Claude Agent SDK) enveloppent la même boucle. La voir à l'état brut rend les arbitrages de design visibles — pourquoi les outils typés battent le god-tool, pourquoi la garde de sécurité vit dans le code plutôt que dans le prompt, pourquoi un plafond d'itérations signale un schéma d'outil défectueux.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Function Calling</span>
+            <span class="tech-tag">Tool Use</span>
+            <span class="tech-tag">JSON Schema</span>
+            <span class="tech-tag">Garde path traversal</span>
+            <span class="tech-tag">pytest</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/Siyaovo/function-calling-demo" target="_blank" rel="noopener" class="project-link">
+              Voir sur GitHub
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
           </div>

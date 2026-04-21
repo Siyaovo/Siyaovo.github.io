@@ -1337,6 +1337,10 @@ footer p {
               Read the case study
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
+            <a href="https://github.com/Siyaovo/md-task-router" target="_blank" rel="noopener" class="project-link">
+              View on GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -1495,6 +1499,37 @@ footer p {
           <div class="project-actions">
             <a href="https://rooted-azure.vercel.app" target="_blank" rel="noopener" class="project-link">
               Live demo
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function Calling Demo -->
+      <div class="project-card reveal" style="--card-accent: #7A8B9A;">
+        <div>
+          <div class="project-card-top">
+            <span class="project-type">Technical Demo &middot; Open Source</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3>Function Calling Demo &mdash; a minimal Anthropic tool-use loop</h3>
+          <p class="project-context">Public GitHub repo &middot; ~350 lines of Python &middot; 13 pytest tests (security boundary included)</p>
+          <p class="project-description">
+            A minimal tool-use agent written without any framework &mdash; direct Anthropic API. Ships 5 typed tools (each with a JSON Schema), a dispatcher, a path-traversal guard enforced at the handler level, and a <code>MAX_TOOL_ITERATIONS</code> cap with a comment explaining when it should fire. <strong>Built to understand the primitive, not the framework.</strong>
+          </p>
+          <div class="project-finding">
+            <strong>Why this exists:</strong> every agent framework (LangChain, AutoGen, Claude Agent SDK) wraps the same loop. Seeing it plain makes the design trade-offs visible — why typed tools beat a god-tool, why the boundary check lives in code not prompt, why an iteration cap signals a bad schema.
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Function Calling</span>
+            <span class="tech-tag">Tool Use</span>
+            <span class="tech-tag">JSON Schema</span>
+            <span class="tech-tag">Path Traversal Guard</span>
+            <span class="tech-tag">pytest</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/Siyaovo/function-calling-demo" target="_blank" rel="noopener" class="project-link">
+              View on GitHub
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
           </div>

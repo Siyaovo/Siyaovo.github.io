@@ -1250,6 +1250,10 @@ footer p {
               阅读案例
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
+            <a href="https://github.com/Siyaovo/md-task-router" target="_blank" rel="noopener" class="project-link">
+              在 GitHub 上查看
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -1397,6 +1401,37 @@ footer p {
           <div class="project-actions">
             <a href="https://rooted-azure.vercel.app" target="_blank" rel="noopener" class="project-link">
               在线 Demo
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Function Calling Demo -->
+      <div class="project-card reveal" style="--card-accent: #7A8B9A;">
+        <div>
+          <div class="project-card-top">
+            <span class="project-type">技术 Demo &middot; 开源</span>
+            <span class="project-year">2026</span>
+          </div>
+          <h3>Function Calling Demo &mdash; 一个最小化的 Anthropic tool-use loop</h3>
+          <p class="project-context">GitHub 公开仓库 &middot; 约 350 行 Python &middot; 13 个 pytest 测试（含安全边界测试）</p>
+          <p class="project-description">
+            没用任何 framework，直接基于 Anthropic API 写的一个 tool-use agent。5 个类型化 tool（每个都带 JSON Schema）+ 一个 dispatcher + 一个在 handler 层强制的路径穿越防护 + 一个带注释的 <code>MAX_TOOL_ITERATIONS</code> 上限。<strong>目的是理解原语本身，不是理解某个框架。</strong>
+          </p>
+          <div class="project-finding">
+            <strong>为什么做这个：</strong>所有 agent 框架（LangChain、AutoGen、Claude Agent SDK）都是在包装同一个 loop。把它写到最朴素的状态，设计权衡反而清晰——为什么类型化 tool 胜过 god-tool、为什么安全边界要写在代码里而不是 prompt 里、为什么迭代上限的存在本身就暴露了 tool schema 的问题。
+          </div>
+          <div class="project-tech">
+            <span class="tech-tag">Function Calling</span>
+            <span class="tech-tag">Tool Use</span>
+            <span class="tech-tag">JSON Schema</span>
+            <span class="tech-tag">路径穿越防护</span>
+            <span class="tech-tag">pytest</span>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/Siyaovo/function-calling-demo" target="_blank" rel="noopener" class="project-link">
+              在 GitHub 上查看
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
             </a>
           </div>
