@@ -351,17 +351,6 @@ nav .nav-links a:hover::after { width: 100%; }
   animation: scrollDown 2s ease-in-out infinite;
 }
 
-/* ========== AT A GLANCE ========== */
-.at-a-glance { background: var(--cream-dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.25rem 0 2rem; }
-.at-a-glance .container { max-width: 920px; }
-.at-a-glance-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-terracotta); margin-bottom: 1.1rem; }
-.at-a-glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
-.glance-card { border-left: 2px solid var(--accent-terracotta-light); padding-left: 1rem; }
-.glance-card h4 { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.45rem; }
-.glance-card p { font-size: 0.92rem; line-height: 1.55; color: var(--text-primary); margin: 0; }
-.glance-card strong { color: var(--accent-terracotta); font-weight: 600; }
-@media (max-width: 768px) { .at-a-glance-grid { grid-template-columns: 1fr; gap: 1rem; } }
-
 /* ========== ABOUT ========== */
 .about {
   background: var(--warm-white);
@@ -1103,27 +1092,6 @@ footer p {
   <div class="scroll-indicator">
     <span>Défiler</span>
     <div class="scroll-line"></div>
-  </div>
-</section>
-
-<!-- AT A GLANCE — scan en 10 secondes -->
-<section class="at-a-glance">
-  <div class="container">
-    <div class="at-a-glance-label reveal">— Vue d&rsquo;ensemble</div>
-    <div class="at-a-glance-grid">
-      <div class="glance-card reveal">
-        <h4>Disponibilité</h4>
-        <p>Stage AI Product / Overseas Ops · <strong>à partir de sept. 2026</strong> · Pékin ou remote</p>
-      </div>
-      <div class="glance-card reveal reveal-delay-1">
-        <h4>Côté build</h4>
-        <p>2 systèmes d&rsquo;agents en production · première vidéo Douyin <strong>110K+ vues</strong> · démo Function Calling (~400 lignes, open source)</p>
-      </div>
-      <div class="glance-card reveal reveal-delay-2">
-        <h4>Côté research</h4>
-        <p>M2 Économie à <strong>Panthéon-Sorbonne</strong> · étude énergie encadrée Deloitte · paper robotics sur 34 pays</p>
-      </div>
-    </div>
   </div>
 </section>
 

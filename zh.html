@@ -351,17 +351,6 @@ nav .nav-links a:hover::after { width: 100%; }
   animation: scrollDown 2s ease-in-out infinite;
 }
 
-/* ========== AT A GLANCE ========== */
-.at-a-glance { background: var(--cream-dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.25rem 0 2rem; }
-.at-a-glance .container { max-width: 920px; }
-.at-a-glance-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-terracotta); margin-bottom: 1.1rem; }
-.at-a-glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
-.glance-card { border-left: 2px solid var(--accent-terracotta-light); padding-left: 1rem; }
-.glance-card h4 { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.45rem; }
-.glance-card p { font-size: 0.92rem; line-height: 1.55; color: var(--text-primary); margin: 0; }
-.glance-card strong { color: var(--accent-terracotta); font-weight: 600; }
-@media (max-width: 768px) { .at-a-glance-grid { grid-template-columns: 1fr; gap: 1rem; } }
-
 /* ========== ABOUT ========== */
 .about {
   background: var(--warm-white);
@@ -1103,27 +1092,6 @@ footer p {
   <div class="scroll-indicator">
     <span>向下滚动</span>
     <div class="scroll-line"></div>
-  </div>
-</section>
-
-<!-- AT A GLANCE — 10 秒速览 -->
-<section class="at-a-glance">
-  <div class="container">
-    <div class="at-a-glance-label reveal">— 速览</div>
-    <div class="at-a-glance-grid">
-      <div class="glance-card reveal">
-        <h4>可入职时间</h4>
-        <p>AI 产品 / 海外运营实习 · <strong>2026 年 9 月起</strong> · 北京（线下）或远程</p>
-      </div>
-      <div class="glance-card reveal reveal-delay-1">
-        <h4>Build 侧</h4>
-        <p>2 套生产 agent 系统 · 首条抖音视频 <strong>110K+ 播放</strong> · 约 400 行 Function Calling demo（开源）</p>
-      </div>
-      <div class="glance-card reveal reveal-delay-2">
-        <h4>Research 侧</h4>
-        <p>巴黎一大 <strong>经济学 M2</strong> · Deloitte 导师制能源案例 · 34 国 robotics 研究</p>
-      </div>
-    </div>
   </div>
 </section>
 
