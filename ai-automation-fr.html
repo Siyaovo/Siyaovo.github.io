@@ -122,9 +122,9 @@ tr:last-child td { border-bottom: none; }
 
 <div class="hero">
   <div class="container">
-    <div class="label">Orchestration d&rsquo;Agents · Conception de Système</div>
-    <h1>Task Router Agent<br>Une couche d&rsquo;orchestration à machine à états sur un fichier Markdown</h1>
-    <p class="subtitle">J&rsquo;ai conçu un runtime d&rsquo;orchestration de tâches piloté par LLM qui route, exécute et s&rsquo;auto-répare de manière autonome. Un seul fichier Markdown devient le plan de contrôle de l&rsquo;agent. Runtime indépendant de la session — vous modifiez le fichier, le travail se fait en arrière-plan qu'une session soit ouverte ou non. Ci-dessous : comment l&rsquo;architecture a été pensée, les arbitrages que j&rsquo;ai faits, les résultats mesurables et le comportement émergent que je n&rsquo;avais pas programmé.</p>
+    <div class="label">Orchestration d&rsquo;agents · conception système</div>
+    <h1>Task Router Agent<br>Un système de routage de tâches à machine à états, piloté par un fichier Markdown</h1>
+    <p class="subtitle">C&rsquo;est un runtime de tâches piloté par LLM — le routage, l&rsquo;exécution et l&rsquo;auto-réparation se font tout seuls. Un simple fichier Markdown sert de plan de contrôle, et l&rsquo;ensemble tourne sans dépendre d&rsquo;une session ouverte : on modifie le fichier, le travail continue en arrière-plan. Dans cette étude : comment j&rsquo;ai conçu l&rsquo;architecture, les arbitrages que j&rsquo;ai faits, les résultats mesurés, et un comportement clé que je n&rsquo;avais pas programmé mais que le système a fait émerger tout seul.</p>
   </div>
 </div>
 
@@ -133,9 +133,9 @@ tr:last-child td { border-bottom: none; }
 <section>
   <div class="part-label">Partie 1</div>
   <h2>Le Problème</h2>
-  <p><strong>Contexte</strong> : je pilote quatre chantiers simultanés (production de contenu, brief de revue d&rsquo;architecture pour un premier client, portfolio, études) en opérateur solo. L&rsquo;état des tâches était éparpillé entre différents outils ; reprendre le contexte après chaque interruption coûtait 15 à 30 minutes de « remise en route » avant tout vrai travail.</p>
-  <p><strong>Contrainte produit</strong> : je voulais un système de tâches où je pouvais <strong>ajouter du travail à tout moment</strong>, et les tâches assignées à l&rsquo;automatisation <strong>s&rsquo;exécuteraient elles-mêmes</strong> sans nécessiter ma présence à la machine. Fermer l&rsquo;ordinateur, revenir quelques heures plus tard, et trouver le travail fait.</p>
-  <p><strong>Pourquoi cela compte en conception d&rsquo;agents</strong> : la plupart des « assistants IA » s&rsquo;arrêtent quand la fenêtre de chat se ferme. Ils sont attachés à une session, pas au travail. Construire un runtime d&rsquo;agent <em>indépendant du cycle de vie de la session</em> est un problème de conception fondamentalement différent — et le basculement nécessaire pour que les agents agissent comme de l&rsquo;infrastructure plutôt que comme des outils.</p>
+  <p><strong>Contexte :</strong> en tant qu&rsquo;opératrice solo, je pilote quatre chantiers en parallèle (production de contenu, brief de revue d&rsquo;architecture pour un premier client, portfolio, études). L&rsquo;état des tâches se retrouvait éparpillé entre différents outils, et il me fallait 15 à 30 minutes de « remise en route » à chaque reprise de contexte avant de pouvoir vraiment travailler.</p>
+  <p><strong>Contrainte produit :</strong> je voulais un système de tâches avec deux propriétés : je peux <strong>ajouter du travail à tout moment</strong>, et les tâches confiées à l&rsquo;automatisation <strong>s&rsquo;exécutent toutes seules</strong>, sans que j&rsquo;aie besoin de rester devant la machine. Je ferme l&rsquo;ordinateur, je reviens quelques heures plus tard, et le travail est fait.</p>
+  <p><strong>Pourquoi c&rsquo;est un vrai sujet en design d&rsquo;agents :</strong> la plupart des « assistants IA » s&rsquo;arrêtent dès qu&rsquo;on ferme la fenêtre de chat. Ils sont liés à une conversation, pas au travail lui-même. Construire un runtime d&rsquo;agent <em>qui ne dépend pas du cycle de vie de la session</em> est un problème de conception complètement différent — et c&rsquo;est précisément ce basculement qui fait passer un agent du statut d&rsquo;« outil » à celui d&rsquo;« infrastructure ».</p>
   <div class="takeaway">
     <p>La question de conception : un simple fichier texte, couplé à un protocole de machine à états et à une couche de décision LLM, peut-il servir de runtime d&rsquo;agent persistant ? Si oui, le même pattern se généralise à n&rsquo;importe quel workflow opérationnel — triage support, pipeline de contenu, automatisation d&rsquo;opérations.</p>
   </div>
@@ -255,10 +255,10 @@ tr:last-child td { border-bottom: none; }
   <p>Aucun de ces comportements n&rsquo;était dans le prompt. Ils ont émergé de la conception de la machine à états.</p>
 
   <div class="takeaway">
-    <p>Même LLM. Même task-board. Comportement d&rsquo;agent différent, selon que le statut est une <em>étiquette</em> ou un <em>protocole</em>. Un statut en langage naturel (« en attente », « en cours ») donne au modèle un token à matcher. Un état typé avec sous-champs structurés lui donne un protocole à raisonner. Le takeaway que j&rsquo;emballerais pour une équipe produit : <strong>ce qui transforme les agents d&rsquo;exécuteurs en partenaires de raisonnement n&rsquo;est pas de meilleurs prompts — c&rsquo;est un état structuré</strong>.</p>
+    <p>Même LLM, même task-board — et pourtant l&rsquo;agent se comporte de manière radicalement différente selon que le statut est une <em>étiquette</em> ou un <em>protocole</em>. Un statut en langage naturel (« en attente », « en cours ») ne donne au modèle qu&rsquo;un token à matcher ; un état typé avec sous-champs structurés lui donne un protocole sur lequel raisonner. Le point que j&rsquo;emporterais pour une équipe produit : <strong>ce qui transforme un agent d&rsquo;un simple exécuteur en véritable partenaire de raisonnement, c&rsquo;est l&rsquo;état structuré ; le prompt n&rsquo;est qu&rsquo;un réglage final</strong>.</p>
   </div>
 
-  <p>Cela a des implications pour la conception de systèmes d&rsquo;agents. La plupart des équipes itèrent sur les prompts quand un comportement est inadéquat. Le levier plus puissant est souvent de changer le <em>système de types</em> dans lequel l&rsquo;agent opère.</p>
+  <p>La conclusion pratique pour un système d&rsquo;agents : quand le comportement d&rsquo;un agent déçoit, la plupart des équipes itèrent sur les prompts. Le levier le plus puissant est souvent ailleurs — dans le <em>système de types</em> au sein duquel l&rsquo;agent opère.</p>
 </section>
 
 <hr class="divider">
@@ -295,7 +295,7 @@ tr:last-child td { border-bottom: none; }
   </ul>
 
   <div class="takeaway">
-    <p>Construire ce système m&rsquo;a appris une chose que je peux transférer à n&rsquo;importe quel produit d&rsquo;agent : <strong>la machine à états est le produit</strong>. Prompts, sous-agents, couches d&rsquo;ordonnancement — tous remplaçables. Le contrat d&rsquo;état entre intention humaine et action d&rsquo;agent est ce qui persiste, passe à l&rsquo;échelle, et détermine si le système peut raisonner ou seulement exécuter.</p>
+    <p>Avoir construit ce système m&rsquo;a laissé une conclusion que je peux transférer à n&rsquo;importe quel produit d&rsquo;agents : <strong>la machine à états, c&rsquo;est le produit lui-même</strong>. Prompts, sous-agents, couches d&rsquo;ordonnancement — tous remplaçables. Ce qui persiste, ce qui passe à l&rsquo;échelle, et ce qui détermine si le système peut raisonner ou seulement exécuter, c&rsquo;est le contrat d&rsquo;état entre l&rsquo;intention humaine et l&rsquo;action de l&rsquo;agent.</p>
   </div>
 </section>
 

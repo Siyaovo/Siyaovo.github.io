@@ -123,8 +123,8 @@ tr:last-child td { border-bottom: none; }
 <div class="hero">
   <div class="container">
     <div class="label">Agent 编排 · 系统设计</div>
-    <h1>Task Router Agent<br>基于 Markdown 的状态机编排层</h1>
-    <p class="subtitle">我设计了一套基于 LLM 的任务编排运行时——路由、执行、自愈全部自动完成。一个 Markdown 文件成为 Agent 的控制平面。整套系统独立于任何活跃会话运行——编辑文件，工作就在后台发生。本文讲述：这个架构是怎么设计的，我做了哪些取舍，实际数据如何，以及一个我没编程但系统自发出现的关键行为。</p>
+    <h1>Task Router Agent<br>用 Markdown 文件作为控制平面的任务调度系统</h1>
+    <p class="subtitle">这是一套 LLM 驱动的任务运行时——路由、执行、自愈全部自动完成。一个 Markdown 文件作为 Agent 的控制平面，整套系统不依赖于任何打开着的会话——编辑文件后，工作会在后台继续。下面讲清楚：这套架构的设计思路、我做出的几个关键取舍、实际运行数据，以及一个我没有刻意编程、系统却自发表现出的关键行为。</p>
   </div>
 </div>
 
@@ -133,11 +133,11 @@ tr:last-child td { border-bottom: none; }
 <section>
   <div class="part-label">第一部分</div>
   <h2>问题</h2>
-  <p><strong>背景</strong>：我作为 solo 运营者同时推进 4 条线（内容生产、首位客户的架构评审需求、作品集搭建、学业）。任务状态散落在不同工具里；每次切换上下文都要花 15&ndash;30 分钟"回血"才能真正开始工作。</p>
-  <p><strong>产品约束</strong>：我要一个任务系统，能让我<strong>随时加任务</strong>，而分配给自动化的任务能<strong>自己执行完</strong>——不需要我守在电脑前。合上笔记本，几小时后回来，发现任务已经做完。</p>
-  <p><strong>为什么这是 Agent 设计的关键</strong>：大多数"AI 助手"关上聊天窗口就停下。它们绑定的是 session，不是工作本身。构建一个<em>独立于会话生命周期</em>的 Agent 运行时，是一个根本不同的设计问题——也是 Agent 从"工具"变成"基础设施"必须做的转变。</p>
+  <p><strong>背景：</strong>作为一个独立运营者，我同时在推进 4 条线（内容生产、首位客户的架构评审、作品集搭建、学业）。任务状态散落在不同工具里——每次切换上下文都要花 15&ndash;30 分钟重新进入状态，才能真正开始工作。</p>
+  <p><strong>产品约束：</strong>我想要的任务系统需要满足两点：可以<strong>随时加任务</strong>；分配给自动化的任务能<strong>自己跑完</strong>，不需要我守在电脑前。合上电脑，几个小时后回来，任务已经处理完。</p>
+  <p><strong>为什么这是 Agent 设计的关键：</strong>大多数"AI 助手"一关上聊天窗口就停止工作——它们绑定的是对话，而非工作本身。构建一个<em>不依赖会话生命周期</em>的 Agent 运行时，是一个完全不同的设计问题；这也是让 Agent 从"工具"升级到"基础设施"的分水岭。</p>
   <div class="takeaway">
-    <p>核心设计问题：一个纯文本文件，加一套状态机协议，加一个 LLM 决策层，能不能作为一个持久化的 Agent 运行时？如果可以，这套模式就能泛化到任何运营工作流——客服 triage、内容流水线、业务自动化。</p>
+    <p>核心设计问题：一个纯文本文件 + 一套状态机协议 + 一个 LLM 决策层，能不能撑起一个持久化的 Agent 运行时？如果可以，这套模式就能迁移到任何运营工作流——客服工单分派、内容流水线、业务自动化。</p>
   </div>
 </section>
 
@@ -160,7 +160,7 @@ tr:last-child td { border-bottom: none; }
       <div class="skip"><strong>blocked / done</strong> → 直接跳过，不重复判断</div>
       <div class="heal"><strong>running &gt; 30min</strong> → 自动重置为 ready（死锁恢复）</div>
     </div>
-    <div class="flow-arrow">↓&nbsp;&nbsp;单写者协议 · 主 agent 统一写回状态</div>
+    <div class="flow-arrow">↓&nbsp;&nbsp;写入串行化 · 主 agent 统一写回状态</div>
     <div class="flow-step exec"><strong>状态更新 + 只追加日志</strong> &middot; <code>task-board.md</code> 写回 · <code>events.jsonl</code> 结构化日志 · <code>deadletter/</code> 终态失败归档</div>
   </div>
 
@@ -179,7 +179,7 @@ tr:last-child td { border-bottom: none; }
 <section>
   <div class="part-label">第三部分</div>
   <h2>关键设计决策</h2>
-  <p>4 个深思熟虑的取舍。每个都有我明确拒绝的替代方案。</p>
+  <p>4 个刻意做出的取舍。每一个我都列出了明确拒绝的替代方案。</p>
 
   <div class="decision-card">
     <div class="decision-title">1. 用 Markdown 做控制平面，不用 Notion / Airtable / SQL</div>
@@ -193,23 +193,23 @@ tr:last-child td { border-bottom: none; }
     <div class="decision-title">2. 类型化状态机，不用自然语言 status</div>
     <div class="decision-row"><span class="k">拒绝</span><span class="v">自由文本状态（"等客户回复"、"进行中"、"卡在 API"）</span></div>
     <div class="decision-row"><span class="k">选择</span><span class="v">类型化状态 token：<code>ready</code> / <code>blocked:siyao:send-brief</code> / <code>running:agent-a4b:2026-04-20T15:25Z</code> / <code>done</code> / <code>failed:exhausted_retries</code></span></div>
-    <div class="decision-row"><span class="k">理由</span><span class="v">类型化状态是<strong>协议</strong>，不是标签。LLM 解析它时能推理依赖链、死锁条件、时间戳合理性——不只是字符串 pattern match。<strong>对系统"智能度"的最大单点影响</strong>（见第五部分）。</span></div>
-    <div class="decision-row"><span class="k">代价</span><span class="v">一次性迁移所有现有任务（13 张卡）+ 维护 taxonomy 的纪律。前期成本小，后期复利</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">类型化状态是<strong>一套协议</strong>，而标签只是字符串。LLM 解析协议时能推理依赖链、死锁条件、时间戳合理性，而不是对字符串做 pattern match。<strong>这是对系统"智能度"影响最大的一处设计</strong>（见第五部分）。</span></div>
+    <div class="decision-row"><span class="k">代价</span><span class="v">一次性迁移所有现有任务（13 张卡）+ 坚持按这套分类规范维护。前期成本小，后期复利</span></div>
   </div>
 
   <div class="decision-card">
-    <div class="decision-title">3. 单写者并发，不用分布式锁</div>
-    <div class="decision-row"><span class="k">拒绝</span><span class="v">多 agent 并发写 <code>task-board.md</code> + 分布式锁（<code>flock</code>、append 模式、CRDT）</span></div>
-    <div class="decision-row"><span class="k">选择</span><span class="v">严格单写者协议：<strong>只有主 agent 能写状态</strong>。Subagent 并行执行任务 + 返回结构化结果；主 agent 串行化所有状态更新</span></div>
-    <div class="decision-row"><span class="k">理由</span><span class="v">Markdown 文件不是 transactional 的。并发写会丢失更新、结构损坏、或产生无法解析的状态——一套连锁故障。单写者限制了并行带宽，但以零运行时成本消除了一整类 race condition bug。</span></div>
-    <div class="decision-row"><span class="k">取舍</span><span class="v">执行并行性保留（最多 3 subagent 并行）；状态串行化只在任务吞吐量持续 &gt; 1/s 时成为瓶颈。这不是当前工作量的真实约束。</span></div>
+    <div class="decision-title">3. 写入串行化，不用分布式锁</div>
+    <div class="decision-row"><span class="k">拒绝</span><span class="v">多 agent 并发写 <code>task-board.md</code> + 分布式锁机制（<code>flock</code>、append 模式、CRDT）</span></div>
+    <div class="decision-row"><span class="k">选择</span><span class="v">严格的单写者原则：<strong>只有主 agent 能写状态</strong>。Subagent 并行执行任务、返回结构化结果；所有状态更新由主 agent 统一串行写入</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">Markdown 文件不具备事务性。并发写入会导致更新丢失、结构损坏，甚至生成无法解析的状态——一连串连锁故障。单写者原则限制了并行带宽，但以零运行时成本消除了一整类竞态条件 bug。</span></div>
+    <div class="decision-row"><span class="k">取舍</span><span class="v">执行层的并行能力仍然保留（最多 3 个 subagent 并行）；状态写入只有在任务吞吐量持续 &gt; 1/秒 时才会成为瓶颈——对当前工作量而言，还远远不到那条线。</span></div>
   </div>
 
   <div class="decision-card">
     <div class="decision-title">4. Quiescence Gate，不用简单 debounce</div>
     <div class="decision-row"><span class="k">拒绝</span><span class="v">文件 watcher 固定 2 秒 debounce</span></div>
     <div class="decision-row"><span class="k">选择</span><span class="v">Watcher debounce（2s）<em>叠加</em> quiescence gate：执行前必须有<strong>连续 30 秒文件空闲</strong>。每 5 秒轮询一次；任何改动即重置计时。</span></div>
-    <div class="decision-row"><span class="k">理由</span><span class="v">用户一次"保存"动作，编辑器可能触发 watcher 5-10 次。没有 quiescence 的话，执行器会和用户抢时间；状态更新会和还在进行的编辑撞车。30 秒 gate 让自动化处理和用户的自然停顿节奏对齐。</span></div>
+    <div class="decision-row"><span class="k">理由</span><span class="v">用户一次"保存"动作，编辑器可能触发 watcher 5&ndash;10 次。没有 quiescence 的情况下，执行器会与用户的编辑抢时间，状态更新会和还在进行中的编辑冲突。30 秒的门槛让自动化处理与用户的自然停顿节奏对齐。</span></div>
     <div class="decision-row"><span class="k">代价</span><span class="v">处理延迟最低 30 秒。对异步任务流可接受；不适合实时聊天 agent。</span></div>
   </div>
 </section>
@@ -255,10 +255,10 @@ tr:last-child td { border-bottom: none; }
   <p>这些行为都不在 prompt 里。它们从状态机设计中涌现出来。</p>
 
   <div class="takeaway">
-    <p>同一个 LLM，同一个 task-board，agent 的行为完全不同——取决于 status 是<em>标签</em>还是<em>协议</em>。自然语言 status（"等待"、"进行中"）给模型一个 token 去匹配。类型化 status + 结构化子字段给模型一个协议去推理。我给产品团队打包的核心 takeaway：<strong>让 agent 从"执行机器"变成"推理搭档"的不是更好的 prompt，是结构化的状态</strong>。</p>
+    <p>同一个 LLM，同一张 task-board，agent 的行为可以截然不同——全看 status 是<em>标签</em>还是<em>协议</em>。自然语言 status（"等待"、"进行中"）给模型的只是一串可以 pattern match 的文本；类型化 status + 结构化子字段，给模型的是一套可以推理的协议。给产品团队带走的核心结论：<strong>让 agent 从"执行机器"进化成"推理搭档"，真正的杠杆在结构化的状态协议，prompt 只是最后一层调优</strong>。</p>
   </div>
 
-  <p>这对 agent 系统设计有具体含义：大多数团队在 agent 行为不满意时会去迭代 prompt。更高杠杆的动作往往是改变 agent 运作所在的<em>类型系统</em>。</p>
+  <p>这对 agent 系统设计的含义很具体：多数团队在 agent 行为不满意时，第一反应是去迭代 prompt。但更高杠杆的动作，往往是修改 agent 所运行的那个<em>类型系统</em>本身。</p>
 </section>
 
 <hr class="divider">
@@ -278,32 +278,32 @@ tr:last-child td { border-bottom: none; }
     <tr><td>Collection-buying 收品</td><td>咨询邮件日志</td><td>抽取 + 评分 + 起草跟进</td></tr>
   </table>
 
-  <p>同一套状态机规范（<code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code>）适用所有。workflow-specific 的只有决策层的 prompt 模板。基础设施共享。</p>
+  <p>同一套状态机规范（<code>ready</code> / <code>blocked:*</code> / <code>running:*</code> / <code>done</code>）对每一种都适用。真正与具体工作流相关的只有决策层的 prompt 模板——基础设施完全可以共享。</p>
 
-  <h4>规划演进</h4>
+  <h4>下一步演进</h4>
   <ul>
-    <li><strong>Observability 界面</strong>：通过 <code>launchd</code> 提供本地 HTML dashboard，展示任务吞吐量、错误率、延迟分布随时间的变化</li>
-    <li><strong>Prompt 版本控制</strong>：决策层 prompt 独立进 git 仓库 + 语义化版本 + 基于捕获输入语料的 regression 测试</li>
-    <li><strong>多 agent 交接协议</strong>：标准化结果 schema，让任务独立时 subagent 可以互相 chain 而不经主 agent 中转</li>
-    <li><strong>状态持久化升级</strong>：如果跨工作流查询成为反复需求，在 Markdown 旁边加 SQLite（Markdown 仍作人类 UI）</li>
+    <li><strong>可观测性界面</strong>：由 <code>launchd</code> 托管一个本地 HTML dashboard，展示任务吞吐量、错误率、延迟分布等指标随时间的变化</li>
+    <li><strong>Prompt 版本管理</strong>：把决策层 prompt 独立进 git 仓库 + 语义化版本 + 基于历史输入语料的回归测试</li>
+    <li><strong>多 agent 交接协议</strong>：设计一套标准化的结果 schema，让独立任务之间可以 subagent 直接串联，而不必经过主 agent 中转</li>
+    <li><strong>状态持久化升级</strong>：如果跨工作流查询成为持续需求，就在 Markdown 旁边加 SQLite（Markdown 仍然作为人类交互界面）</li>
   </ul>
 
   <h4>下次我会怎么做</h4>
   <ul>
-    <li><strong>第一天就 instrument metrics</strong>，不要拖到第七天。<code>events.jsonl</code> 里哪怕是粗糙的 counter，都比事后加的精确 metric 值钱——追溯测量永远是估算</li>
-    <li><strong>先在纸上画状态机，再写代码</strong>。我是在运行中遇到解析歧义才从自然语言状态迁移到类型化状态。正确顺序是：纸上状态机 → skill 设计 → 代码实现。我做反了。</li>
+    <li><strong>第一天就把 metrics 埋点做好</strong>，不要拖到第七天。<code>events.jsonl</code> 里哪怕是粗糙的计数器，也比事后补的精确指标有价值——事后补的数据永远只能是估算</li>
+    <li><strong>先在纸上把状态机画清楚，再开始写代码</strong>。我当时是运行中遇到解析歧义后，才从自然语言状态迁移到类型化状态。正确的顺序应该是：纸上的状态机 → skill 设计 → 写代码实现。我把顺序做反了。</li>
   </ul>
 
   <div class="takeaway">
-    <p>搭这个系统让我带走一条可以用在任何 agent 产品上的经验：<strong>状态机才是产品</strong>。Prompt、subagent、调度层——都是可替代的。人类意图和 agent 行动之间的状态契约，才是那个会持久化、会规模化、决定"系统能推理还是只能执行"的东西。</p>
+    <p>搭完这套系统之后，我收获了一条可以带到任何 agent 产品里的结论：<strong>状态机本身才是产品。</strong>Prompt、subagent、调度层都是可替换的；真正持久、真正能规模化、真正决定"这个系统只能执行还是能推理"的，是人类意图和 agent 行动之间那份状态契约。</p>
   </div>
 </section>
 
 <section style="margin-bottom: 5rem;">
   <hr class="divider">
   <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
-    <strong>张思瑶</strong> &middot; 2026 年 9 月起可入职，北京 &middot;
-    <a href="zh.html#contact" style="color: var(--accent-slate); font-weight: 600;">联系方式</a>
+    <strong>张思瑶</strong> &middot; 2026 年 9 月入职，北京 &middot;
+    <a href="zh.html#contact" style="color: var(--accent-slate); font-weight: 600;">与我联系</a>
   </p>
 </section>
 
