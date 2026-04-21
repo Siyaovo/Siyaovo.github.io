@@ -1144,12 +1144,26 @@ footer p {
     overflow: visible;
     padding: 92px 0 2rem;
   }
-  .hero h1 { font-size: 1.8rem; line-height: 1.22; margin-bottom: 1.2rem; }
+  .hero h1 { font-size: 1.5rem; line-height: 1.2; margin-bottom: 1.1rem; letter-spacing: -0.015em; }
   .hero-greeting { font-size: 0.95rem; margin-bottom: 0.55rem; }
-  .hero-description { font-size: 1rem; line-height: 1.65; margin-bottom: 1.5rem; }
-  .hero-tags { gap: 0.4rem; margin-bottom: 1.5rem; }
+  .hero-description { font-size: 0.98rem; line-height: 1.6; margin-bottom: 1.3rem; }
+  .hero-tags { gap: 0.4rem; margin-bottom: 1.4rem; }
   .hero-tag { font-size: 0.72rem; padding: 0.3rem 0.7rem; }
-  .hero-availability { font-size: 0.85rem; padding: 0.9rem 1rem; }
+
+  /* Availability: stack each piece on its own line, hide inline middots */
+  .hero-availability {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    font-size: 0.88rem;
+    padding: 0.95rem 1.1rem;
+    border-radius: 18px;
+    line-height: 1.45;
+  }
+  .hero-availability .avail-sep { display: none; }
+  .hero-availability .avail-block { display: block; }
+  .hero-availability .availability-cta { margin-left: 0; margin-top: 0.2rem; }
 
   /* Hide scroll indicator on mobile — it collides with availability CTA */
   .scroll-indicator { display: none; }
@@ -1208,7 +1222,11 @@ footer p {
       </div>
       <p class="hero-availability">
         <span class="availability-dot"></span>
-        <strong>Available from Sept 2026</strong> &middot; Beijing or remote &middot; seeking AI product or overseas ops internships
+        <span class="avail-block"><strong>Available from Sept 2026</strong></span>
+        <span class="avail-sep">&middot;</span>
+        <span class="avail-block">Beijing or remote</span>
+        <span class="avail-sep">&middot;</span>
+        <span class="avail-block">seeking AI product or overseas ops internships</span>
         <a href="#contact" class="availability-cta">Get in touch &rarr;</a>
       </p>
     </div>
