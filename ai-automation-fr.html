@@ -299,6 +299,53 @@ tr:last-child td { border-bottom: none; }
   </div>
 </section>
 
+<hr class="divider">
+
+<!-- ===== PARTIE 7 ===== -->
+<section>
+  <div class="part-label">Partie 7</div>
+  <h2>Build vs. Buy — Pourquoi je n&rsquo;ai pas utilisé Coze, Dify ou n8n</h2>
+
+  <p><strong>Une clarification de périmètre, d&rsquo;abord :</strong> c&rsquo;est un runtime à opérateur unique, construit pour mon propre flux de travail — pas un produit de plateforme. Il résout la forme très spécifique d&rsquo;une seule personne qui orchestre une poignée de workflows. La question que j&rsquo;avais à trancher avant d&rsquo;écrire la moindre ligne de code n&rsquo;était pas « construire, ou lancer un concurrent à Coze ? » — c&rsquo;était : « est-ce qu&rsquo;un outil existant résout déjà cette forme, et si oui, lequel ? » Ce qui suit, c&rsquo;est l&rsquo;analyse que j&rsquo;ai faite avant de décider de construire.</p>
+
+  <h4>Les 4 critères que j&rsquo;optimisais</h4>
+  <ul>
+    <li><strong>Opératrice = moi, écriture unique.</strong> Pas d&rsquo;édition multi-utilisateurs, pas d&rsquo;UI pour des clients, pas de passage de relais à un PM non technique.</li>
+    <li><strong>L&rsquo;état est déjà en Markdown.</strong> Tout ce que je suis — tâches, journaux, notes projet — vit en texte brut dans un dépôt git. Tout outil qui m&rsquo;obligerait à ressaisir cet état dans un canvas est hors course dès le départ.</li>
+    <li><strong>Une édition à la vitesse d&rsquo;une frappe.</strong> Je voulais pouvoir ajouter une tâche depuis n&rsquo;importe quel éditeur, n&rsquo;importe quel terminal, et que le runtime la détecte en quelques secondes. Pas de formulaire à soumettre, pas de cycle save-and-deploy.</li>
+    <li><strong>Un état typé que le LLM peut réellement interroger.</strong> Un protocole avec des modes d&rsquo;échec que le modèle peut inspecter (<code>blocked:task:TASK-010</code> veut dire « TASK-010 n&rsquo;est pas encore terminée » — le modèle peut aller vérifier), pas une étiquette de couleur ou un statut en texte libre.</li>
+  </ul>
+
+  <h4>Les trois options, leurs forces, et pourquoi je les ai écartées</h4>
+
+  <div class="decision-card">
+    <div class="decision-title">Coze (ByteDance) — builder d&rsquo;agents visuel, SaaS cloud</div>
+    <div class="decision-row"><span class="k">Points forts</span><span class="v">Le chemin le plus rapide pour qu&rsquo;une équipe non technique livre un agent. Intégrations d&rsquo;outils pré-construites riches dans l&rsquo;écosystème ByteDance.</span></div>
+    <div class="decision-row"><span class="k">Pourquoi j&rsquo;ai renoncé</span><span class="v">Mon état vit déjà en Markdown + git. Utiliser Coze reviendrait à recréer cet état dans un canvas UI et à accepter le verrouillage éditeur. Pour un opérateur solo qui vit dans le terminal, le canvas est une friction, pas une aide.</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">Dify (open source) — plateforme d&rsquo;applications LLM, auto-hébergée</div>
+    <div class="decision-row"><span class="k">Points forts</span><span class="v">RAG, agents et gestion de datasets réunis sur une même plateforme. Bon choix pour une équipe qui livre un produit regroupant plusieurs capacités IA.</span></div>
+    <div class="decision-row"><span class="k">Pourquoi j&rsquo;ai renoncé</span><span class="v">Dify vise la livraison d&rsquo;un produit utilisateur final ; il paie sa complexité en fonctionnalités dont je n&rsquo;ai pas l&rsquo;usage (datasets multi-tenant, gestion de conversations, UI embarquée). Pour un runtime de tâches personnel, Docker + Postgres + Redis + UI web, c&rsquo;est clairement surdimensionné.</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">n8n (open source) — automatisation de workflows en graphe de nœuds</div>
+    <div class="decision-row"><span class="k">Points forts</span><span class="v">400+ intégrations pré-construites. Meilleur choix si l&rsquo;étape IA n&rsquo;est qu&rsquo;un nœud dans un pipeline multi-SaaS plus large.</span></div>
+    <div class="decision-row"><span class="k">Pourquoi j&rsquo;ai renoncé</span><span class="v">Dans mon workflow, la décision IA n&rsquo;est pas un nœud — elle <em>est</em> la couche de routage elle-même. n8n traite le LLM comme une intégration parmi d&rsquo;autres ; mon design traite l&rsquo;état typé comme l&rsquo;entrée de première classe sur laquelle le LLM raisonne. Centre de gravité différent.</span></div>
+  </div>
+
+  <h4>Le raisonnement commun</h4>
+  <p>Ces trois plateformes abstraient le workflow derrière une UI et un schéma que l&rsquo;on configure via cette UI. C&rsquo;est le bon choix quand l&rsquo;opérateur n&rsquo;est pas technique, quand l&rsquo;état doit être partagé au sein d&rsquo;une équipe, ou quand le workflow <em>est</em> le produit. Aucune de ces conditions ne s&rsquo;applique ici. Pour une opératrice solo dont l&rsquo;état du workflow est déjà du texte, le coût d&rsquo;introduire un second système d&rsquo;état (canvas + stockage éditeur) l&rsquo;emporte sur le confort des nœuds pré-construits.</p>
+
+  <p>Autrement dit : si ce runtime fait environ 300 lignes de shell + une définition de skill plutôt qu&rsquo;un déploiement Dify, ce n&rsquo;est pas parce que je pense pouvoir faire mieux. C&rsquo;est parce que ma forme (une seule opératrice, natif Markdown, natif terminal, zéro éditeur) est précisément la forme que ces plateformes n&rsquo;optimisent volontairement <em>pas</em>. Pour leur vraie audience — des équipes pluridisciplinaires livrant des agents orientés utilisateurs — elles restent le bon choix, et je les recommanderais.</p>
+
+  <div class="takeaway">
+    <p>La compétence transférable ici, ce n&rsquo;est pas « j&rsquo;ai construit une meilleure plateforme ». C&rsquo;est un cadre de décision : avant d&rsquo;écrire la moindre ligne de code, j&rsquo;ai nommé les quatre choses dont j&rsquo;avais réellement besoin, j&rsquo;ai confronté chaque outil existant à ces quatre critères, et je n&rsquo;ai choisi de construire que lorsque chaque outil échouait sur un critère précis. C&rsquo;est exactement le même cadre build-vs-buy que j&rsquo;appliquerais, dans un poste produit, à toute décision de plateforme d&rsquo;agents — y compris pour <em>déconseiller</em> une construction sur-mesure lorsqu&rsquo;un outil existant couvre le périmètre.</p>
+  </div>
+</section>
+
 <section style="margin-bottom: 5rem;">
   <hr class="divider">
   <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">

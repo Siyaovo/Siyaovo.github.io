@@ -299,6 +299,53 @@ tr:last-child td { border-bottom: none; }
   </div>
 </section>
 
+<hr class="divider">
+
+<!-- ===== PART 7 ===== -->
+<section>
+  <div class="part-label">第七部分</div>
+  <h2>自建还是选现成工具 —— 为什么我没用 Coze / Dify / n8n</h2>
+
+  <p><strong>首先讲清定位：</strong>这是一个单人使用的运行时，为我自己的任务流定制，而不是一个平台产品。它要解决的是"一个人协调一小组工作流"这种非常具体的场景。写第一行代码之前，我真正需要回答的问题不是"要不要做一个 Coze 的竞品"——而是"现有工具里有没有已经能解决这个场景的？如果有，是哪一个？"下面是我做决定前的分析。</p>
+
+  <h4>我需要优化的 4 件事</h4>
+  <ul>
+    <li><strong>操作者 = 我一个人，单一写入者。</strong>没有多人协同编辑，没有面向客户的 UI，也不需要把工作交接给非技术的 PM。</li>
+    <li><strong>我的状态本来就是 Markdown。</strong>我追踪的一切——任务、日志、项目笔记——都以纯文本形式存在 git 仓库里。任何要求我把状态重新录入到画布里的工具，都通不过第一关。</li>
+    <li><strong>编辑延迟要等于一次按键。</strong>我希望在任何编辑器、任何终端里加一条任务，运行时几秒内就能感知到。不要表单提交，不要"保存 - 部署"循环。</li>
+    <li><strong>LLM 能推理的类型化状态。</strong>需要的是一套带明确失败模式的协议（比如 <code>blocked:task:TASK-010</code> 表示 TASK-010 还没完成——模型可以自己去验证），而不是颜色标签或自由文本 status。</li>
+  </ul>
+
+  <h4>三种方案，各自的优势和我放弃的理由</h4>
+
+  <div class="decision-card">
+    <div class="decision-title">Coze（字节跳动）—— 可视化 agent 搭建器，云 SaaS</div>
+    <div class="decision-row"><span class="k">优势</span><span class="v">非技术团队做 agent 最快的路径；字节生态内预置工具集成丰富。</span></div>
+    <div class="decision-row"><span class="k">放弃原因</span><span class="v">我的状态本来就在 Markdown + git 里。用 Coze 等于把这些状态重新录入到画布 UI 里，同时接受厂商锁定。对长期在终端里工作的独立操作者来说，画布是摩擦，不是帮助。</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">Dify（开源）—— LLM 应用平台，自托管</div>
+    <div class="decision-row"><span class="k">优势</span><span class="v">把 RAG、agent、数据集管理放在一个平台里。如果团队要交付一个打包多种 AI 能力的产品，是不错的选择。</span></div>
+    <div class="decision-row"><span class="k">放弃原因</span><span class="v">Dify 瞄准的是要交付给用户的产品；它为多租户数据集、会话管理、嵌入式 UI 这些我用不上的功能付出了复杂度。对一个个人任务运行时来说，Docker + Postgres + Redis + Web UI 是 overkill。</span></div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-title">n8n（开源）—— 节点图式工作流自动化</div>
+    <div class="decision-row"><span class="k">优势</span><span class="v">400+ 预置集成。如果 AI 步骤只是跨 SaaS 大流水线里的一个节点，n8n 是最佳选择。</span></div>
+    <div class="decision-row"><span class="k">放弃原因</span><span class="v">在我的工作流里，AI 决策并非一个节点——它<em>就是</em>路由层本身。n8n 把 LLM 当成另一个集成；我的设计把类型化状态作为 LLM 推理的第一公民。重心完全不同。</span></div>
+  </div>
+
+  <h4>背后的共同逻辑</h4>
+  <p>这三个平台都把工作流抽象在一个 UI + 一套 schema 的后面，让你通过 UI 去配置。当操作者是非技术人员、状态需要跨团队共享、或者工作流本身就是产品时，这是对的选择。但这些条件在我这里都不成立。对一个独立操作者、且工作流状态本来就是文本的场景而言，引入第二套状态系统（画布 + 厂商存储）的成本，会超过预置节点带来的便利。</p>
+
+  <p>换个角度说：这套运行时之所以是大约 300 行 shell 脚本 + 一个 skill 定义，而不是一套 Dify 部署，并非因为我觉得自己能做得更好。真正的原因是：我的场景（单人、Markdown 原生、终端原生、零厂商依赖）恰好是这些平台刻意<em>不</em>去优化的边角情况。对它们真正的受众——跨职能团队要交付面向用户的 agent 产品——它们才是对的选择，我也会推荐。</p>
+
+  <div class="takeaway">
+    <p>这里可以迁移的能力不是"我能做一个比它们更好的平台"。真正可迁移的是一套判断方法：在写下任何一行代码之前，先列清自己真正需要的几件事，把每个现有工具逐一对照——只有每一个工具都在某一条上失败时，才选自建。这套 build-vs-buy 的判断框架，放在产品岗位上做任何 agent 平台决策都同样适用——包括在现有工具已经覆盖场景时，明确给出"不要自建"的建议。</p>
+  </div>
+</section>
+
 <section style="margin-bottom: 5rem;">
   <hr class="divider">
   <p style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
