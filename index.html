@@ -352,6 +352,49 @@ nav .nav-links a:hover::after { width: 100%; }
 }
 
 /* ========== ABOUT ========== */
+.at-a-glance {
+  background: var(--cream-dark);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.25rem 0 2rem;
+}
+.at-a-glance .container { max-width: 920px; }
+.at-a-glance-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-terracotta);
+  margin-bottom: 1.1rem;
+}
+.at-a-glance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+}
+.glance-card {
+  border-left: 2px solid var(--accent-terracotta-light);
+  padding-left: 1rem;
+}
+.glance-card h4 {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 0.45rem;
+}
+.glance-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin: 0;
+}
+.glance-card strong { color: var(--accent-terracotta); font-weight: 600; }
+@media (max-width: 768px) {
+  .at-a-glance-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+
 .about {
   background: var(--warm-white);
   border-top: 1px solid var(--border);
@@ -1126,15 +1169,35 @@ footer p {
   </div>
 </section>
 
+<!-- AT A GLANCE — 10-second scan block -->
+<section class="at-a-glance">
+  <div class="container">
+    <div class="at-a-glance-label reveal">— At a glance</div>
+    <div class="at-a-glance-grid">
+      <div class="glance-card reveal">
+        <h4>Availability</h4>
+        <p>AI Product / Overseas Ops internship · <strong>from Sept 2026</strong> · Beijing on-site or remote</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-1">
+        <h4>Build side</h4>
+        <p>2 production agent systems · debut Douyin video <strong>110K+ views</strong> · ~400-line Function Calling demo (open source)</p>
+      </div>
+      <div class="glance-card reveal reveal-delay-2">
+        <h4>Research side</h4>
+        <p>M2 Economics at <strong>Panthéon-Sorbonne</strong> · Deloitte-mentored energy case · 34-country robotics paper</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="container">
     <div class="about-content">
       <div class="about-text reveal">
         <div class="section-label">About me</div>
-        <p><strong>On the build side:</strong> I designed a 7-agent AI system that runs my content production pipeline end-to-end &mdash; each agent decides, executes, and reviews its own output, with every cycle feeding data back to the topic filter. Live on my Douyin channel. Debut video: <strong>110,000+ views · 3,856 saves</strong>. Systems design, not prompting.</p>
-        <p><strong>Background:</strong> M2 economist at Panthéon-Sorbonne, dual degree in Finance from UIBE Beijing. I apply experimental method to product design &mdash; hypothesise, A/B test, iterate. Same instinct drives dispatch optimisation in Python, hook tests on Douyin, and every agent chain I design.</p>
-        <p><strong>Range:</strong> three continents, three working contexts. Led a 60-person volunteer association and coordinated 100+ programmes (including Beijing 2022 Winter Olympics); grew a digital platform to 2,000+ subscribers. Team leadership and operations experience that now compounds with every AI system I ship.</p>
+        <p><strong>What I build:</strong> Two production agent systems in daily use &mdash; a 7-agent content pipeline (first video shipped: <strong>110K+ views · 3,856 saves</strong>) and a Markdown-controlled task router with a typed state machine. Systems design, not prompting.</p>
+        <p><strong>Training:</strong> M2 Economics at Panthéon-Sorbonne, dual-degree in Finance from UIBE Beijing. The habit that transfers: treat every product decision as an experiment &mdash; hypothesise, A/B test, iterate. Same instinct across dispatch optimisation in Python, hook tests on Douyin, and every agent chain I design. Range: three continents (Beijing · Tokyo · Paris), led a 60-person volunteer association &amp; grew a digital platform to 2K+ subscribers.</p>
       </div>
       <div class="about-details reveal reveal-delay-2">
         <div class="detail-group">
@@ -1215,11 +1278,8 @@ footer p {
           <h3>Task Router Agent &mdash; State-machine orchestration on a Markdown file</h3>
           <p class="project-context">Production runtime &middot; Session-independent runtime &middot; Self-healing state machine</p>
           <p class="project-description">
-            Designed an LLM-powered task orchestration layer that routes, executes, and self-heals autonomously. A single Markdown file becomes the agent control plane; <code>fswatch</code> triggers on edits; a state-machine skill routes <code>ready</code> tasks through a single-writer execution protocol to prevent race conditions. Human-in-the-loop validation gates all destructive actions.
+            An LLM-powered task runtime where a single Markdown file is the control plane. Typed state machine + single-writer protocol + self-healing. <strong>The insight: structured state, not better prompts, is what turns agents from execution bots into reasoning partners.</strong>
           </p>
-          <div class="project-finding">
-            <strong>Core insight:</strong> Same LLM, same task-board, different agent behavior depending on whether status is a label or a protocol. Migrating from <code>pending/done</code> to typed states (<code>ready</code> / <code>blocked:siyao:reply</code> / <code>running:agent-42:ts</code> / <code>failed:timeout</code>) changed what the model would reason about &mdash; the skill started catching semantic inconsistencies I hadn&rsquo;t programmed. The takeaway for product teams: <em>structured state is what turns agents from execution bots into reasoning partners</em>, not better prompts.
-          </div>
           <div class="project-tech">
             <span class="tech-tag">Agent Orchestration</span>
             <span class="tech-tag">State Machine</span>
@@ -1298,17 +1358,10 @@ footer p {
           <h3>AI Content Automation Pipeline</h3>
           <p class="project-context">Shipped product &middot; Personal-production deployment &middot; Self-updating methodology via feedback loop</p>
           <p class="project-description">
-            <strong>Problem:</strong> Content creators make 6–8 sequential judgement calls per video — topic, structure, hook, title, authenticity. Intuition doesn&rsquo;t scale, and most AI tools generate output then forget.<br><br>
-            <strong>What I built:</strong> A 7-agent chain with routing logic, scoring frameworks, and a self-updating methodology file. Each agent has a defined trigger, I/O contract, and handoff rules. Topic Filter uses a 4-layer gate; Hook Optimiser uses multiplicative 3-factor scoring; Data Review writes validated rules back into the methodology file; the Topic Filter reads the updated criteria on the next publish cycle.
+            7 agents covering topic → script → hook → title → quality check → data review. Each agent has a typed I/O contract; the Data Review agent writes validated rules back into a shared methodology file that the Topic Filter reads on the next cycle &mdash; so the filter gets stricter over time without prompt changes.
           </p>
           <div class="project-finding">
-            <strong>Impact (12 published pieces):</strong>
-            <ul style="margin: 0.55rem 0 0 1.25rem; padding: 0; line-height: 1.75;">
-              <li>First video shipped: <strong>110,000+ views · 3,856 saves</strong></li>
-              <li><strong>3 content types auto-banned</strong> by the system based on data, not intuition</li>
-              <li>Methodology file updated after every cycle — the gate improves itself with each publish</li>
-              <li>System reused for every piece I ship &mdash; the topic filter, hook optimiser, and data review all run on the same infrastructure</li>
-            </ul>
+            <strong>After 12 publishes:</strong> first video shipped <strong>110K views · 3,856 saves</strong> · <strong>3 content types auto-banned</strong> by data, not intuition · methodology file grown from 0 → 3 banned + 4 validated formats.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Prompt Engineering</span>
@@ -1380,11 +1433,10 @@ footer p {
           <h3>Rooted (根) &mdash; Interaction-first design for Chinese character learning</h3>
           <p class="project-context">Live prototype &middot; Product-thesis validation &middot; Interaction-first language-learning design</p>
           <p class="project-description">
-            <strong>Problem:</strong> Chinese character learning tools treat characters as atomic symbols to memorize. Learners fall back on rote repetition that doesn&rsquo;t compound &mdash; new characters stay unconnected to ones already learned.<br><br>
-            <strong>What I built:</strong> A single high-fidelity interaction per version, each one carrying one design thesis. V1 reframes 马 (horse) as a time-travel object &mdash; a learner slides through 3,000 years of visual evolution from Oracle Bone inscription to modern strokes. V2 demonstrates compositional logic &mdash; tap 妈 (mother) and it decomposes into 女 (woman) + 马 (phonetic hint), revealing that roughly two-thirds of modern Chinese characters are phono-semantic compounds. One interaction, one thesis, no feature list.
+            One high-fidelity interaction per version, each carrying a single design thesis. V1: slide through 3,000 years of 马 (horse) from Oracle Bone to modern strokes. V2: tap 妈 and watch it decompose into 女 + 马 (phonetic). One interaction, one thesis, no feature list.
           </p>
           <div class="project-finding">
-            <strong>Core product decision:</strong> Rejected a tutorial-style feature list in favor of a single high-fidelity interaction per thesis. The interaction <em>is</em> the value proposition &mdash; if a learner can derive the mental model from the interaction alone, the design validates itself. Next: structured user testing to measure recall against traditional rote-drill baselines.
+            <strong>Design bet:</strong> the interaction <em>is</em> the value proposition. If a learner derives the mental model from the interaction alone, the design validates itself &mdash; no tutorial copy required.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Product Thesis Validation</span>
@@ -1428,10 +1480,10 @@ footer p {
           <h3>Energy Demand Forecasting & Supply Optimisation</h3>
           <p class="project-context">Deloitte-mentored case study — university group project, Paris</p>
           <p class="project-description">
-            Designed an end-to-end quantitative framework for South Africa's electricity system. Built and benchmarked six forecasting models (ARIMA through to TFT deep learning), then implemented a dispatch optimisation model minimising system cost under carbon, capacity, and contractual constraints.
+            End-to-end quantitative framework for South Africa&rsquo;s electricity system: 6 forecasting models benchmarked (ARIMA → TFT) + Pyomo dispatch optimisation under carbon / capacity / contractual constraints.
           </p>
           <div class="project-finding">
-            <strong>Key finding:</strong> SARIMAX outperformed deep learning models (LSTM, TFT) on tail-risk metrics — simpler econometric models proved more robust under structural supply stress.
+            <strong>Finding:</strong> SARIMAX beat LSTM/TFT on tail-risk metrics &mdash; simpler econometric models proved more robust under structural supply stress.
           </div>
           <div class="project-tech">
             <span class="tech-tag">Time Series Forecasting</span>
@@ -1470,10 +1522,10 @@ footer p {
           </a>
         </div>
         <p class="project-description">
-          Built an exposure index measuring how susceptible European occupations are to robotics adoption, using Latent Semantic Analysis on patent and job description corpora. Found that middle-wage, routine-task occupations face the greatest automation risk — consistent with labour market polarisation theory.
+          Exposure index for European occupations to robotics adoption, via LSA on patent + job-description corpora. Middle-wage routine-task jobs face the highest automation risk (consistent with labour market polarisation theory).
         </p>
         <div class="project-finding">
-          <strong>Key result:</strong> A one standard deviation increase in robotics exposure is associated with a 7.2% decrease in mean hourly wages (β = −0.072, p < 0.001) across 34 European countries.
+          <strong>Result:</strong> +1σ robotics exposure → −7.2% mean hourly wages (β = −0.072, p &lt; 0.001) across 34 European countries.
         </div>
         <div class="project-tech">
           <span class="tech-tag">Python</span>
